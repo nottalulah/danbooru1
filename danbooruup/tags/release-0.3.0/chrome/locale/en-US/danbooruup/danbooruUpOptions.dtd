@@ -1,0 +1,73 @@
+<!-- Entities for the Sample Extension Options Dialog go here -->
+
+<!ENTITY danbooruUpOptions.title			"DanbooruUp Options">
+<!ENTITY danbooruUpOptions.cancel.label			"Cancel">
+<!ENTITY danbooruUpOptions.cancel.accesskey		"C">
+<!ENTITY danbooruUpOptions.ok.label			"OK">
+<!ENTITY danbooruUpOptions.ok.accesskey			"O">
+<!ENTITY danbooruUpOptions.generalTab.label		"General">
+<!ENTITY danbooruUpOptions.fileURISource.label		"Show file:// URLs in Source field">
+<!ENTITY danbooruUpOptions.fileURISource.accesskey	"S">
+<!ENTITY danbooruUpOptions.toolTipCrop.label		"Crop tooltips at (affects every HTML tooltip)">
+<!ENTITY danbooruUpOptions.toolTipCrop.start.label	"Start">
+<!ENTITY danbooruUpOptions.toolTipCrop.start.accesskey	"t">
+<!ENTITY danbooruUpOptions.toolTipCrop.end.label	"End">
+<!ENTITY danbooruUpOptions.toolTipCrop.end.accesskey	"E">
+<!ENTITY danbooruUpOptions.toolTipCrop.center.label	"Center">
+<!ENTITY danbooruUpOptions.toolTipCrop.center.accesskey	"C">
+<!ENTITY danbooruUpOptions.toolTipCrop.none.label	"None">
+<!ENTITY danbooruUpOptions.toolTipCrop.none.accesskey	"N">
+<!ENTITY danbooruUpOptions.toolTipCrop.default.label	"Default">
+<!ENTITY danbooruUpOptions.toolTipCrop.default.accesskey	"D">
+<!ENTITY danbooruUpOptions.hashing.label		"Image Hashing (in Properties window)">
+<!ENTITY danbooruUpOptions.hashingMD5.label		"MD5">
+<!ENTITY danbooruUpOptions.hashingMD5.accesskey		"M">
+<!ENTITY danbooruUpOptions.hashingSHA1.label		"SHA-1">
+<!ENTITY danbooruUpOptions.hashingSHA1.accesskey	"H">
+<!ENTITY danbooruUpOptions.notifications.label		"Notifications">
+<!ENTITY danbooruUpOptions.suppressComponentAlert.label	"Suppress missing component alert dialog">
+
+<!ENTITY danbooruUpOptions.styleTab.label		"Tag Styles">
+<!ENTITY danbooruUpOptions.style.description		"Enter CSS rules for tag types here. Style changes will only take effect for newly-opened windows.">
+<!ENTITY danbooruUpOptions.revert.label			"Restore Default">
+<!ENTITY danbooruUpOptions.revert.tooltip		"Restores the currently selected style to the default value.">
+<!ENTITY danbooruUpOptions.applyStyle.label		"Apply Styles to Preview">
+<!ENTITY danbooruUpOptions.applyStyle.accesskey		"A">
+
+<!ENTITY danbooruUpOptions.danbooruTab.label		"Danbooru Sites">
+<!ENTITY danbooruUpOptions.danbooruText			"Add extra danbooru here. The sites listed here will also have site autocompletion enabled for them. There must always be at least one entry in this list.">
+<!ENTITY danbooruUpOptions.posturi.label		"URL of api/add_post:">
+<!ENTITY danbooruUpOptions.posturi.accesskey		"U">
+<!ENTITY danbooruUpOptions.add.label			"Add Site">
+<!ENTITY danbooruUpOptions.treehead.sitename.label	"Site">
+<!ENTITY danbooruUpOptions.removedanbooru.label		"Remove Site">
+
+<!ENTITY danbooruUpOptions.autocompleteTab.label	"Tag Autocomplete">
+<!ENTITY danbooruUpOptions.urlgroup.label		"Tag History">
+<!ENTITY danbooruUpOptions.updategroup.label		"Updating">
+<!ENTITY danbooruUpOptions.enableAC.label		"Enable Tag Autocomplete">
+<!ENTITY danbooruUpOptions.enableAC.accesskey		"E">
+<!ENTITY danbooruUpOptions.enableAC.site.label		"Enable Tag Autocomplete for danbooru Sites">
+<!ENTITY danbooruUpOptions.enableAC.site.accesskey	"S">
+<!ENTITY danbooruUpOptions.enableAC.site.tooltip	"Adds autocomplete to text fields on danbooru site pages.">
+<!ENTITY danbooruUpOptions.updateURL.label		"Update URL:">
+<!ENTITY danbooruUpOptions.updateURL.accesskey		"U">
+<!ENTITY danbooruUpOptions.updateNow.label		"Update Now">
+<!ENTITY danbooruUpOptions.updateNow.accesskey		"N">
+<!ENTITY danbooruUpOptions.cleanup.label		"Remove 0-post tags">
+<!ENTITY danbooruUpOptions.cleanup.accesskey		"R">
+<!ENTITY danbooruUpOptions.updateOnStartup.label	"Update on startup">
+<!ENTITY danbooruUpOptions.updateOnStartup.accesskey	"p">
+<!ENTITY danbooruUpOptions.fastUpdate.label		"Faster startup updating">
+<!ENTITY danbooruUpOptions.fastUpdate.accesskey		"F">
+<!ENTITY danbooruUpOptions.fastUpdate.tooltip		"This option speeds up startup by only retrieving fron the server tags that are new instead of the entire list.">
+<!ENTITY danbooruUpOptions.updateOnUpload.label		"Update on upload">
+<!ENTITY danbooruUpOptions.updateOnUpload.accesskey	"l">
+<!ENTITY danbooruUpOptions.updateOnUpload.before.label	"Update before update dialog appears">
+<!ENTITY danbooruUpOptions.updateOnUpload.after.label	"Update after confirming upload">
+<!ENTITY danbooruUpOptions.updateOnUpload.after.tooltip	"If this box is unchecked, tags that are not already in the local database will not be remembered.">
+<!ENTITY danbooruUpOptions.updateOnTimer.label		"Update on timer every">
+<!ENTITY danbooruUpOptions.updateOnTimer.accesskey	"t">
+<!ENTITY danbooruUpOptions.min.label			"minutes">
+<!ENTITY danbooruUpOptions.clearTagHistory.label	"Clear Tag History">
+
