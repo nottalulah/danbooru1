@@ -1,0 +1,24 @@
+<% if !CONFIG["allow_signups"] %>
+<h4>Signups are currently disabled.</h4>
+<% else %>
+<%= form_tag :controller => "account", :action => "signup" %>
+	<div class="option">
+		<label class="block" for="user_name">Desired name</label>
+		<%= text_field "user", "name", :size => 30 %>
+	</div>
+
+	<div class="option">
+		<label class="block" for="user_password">Choose password</label>
+		<%= password_field "user", "password", :size => 30 %>
+	</div>
+
+	<div class="option">
+		<label class="block" for="user_password_confirmation">Confirm password</label>
+		<%= password_field "user", "password_confirmation", :size => 30 %>
+	</div>
+
+	<div class="option">
+		<input type="submit" value="Signup" />
+	</div>
+<%= end_form_tag %>
+<% end %>
