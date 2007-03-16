@@ -1,7 +1,7 @@
 class TagController < ApplicationController
 	layout 'default'
 
-	before_filter :admin_only, :only => [:rename, :create_alias, :remove_alias, :create_implication, :remove_implication]
+	before_filter :admin_only, :only => [:rename, :create_alias, :destroy_alias, :create_implication, :destroy_implication]
 	before_filter :mod_only, :only => [:mass_edit]
 
 	def list
@@ -52,10 +52,10 @@ class TagController < ApplicationController
 		render :layout => false
 	end
 
-	def remove_alias
+	def destroy_alias
 		TagAlias.destroy_all(["name = ?", params["name"]])
 		Tag.update_cached_tags([params["name"]])
-		flash[:notice] = "Tag alias removed"
+		flash[:notice] = "Tag alias deleted"
 		redirect_to :action => "aliases"
 	end
 
@@ -63,13 +63,13 @@ class TagController < ApplicationController
 		TagAlias.create(:name => params["name"], :alias => params["alias"])
 		Tag.update_cached_tags([params["name"]])
 		flash[:notice] = "Tag alias created"
-		redirect_to :action => "aliases"
+		redirect_to :action => "list_aliases"
 	end
 
-	def remove_implication
+	def destroy_implication
 		TagImplication.destroy_all(["parent_id = ? and child_id = ?", params["parent_id"], params["child_id"]])
-		flash[:notice] = "Tag implication removed"
-		redirect_to :action => "implications"
+		flash[:notice] = "Tag implication deleted"
+		redirect_to :action => "list_implications"
 	end
 
 	def create_implication
@@ -78,12 +78,12 @@ class TagController < ApplicationController
 		redirect_to :action => "implications"
 	end
 
-	def aliases
+	def list_aliases
 		set_title "Tag Aliases"
 		@aliases = TagAlias.find(:all, :order => "name")
 	end
 
-	def implications
+	def list_implications
 		set_title "Tag Implications"
 		@implications = TagImplication.find(:all, :order => "(SELECT name FROM tags WHERE id = tag_implications.child_id)")
 	end
