@@ -10,21 +10,21 @@
 		<div id="stats">
 			<h5>Statistics</h5>
 			<ul>
-				<li>Score: <%= @post.score %> (vote <a href="#" onclick="vote(1, <%= @post.id %>); return false">up</a>/<a href="#" onclick="vote(-1, <%= @post.id %>); return false">down</a>)</li>
-				<li>Favorites: <a href="/post/view_favorites/<%= @post.id %>"> <%= pluralize @post.fav_count, "person" %></a></li>
+				<li>Score: <%= @post.score %> (vote <%= link_to_function "up", "vote(1, #{@post.id})" %>/<%= link_to_function "down", "vote(-1, #{@post.id})" %>)</li>
+				<li>Favorites: <%= link_to pluralize(@post.fav_count), :action => "view_favorites", :id => @post.id %></li>
 			</ul>
 		</div>
 		<div>
 			<h5>Options</h5>
 			<ul>
-				<li><%= link_to "Remove", :controller => "post", :action => "remove", :id => @post.id %></li>
+				<li><%= link_to "Delete", :action => "destroy", :id => @post.id %></li>
 				<%- if @post.image? -%>
 					<li><%= link_to_function "Add Translation", "Note.create(#{@post.id})", :title => "Add a translation note" %></li>
 				<%- end -%>
 				<li><%= link_to_function "Add to Favorites", "addFavorite(#{@post.id})", :title => "Add to favorites" %></li>
-				<li><%= link_to "Tag History", :controller => "post", :action => "tag_history", :id => @post.id %></li>
-				<li><%= link_to "Note History", :controller => "note", :action => "history_for_post", :id => @post.id %></li>
-				<li><%= link_to "Moderate", :controller => "post", :action => "moderate", :id => @post.id %></li>
+				<li><%= link_to "Tag History", :action => "view_tag_history", :id => @post.id %></li>
+				<li><%= link_to "Note History", :action => "view_history_for_post", :id => @post.id %></li>
+				<li><%= link_to "Moderate", :action => "moderate", :id => @post.id %></li>
 			</ul>
 		</div>
 	</div>

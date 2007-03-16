@@ -1,5 +1,5 @@
 <div id="post-tag-history">
-<form method="post" action="/post/revert_tags">
+<% form_tag(:action => "revert_tags") %>
 <table>
 <% @histories.each do |history| %>
 	<tr>

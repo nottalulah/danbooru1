@@ -19,7 +19,6 @@
 
 			<%= javascript_tag "loadMode()" %>
 		</div>
-		<a href="/static/honeypot" style="display: none;">honeypot</a>
 		<%= render :partial => 'tags' %>
 	</div>
 	<div class="content">
@@ -36,7 +35,7 @@
 		</div>
 
 		<div id="footer">
-			<a href="/post/add" title="Upload new posts">Add</a> | <a href="/post/atom/tags/<%= @params['tags'] %>" title="Atom feed">Atom</a> | <a href="/post/popular">Popular</a> <% unless CONFIG["allow_anonymous_post_access"] %> | <%= link_to "My Favorites", :controller => "account", :action => "favorites", :id => @user.id %><% end %>
+			<%= link_to "Upload", :action => "create" %> | <%= link_to "Atom", :action => "atom", :tags => params["tags"] %> | <%= link_to "Popular", :action => "popular" %> | <%= link_to "Tag Changes", :action => "list_tag_changes" %> <% unless CONFIG["allow_anonymous_post_access"] %> | <%= link_to "My Favorites", :controller => "account", :action => "favorites", :id => session[:user_id] %><% end %>
 		</div>
 	</div>
 </div>
