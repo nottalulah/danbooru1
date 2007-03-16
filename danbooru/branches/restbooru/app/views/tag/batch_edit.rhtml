@@ -1,8 +1,8 @@
-<form method="post" action="/tag/mass_edit">
+<% form_tag(:action => "batch_edit") do %>
 	<input type="text" id="start" name="start" size="25" id="start"/>
 	<input type="text" id="result" name="result" size="25" id="result"/>
-	<%= button_to_function "Preview", "$('preview').innerHTML = 'Loading...'; new Ajax.Updater('preview', '/tag/edit_preview', {method: 'get', parameters: 'tags=' + $F('start')})" %><%= submit_tag "Save" %>
-</form>
+	<%= button_to_function "Preview", "$('preview').innerHTML = 'Loading...'; new Ajax.Updater('preview', '/tag/batch_edit_preview', {method: 'get', parameters: 'tags=' + $F('start')})" %><%= submit_tag "Save" %>
+<% end %>
 
 <%= render :partial => "footer" %>
 

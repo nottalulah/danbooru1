@@ -1,10 +1,10 @@
 class TagController < ApplicationController
 	layout 'default'
 
-	before_filter :admin_only, :only => [:rename, :create_alias, :destroy_alias, :create_implication, :destroy_implication]
-	before_filter :mod_only, :only => [:mass_edit]
+	before_filter :admin_only, :only => [:create_alias, :destroy_alias, :create_implication, :destroy_implication]
+	before_filter :mod_only, :only => [:batch_edit]
 
-	def list
+	def list_cloud
 		set_title "Tags"
 
 		@tags = Tag.find(:all, :conditions => "post_count > 0", :order => "post_count DESC", :limit => 100).sort {|a, b| a.name <=> b.name}
@@ -22,32 +22,43 @@ class TagController < ApplicationController
 		@tags = Tag.find(:all, :conditions => "tag_type = 2", :order => "name")
 	end
 
-	def list_all
+	def list
 		set_title "Tags"
 
 		@pages, @tags = paginate :tags, :order => "name", :per_page => 50
 	end
 
-	def mass_edit
-		set_title "Mass Edit Tags"
+	def list_by_created_at
+		set_title "Tags by Creation Date"
+		@pages, @tags = paginate :tags, :order => "id desc", :per_page => 50
+	end
+
+	def list_by_count
+		set_title "Tags by Post Count"
+		@pages, @tags = paginate :tags, :order => "post_count desc", :per_page => 50
+	end
+
+	def batch_edit
+		set_title "Batch Edit"
 
 		if request.post?
 			if params["start"].blank?
 				flash[:notice] = "You must fill the start tag field"
-				redirect_to :action => "mass_edit"
+				redirect_to :action => "batch_edit"
 				return
 			end
 
 			Post.find_by_sql(Post.generate_sql(params["start"])).each do |p|
-				p.tag!((p.cached_tags.split(" ") - Tag.to_aliased(Tag.scan_tags(params["start"])) + Tag.to_aliased(Tag.scan_tags(params["result"]))).join(" "))
+				updated_tags = (p.cached_tags.split(/ /) - Tag.to_aliased(Tag.scan_tags(params["start"])) + Tag.to_aliased(Tag.scan_tags(params["result"]))).join(" ")
+				p.update_attributes(:tags => updated_tags, :updater_user_id => session[:user_id], :updater_ip_addr => request.remote_ip)
 			end
 
 			flash[:notice] = "Tag changes saved"
-			redirect_to :action => "mass_edit"
+			redirect_to :action => "batch_edit"
 		end
 	end
 
-	def edit_preview
+	def batch_edit_preview
 		@posts = Post.find_by_sql(Post.generate_sql(params["tags"], :order => "p.id DESC"))
 		render :layout => false
 	end
@@ -56,7 +67,7 @@ class TagController < ApplicationController
 		TagAlias.destroy_all(["name = ?", params["name"]])
 		Tag.update_cached_tags([params["name"]])
 		flash[:notice] = "Tag alias deleted"
-		redirect_to :action => "aliases"
+		redirect_to :action => "list_aliases"
 	end
 
 	def create_alias
@@ -75,7 +86,7 @@ class TagController < ApplicationController
 	def create_implication
 		TagImplication.create(:parent => params["parent"], :child => params["child"])
 		flash[:notice] = "Tag implication created"
-		redirect_to :action => "implications"
+		redirect_to :action => "list_implications"
 	end
 
 	def list_aliases
@@ -97,17 +108,8 @@ class TagController < ApplicationController
 				when "general"
 					t.tag_type = 0
 
-				when "artist"
-					t.tag_type = Tag::TYPE_ARTIST
-
-				when "ambiguous"
-					t.tag_type = Tag::TYPE_AMBIGUOUS
-
-				when "character"
-					t.tag_type = Tag::TYPE_CHARACTER
-
-				when "copyright"
-					t.tag_type = Tag::TYPE_COPYRIGHT
+				else
+					t.tag_type = Tag.const_get("Tag::TYPE_%s" % params["type"].upcase)
 				end
 
 				t.save
@@ -138,15 +140,5 @@ class TagController < ApplicationController
 				end
 			end
 		end
-	end
-
-	def list_all_by_creation
-		set_title "Tags by Creation Date"
-		@pages, @tags = paginate :tags, :order => "id desc", :per_page => 50
-	end
-
-	def list_all_by_count
-		set_title "Tags by Post Count"
-		@pages, @tags = paginate :tags, :order => "post_count desc", :per_page => 50
 	end
 end
