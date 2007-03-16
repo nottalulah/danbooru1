@@ -35,7 +35,7 @@
 		</div>
 
 		<div id="footer">
-			<%= link_to "Upload", :action => "create" %> | <%= link_to "Atom", :action => "atom", :tags => params["tags"] %> | <%= link_to "Popular", :action => "popular" %> | <%= link_to "Tag Changes", :action => "list_tag_changes" %> <% unless CONFIG["allow_anonymous_post_access"] %> | <%= link_to "My Favorites", :controller => "account", :action => "favorites", :id => session[:user_id] %><% end %>
+			<%= link_to "Upload", :action => "create" %> | <%= link_to "Atom", :action => "atom", :tags => params["tags"] %> | <%= link_to "Popular", :action => "list_popular_by_day" %> | <%= link_to "Tag Changes", :action => "list_tag_changes" %> <% unless CONFIG["allow_anonymous_post_access"] %> | <%= link_to "My Favorites", :controller => "account", :action => "favorites", :id => session[:user_id] %><% end %>
 		</div>
 	</div>
 </div>

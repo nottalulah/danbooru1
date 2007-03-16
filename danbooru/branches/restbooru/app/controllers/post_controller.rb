@@ -133,7 +133,7 @@ class PostController < ApplicationController
 		end
 	end
 
-	def popular
+	def list_popular_by_day
 		if params["year"] and params["month"] and params["day"]
 			@day = Time.gm(params["year"].to_i, params["month"], params["day"])
 		else
@@ -145,7 +145,7 @@ class PostController < ApplicationController
 		@posts = Post.find(:all, :conditions => ["posts.created_at >= ? AND posts.created_at <= ?", @day, @day.tomorrow], :order => "score DESC", :limit => 20, :include => [:user])
 	end
 
-	def popular_week
+	def list_popular_by_week
 		if params["year"] and params["month"] and params["day"]
 			@start = Time.gm(params["year"].to_i, params["month"], params["day"]).beginning_of_week
 		else
@@ -159,7 +159,7 @@ class PostController < ApplicationController
 		@posts = Post.find(:all, :conditions => ["posts.created_at >= ? AND posts.created_at < ?", @start, @end], :order => "score DESC", :limit => 20, :include => [:user])
 	end
 
-	def popular_month
+	def list_popular_by_month
 		if params["year"] and params["month"]
 			@start = Time.gm(params["year"].to_i, params["month"], 1)
 		else
