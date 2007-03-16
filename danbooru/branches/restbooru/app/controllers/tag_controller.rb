@@ -24,34 +24,36 @@ class TagController < ApplicationController
 		set_title "Ambiguous Tags"
 
 		@tags = Tag.find(:all, :conditions => "tag_type = #{Tag::TYPE_AMBIGUOUS}", :order => "name")
+		render :action => "list_artists"
 	end
 
 	def list_copyrights
 		set_title "Copyright Tags"
-
 		@tags = Tag.find(:all, :conditions => "tag_type = #{Tag::TYPE_COPYRIGHT}", :order => "name")
+		render :action => "list_artists"
 	end
 
 	def list_characters
 		set_title "Character Tags"
-
 		@tags = Tag.find(:all, :conditions => "tag_type = #{Tag::TYPE_CHARACTER}", :order => "name")
+		render :action => "list_artists"
 	end
 
 	def list_by_name
 		set_title "Tags by Name"
-
 		@pages, @tags = paginate :tags, :order => "name", :per_page => 50
 	end
 
 	def list_by_created_at
 		set_title "Tags by Creation Date"
 		@pages, @tags = paginate :tags, :order => "id desc", :per_page => 50
+		render :action => "list_by_name"
 	end
 
 	def list_by_count
 		set_title "Tags by Post Count"
 		@pages, @tags = paginate :tags, :order => "post_count desc", :per_page => 50
+		render :action => "list_by_name"
 	end
 
 	def batch_edit
