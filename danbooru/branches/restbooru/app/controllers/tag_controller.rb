@@ -4,6 +4,10 @@ class TagController < ApplicationController
 	before_filter :admin_only, :only => [:create_alias, :destroy_alias, :create_implication, :destroy_implication]
 	before_filter :mod_only, :only => [:batch_edit]
 
+	def list
+		redirect_to :action => "list_by_name"
+	end
+
 	def list_cloud
 		set_title "Tags"
 
@@ -13,17 +17,29 @@ class TagController < ApplicationController
 	def list_artists
 		set_title "Artist Tags"
 
-		@tags = Tag.find(:all, :conditions => "tag_type = 1", :order => "name")
+		@tags = Tag.find(:all, :conditions => "tag_type = #{Tag::TYPE_ARTIST}", :order => "name")
 	end
 
 	def list_ambiguous
 		set_title "Ambiguous Tags"
 
-		@tags = Tag.find(:all, :conditions => "tag_type = 2", :order => "name")
+		@tags = Tag.find(:all, :conditions => "tag_type = #{Tag::TYPE_AMBIGUOUS}", :order => "name")
 	end
 
-	def list
-		set_title "Tags"
+	def list_copyrights
+		set_title "Copyright Tags"
+
+		@tags = Tag.find(:all, :conditions => "tag_type = #{Tag::TYPE_COPYRIGHT}", :order => "name")
+	end
+
+	def list_characters
+		set_title "Character Tags"
+
+		@tags = Tag.find(:all, :conditions => "tag_type = #{Tag::TYPE_CHARACTER}", :order => "name")
+	end
+
+	def list_by_name
+		set_title "Tags by Name"
 
 		@pages, @tags = paginate :tags, :order => "name", :per_page => 50
 	end
