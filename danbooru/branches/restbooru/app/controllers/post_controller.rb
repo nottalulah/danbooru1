@@ -1,87 +1,101 @@
 class PostController < ApplicationController
 	layout 'default'
 
-	before_filter :user_only, :except => [:atom] unless CONFIG["allow_anonymous_post_access"]
-	after_filter :save_tags_to_cookie, :only => [:change]
+	before_filter :user_only unless CONFIG["allow_anonymous_post_access"]
+	after_filter :save_tags_to_cookie, :only => [:update, :create]
 	helper :wiki, :tag, :comment
-	verify :method => :post, :only => [:change]
+	verify :method => :post, :only => [:update]
 
-	def change
-		post = Post.find(params["id"])
+	def update
+		@post = Post.find(params["id"])
+		@post.atttributes = params["post"].merge(:updater_user_id => session[:user_id], :updater_ip_addr => request.remote_ip)
 
-		post.rating = params["post"]["rating"] if params["post"]["rating"]
-		post.source = params["post"]["source"] if params["post"]["source"]
-		post.next_post_id = params["post"]["next_post_id"] if params["post"]["next_post_id"]
-		post.prev_post_id = params["post"]["prev_post_id"] if params["post"]["prev_post_id"]
+		if @post.save
+			responds_to do |format|
+				h = {:success => true, :location => url_for(:controller => "post", :action => "view", :id => @post.id)}
 
-		if post.save
-			post.tag! params["post"]["tags"], session[:user_id], request.remote_ip
-			redirect_to :controller => "post", :action => "view", :id => post.id
+				format.html {flash[:notice] = "Post updated"; redirect_to :action => "view", :id => @post.id}
+				format.xml {render :xml => h.to_xml(:root => "response")}
+				format.js {render :json => h.to_json}
+			end
 		else
-			render_error(post)
+			responds_to do |format|
+				format.html {render_error(@post)}
+				format.js {render :json => {:success => false}.to_json, :status => 500}
+				format.xml {render :xml => {:success => false}.to_xml(:root => "response"), :status => 500}
+			end
 		end
 	end
 
-	def remove
-		set_title "Remove Post"
-		@post = Post.find(params['id'])
+	def destroy
+		@post = Post.find(params["id"])
 
 		if request.post?
-			if (current_user().has_permission?(@post) rescue false)
+			if current_user() && current_user().has_permission?(@post)
 				@post.destroy
-			else
-				flash[:notice] = "You have insufficient permission to delete posts"
-			end
 
-			redirect_to :action => "list"
+				responds_to do |format|
+					format.html {flash[:notice] = "Post removed"; redirect_to :action => "list"}
+					format.js {render :json => {:success => true}.to_json}
+					format.xml {render :xml => {:success => true}.to_xml(:root => "response")}
+				end
+			else
+				responds_to do |format|
+					format.html {flash[:notice] = "You have insufficient permission to delete posts"; redirect_to :action => "list"}
+					format.js {render :json => {:success => false}.to_json, :status => 403}
+					format.xml {render :xml => {:success => false}.to_xml(:root => "response"), status => 403}
+				end
+			end
 		end
 	end
 
-	def add
-		set_title "Add Post"
+	def create
+		set_title "Upload Post"
+
+		if !CONFIG["allow_anonymous_posts"] && current_user() == nil
+			responds_to do |format|
+				format.html {flash[:notice] = "Anonymous post uploads have been disabled"; redirect_to :action => "list"}
+				format.js {render :json => {:success => false}.to_json, :status => 403}
+				format.xml {render :xml => {:success => false}.to_xml(:root => "response"), :status => 403}
+			end
+			return
+		end
 
 		if request.post?
-			if current_user() == nil && !CONFIG["allow_anonymous_posts"]
-				flash[:notice] = "Anonymous uploads have been disabled"
-				redirect_to :action => "list"
-				return
-			end
-
 			post_id = nil
 
 			if (params["post"]["file"].blank? || params["post"]["file"].size == 0) and params["post"]["source"].blank?
-				flash[:notice] = "You must either specify a source URL or upload a file"
-				redirect_to :action => "add"
+				responds_to do |format|
+					format.html {flash[:notice] = "You must either specify a source URL or upload a file"; redirect_to :action => "add"}
+				end
 				return
 			end
 
 			if params["post"]["source"].nil?
-				flash[:notice] = "Incomplete upload, try again"
-				redirect_to :action => "add"
+				responds_to do |format|
+					format.html {flash[:notice] = "Incomplete upload, try again"; redirect_to :action => "add"}
+				end
 				return
 			end
 
-			@post = Post.new
-			@post.file = params["post"]["file"]
-			@post.source = params["post"]["source"]
-			@post.rating = params["post"]["rating"]
-			@post.ip_addr = request.remote_ip
-			@post.user_id = current_user().id rescue nil
+			@post = Post.build(params["post"].merge(:updater_user_id => session[:user_id], :updater_ip_addr => request.remote_ip))
 
 			if @post.save
-				@post.tag! params["post"]["tags"], session[:user_id], request.remote_ip
 				post_id = @post.id
 			elsif @post.errors.invalid?(:md5)
 				p = Post.find_by_md5(@post.md5)
-				p.tag!(p.cached_tags + " " + params["post"]["tags"], session[:user_id], request.remote_ip)
+				p.update_attributes(:tags => (p.cached_tags + " " + params["post"]["tags"]), :updater_user_id => session[:user_id], :updater_ip_addr => request.remote_ip)
 				post_id = p.id
 			else
-				render_error(@post)
+				responds_to do |format|
+					format.html {flash[:notice] = "An error occurred while uploading"; redirect_to :action => "add"}
+				end
 				return
 			end
 
-			save_tags_to_cookie
-			redirect_to :action => "view", :id => post_id
+			responds_to do |format|
+				format.html {flash[:notice] = "Post successfully added"; redirect_to :controller => "post", :action => "view", :id => post_id}
+			end
 		end
 	end
 
@@ -162,17 +176,19 @@ class PostController < ApplicationController
 	def revert_tags
 		if request.post?
 			@post = Post.find(params["id"])
-			@post.tag! @post.tag_history.find(params["history"]).tags, session[:user_id], request.remote_ip
+			@post.update_attributes(:tags => @post.tag_history.find(params["history"]).tags, :updater_user_id => session[:user_id], :updater_ip_addr => request.remote_ip)z
 		end
 
-		redirect_to :action => "view", :id => @post.id
+		responds_to do |format|
+			format.html {flash[:notice] = "The post was reverted"; redirect_to :action => "view", :id => @post.id}
+		end
 	end
 
-	def recent_tag_changes
+	def list_tag_changes
 		@pages, @changes = paginate :post_tag_histories, :order => "id DESC", :per_page => 5
 	end
 
-	def tag_history
+	def view_tag_history
 		@histories = PostTagHistory.find(:all, :conditions => ["post_id = ?", params["id"]], :order => "id")
 	end
 

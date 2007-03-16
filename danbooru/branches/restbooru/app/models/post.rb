@@ -5,8 +5,10 @@ class Post < ActiveRecord::Base
 	before_validation_on_create :get_image_dimensions
 	before_validation_on_create :generate_preview
 	before_destroy :delete_file
+	before_save :commit_tags
 	after_create :update_neighbor_links_on_create
 	before_destroy :update_neighbor_links_on_destroy
+	attr_accessor :updater_user_id, :updater_ip_addr
 
 	votable
 	uses_image_servers :servers => CONFIG["image_servers"] if CONFIG["image_servers"]
@@ -43,20 +45,25 @@ class Post < ActiveRecord::Base
 		end
 	end
 
+	def tags=(t)
+		@tags = t || ""
+	end
+
 # Saves the tags to the join table.
-	def tag!(tags, user_id = nil, ip_addr = nil)
-		tags = "tagme" if tags.blank?
+	def commit_tags
+		return if @tags == nil # don't do anything if tags were never set
+
+		@tags = "tagme" if @tags == ""
 		
-		canonical = Tag.scan_tags(tags)
+		canonical = Tag.scan_tags(@tag_cache)
 		canonical = Tag.to_aliased(canonical).uniq
 		canonical = Tag.with_parents(canonical).uniq
 
-		connection.execute("BEGIN")
 		connection.execute("DELETE FROM posts_tags WHERE post_id = #{id}")
 		foo = []
 		canonical.each do |t|
 			if t =~ /^rating:(.+)/
-				self.rate!($1)
+				self.rating = $1
 			else
 				hoge = Tag.find_or_create_by_name(t)
 				unless foo.include?(hoge.name)
@@ -66,13 +73,11 @@ class Post < ActiveRecord::Base
 			end
 		end
 		
-		foo = foo.sort.uniq.join(" ")
+		self.cached_tags = foo.sort.uniq.join(" ")
 
-		unless connection.select_value("SELECT tags FROM post_tag_histories WHERE post_id = #{id} ORDER BY id DESC LIMIT 1") == foo
-			connection.execute(Post.sanitize_sql(["INSERT INTO post_tag_histories (post_id, tags, user_id, ip_addr, created_at) VALUES (#{id}, ?, ?, ?, now())", foo, user_id, ip_addr]))
+		unless connection.select_value("SELECT tags FROM post_tag_histories WHERE post_id = #{id} ORDER BY id DESC LIMIT 1") == self.cached_tags
+			PostTagHistory.create(:post_id => self.id, tags => self.cached_tags, :user_id => self.updater_user_id, :ip_addr => self.updater_ip_addr)
 		end
-		connection.execute(Post.sanitize_sql(["UPDATE posts SET cached_tags = ? WHERE id = #{id}", foo]))
-		connection.execute("COMMIT")
 	end
 
 	def tempfile_path
@@ -83,7 +88,7 @@ class Post < ActiveRecord::Base
 	def generate_hash
 		self.md5 = File.open(tempfile_path, 'rb') {|fp| Digest::MD5.hexdigest(fp.read)}
 
-		if connection.select_value("SELECT 1 FROM posts WHERE md5 = '#{md5}'")
+		if Post.find_by_md5(md5)
 			FileUtils.rm_f(tempfile_path)
 			errors.add "md5", "already exists"
 			return false
@@ -369,10 +374,6 @@ class Post < ActiveRecord::Base
 			when "explicit"
 				conditions << "p.rating = 'e'"
 			end
-		end
-
-		if q[:unlocked_rating] == true
-			conditions << "p.is_rating_locked = FALSE"
 		end
 
 		conditions << "TRUE" if conditions.empty?
