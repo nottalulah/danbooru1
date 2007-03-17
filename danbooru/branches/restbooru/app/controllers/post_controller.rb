@@ -55,8 +55,8 @@ class PostController < ApplicationController
 		if !CONFIG["allow_anonymous_posts"] && current_user() == nil
 			responds_to do |format|
 				format.html {flash[:notice] = "Anonymous post uploads have been disabled"; redirect_to :action => "list"}
-				format.js {render :json => {:success => false}.to_json, :status => 403}
-				format.xml {render :xml => {:success => false}.to_xml(:root => "response"), :status => 403}
+				format.js {render :json => {:success => false, :reason => "access denied"}.to_json, :status => 403}
+				format.xml {render :xml => {:success => false, :reason => "access denied"}.to_xml(:root => "response"), :status => 403}
 			end
 			return
 		end
@@ -71,7 +71,7 @@ class PostController < ApplicationController
 				return
 			end
 
-			if params["post"]["source"].nil?
+			if params["post"]["source"] == nil
 				responds_to do |format|
 					format.html {flash[:notice] = "Incomplete upload, try again"; redirect_to :action => "add"}
 				end
@@ -80,21 +80,35 @@ class PostController < ApplicationController
 
 			@post = Post.build(params["post"].merge(:updater_user_id => session[:user_id], :updater_ip_addr => request.remote_ip))
 
+			if params["md5"] && params["md5"].downcase != @post.md5
+				responds_to do |format|
+					format.html {flash[:notice] = "The supplied MD5 did not match the uploaded file"; redirect_to :action => "create"}
+					format.js {render :json => {:success => false, :reason => "mismatched md5"}.to_json, :status => 409}
+				end
+				return
+			end
+
 			if @post.save
 				post_id = @post.id
 			elsif @post.errors.invalid?(:md5)
 				p = Post.find_by_md5(@post.md5)
 				p.update_attributes(:tags => (p.cached_tags + " " + params["post"]["tags"]), :updater_user_id => session[:user_id], :updater_ip_addr => request.remote_ip)
-				post_id = p.id
+				responds_to do |format|
+					format.html {flash[:notice] = "That post was already uploaded"; :redirect :action => "view", :id => post_id}
+					format.js {render :json => {}.to_json, :status => 409}
+				end
+				return
 			else
 				responds_to do |format|
 					format.html {flash[:notice] = "An error occurred while uploading"; redirect_to :action => "add"}
+					format.js {render :json => {:success => false}.to_json}, :status => 500
 				end
 				return
 			end
 
 			responds_to do |format|
-				format.html {flash[:notice] = "Post successfully added"; redirect_to :controller => "post", :action => "view", :id => post_id}
+				format.html {flash[:notice] = "Post successfully added"; redirect_to :action => "view", :id => post_id}
+				format.js {render :json => {:success => true, :location => url_for(:action => "view", :id => post_id)}.to_json}
 			end
 		end
 	end
