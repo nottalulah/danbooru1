@@ -1,0 +1,79 @@
+<div id="static-more">
+	<h2><%= link_to CONFIG['app_name'], '/' %></h2>
+<div>
+	<ul>
+		<li><h4>Posts</h4></li>
+		<li><a href="/post/index">List</a></li>
+		<li><a href="/post/upload">Upload</a></li>
+		<li><a href="/post/popular_by_day">Popular (by day)</a></li>
+		<li><a href="/post/popular_by_week">Popular (by week)</a></li>
+		<li><a href="/post/popular_by_month">Popular (by month)</a></li>
+		<li><a href="/post/atom">Atom Feed</a></li>
+		<li><a href="/post/tag_changes">Tag Changes</a></li>
+	</ul>
+	<ul>
+		<li><h4>Tools</h4></li>
+		<li><a href="javascript:location.href='http://<%= CONFIG['server_host'] %>/post/upload?url='+encodeURIComponent(location.href)">Bookmarklet</a></li>
+		<li><a href="http://unbuffered.info/danbooruup">Firefox Extension</a></li>
+		<li><a href="/wiki/show?title=Help:API">Web Services</a></li>
+		<li><a href="/doc/index.html">API Documentation</a></li>
+	</ul>
+	<ul>
+		<li><h4>Statistics</h4></li>
+		<li><a href="/stats/awstats.danbooru.html">Site</a></li>
+	</ul>
+</div>
+<div>
+	<ul>
+		<li><h4>Tags</h4></li>
+		<li><a href="/tag/list_cloud">List (cloud view)</a></li>
+		<li><a href="/tag/list_all_by_name">List (by name)</a></li>
+		<li><a href="/tag/list_all_by_date">List (by date)</a></li>
+		<li><a href="/tag/list_all_by_count">List (by count)</a></li>
+		<li><a href="/tag/list_artists">List Artists</a></li>
+		<li><a href="/tag/list_ambiguous">List Ambiguous</a></li>
+		<li><a href="/tag/list_copyrights">List Copyrights</a></li>
+		<li><a href="/tag/list_characters">List Characters</a></li>
+		<li><a href="/tag/aliases">Aliases</a></li>
+		<li><a href="/tag/implications">Implications</a></li>
+		<li><a href="/tag/mass_edit">Mass Edit</a></li>
+		<li><a href="/tag/set_type">Set Type</a></li>
+	</ul>
+	<ul>
+		<li><h4>Wiki</h4></li>
+		<li><a href="/wiki/show?title=Help:Home">Home</a></li>
+		<li><a href="/wiki/index">List</a></li>
+		<li><a href="/wiki/history">History</a></li>
+		<li><a href="/wiki/show?title=Help:Wiki">Wiki Help</a></li>
+	</ul>
+</div>
+<div>
+	<ul>
+		<li><h4>Community</h4></li>
+		<li><a href="/comment/index">Comments</a></li>
+		<li><a href="/comment/moderate">Moderate Comments</a></li>
+		<li><a href="/wiki/show?title=Help:Guide">Guide</a></li>
+		<li><a href="/wiki/show?title=Help:Source">Source Code</a></li>
+	</ul>
+	<ul>
+		<li><h4>Notes</h4></li>
+		<li><a href="/note/index">Notes</a></li>
+		<li><a href="/note/history">History</a></li>
+		<li><a href="/wiki/show?title=Help%3ANotes">Help</a></li>
+	</ul>
+	<ul>
+		<li><h4>Artists</h4></li>
+		<li<a href="/artist/index">List</a></li>
+	</ul>
+</div>
+<div>
+	<ul>
+		<li><h4>My Account</h4></li>
+		<li><a href="/account/index">Home</a></li>
+		<li><a href="/account/signup">Signup</a></li>
+		<li><a href="/account/login">Login</a></li>
+		<li><a href="/account/change_password">Change Password</a></li>
+		<li><a href="/account/options">Options</a></li>
+	</ul>
+</div>
+
