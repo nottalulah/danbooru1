@@ -1,0 +1,7 @@
+<% form_tag(:action => "update") do %>
+	<label>Tag to Update:</label> <%= text_field "tag", "name" %>
+	<%= select_tag "tag", "tag_type", [%w(General general), %w(Ambiguous ambiguous), %w(Artist artist), %w(Character character), %w(Copyright copyright)] %>
+	<%= submit_tag "Save" %>
+<% end %>
+
+<%= render :partial => "footer" %>
