@@ -1,0 +1,14 @@
+<div id="forum">
+	<%= render :partial => "post", :locals => {:post => @forum_post} %>
+
+	<% @forum_post.children.each do |c| %>
+		<%= render :partial => "post", :locals => {:post => c} %>
+	<% end %>
+
+	<div id="footer">
+		<%= link_to "Respond", :action => "add", :parent_id => @forum_post.id %> | <%= link_to "List", :action => "index" %>
+		<% if @current_user && @current_user.role?(:mod) %>
+			| <%= link_to "Moderate", :action => "moderate" %>
+		<% end %>
+	</div>
+</div>
