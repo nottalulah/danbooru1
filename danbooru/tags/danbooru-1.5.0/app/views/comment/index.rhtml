@@ -1,0 +1,36 @@
+<div id="comment-list2">
+
+<% if @posts.empty? %>
+	<h4>There are no comments</h4>
+<% end %>
+
+<% @posts.each do |post| %>
+	<div class="post" id="p<%= post.id %>">
+		<div class="col1">
+			<%= link_to(image_tag(post.preview_url, :title => post.cached_tags, :class => "preview"), :controller => "post", :action => "show", :id => post.id) %>
+		</div>
+		<div class="col2" id="comments-for-p<%= post.id %>">
+			<%= render :partial => "comments_for_post", :locals => {:post => post, :comments => post.comments} %>
+		</div>
+		<div class="col3">
+			<ul class="post-info">
+				<li><%= post.created_at.strftime("%D %I:%M") %></li>
+				<li>rating:<%= post.pretty_rating %></li>
+				<li><%= link_to "user:" + post.author, :controller => "post", :action => "index", :tags => "user:#{post.author}" %></li>
+				<% post.cached_tags.split(" ").each do |t| %>
+					<li><%= link_to h(t), :controller => "post", :action => "index", :tags => t %></li>
+				<% end %>
+			</ul>
+		</div>
+	</div>
+<% end %>
+
+<div id="paginator">
+	<%= custom_pagination_links(@pages)  %>
+</div>
+
+<div id="footer">
+	<%= link_to "Moderate comments", :action => "moderate" %>
+</div>
+
+</div>

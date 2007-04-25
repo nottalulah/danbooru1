@@ -1,0 +1,17 @@
+<div id="tag_list">
+	<h5>Tags</h5>
+
+	<ul>
+		<% [*@tags[:exclude]].each do |tt| %>
+			<li><%= tag_link(tt, "-") %></li>
+		<% end %>
+
+		<% [*@tags[:include]].each do |tt| %>
+			<li><%= tag_link(tt) %></li>
+		<% end %>
+
+		<% Tag.find_related([*@tags[:related]]).each do |tt| %>
+			<li><%= tag_link(tt) %></li>
+		<% end %>
+	</ul>
+</div>

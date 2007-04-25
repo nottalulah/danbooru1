@@ -1,0 +1,44 @@
+<div id="post-list">
+ 	<div class="sidebar">
+		<%= render :partial => "search" %>
+		<div class="space">
+			<h5>Mode</h5>
+			<form onsubmit="return false;" action="">
+				<select name="mode" id="mode" onchange="changeMode()" style="width: 12em;">
+					<option value="view">View Posts</option>
+					<option value="edit">Edit Posts</option>
+					<option value="fav">Add to Favorites</option>
+					<option value="vote-up">Vote Up</option>
+					<option value="vote-down">Vote Down</option>
+					<option value="lock-rating">Lock Rating</option>
+					<option value="lock-note">Lock Notes</option>
+					<option value="delete">Delete Post</option>
+					<option value="new-tag-script">New Tag Script</option>
+					<option value="delete-tag-script">Delete Tag Script</option>
+				</select>
+			</form>
+
+			<%= javascript_tag "loadMode()" %>
+		</div>
+
+		<%= render :partial => 'tags' %>
+	</div>
+	<div class="content">
+		<% if @ambiguous.any? %>
+			<div id="amb-content">
+				<%= link_to_amb_tags(@ambiguous) %>
+			</div>
+		<% end %>
+
+		<%= render :partial => 'posts' %>
+
+		<div id="paginator">
+			<%= custom_pagination_links(@pages, :params => {:controller => "post", :action => "index", :tags => params[:tags]}) %>
+		</div>
+
+		<div id="footer">
+			<%= link_to "Upload", :controller => "post", :action => "upload" %> | <%= link_to "Atom", :controller => "post", :action => "atom", :tags => params[:tags] %> | <%= link_to "Popular", :controller => "post", :action => "popular_by_day" %> <% unless CONFIG["enable_anonymous_post_access"] %> | <%= link_to "My Favorites", :controller => "user", :action => "favorites", :id => @current_user.id %><% end %>
+		</div>
+	</div>
+</div>
+
