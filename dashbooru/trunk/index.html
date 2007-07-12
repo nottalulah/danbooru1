@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Dashbooru</title>
+    <style type="text/css">
+      @import "Dashbooru.css";
+    </style>
+    <script type="text/javascript" src="prototype.js"></script>
+    <script type="text/javascript" src="effects.js"></script>
+    <script type="text/javascript" src="dashbooru.js"></script>
+    <script type="text/javascript" src="/System/Library/WidgetResources/AppleClasses/AppleInfoButton.js"></script>
+    <script type="text/javascript" src="/System/Library/WidgetResources/AppleClasses/AppleAnimator.js"></script>
+    <script type="text/javascript" src="/System/Library/WidgetResources/AppleClasses/AppleButton.js"></script>
+  </head>
+  <body onload="db_init()">
+    <div id="front">
+      <div id="header">
+        <h2>Dashbooru</h2>
+      </div>
+      <div id="image-cont">
+        <img src="Default.png" id="image"/>
+      </div>
+      <div id="notice"></div>
+      <div id="nav">
+        <a href="#" onclick="db_show_prev(); return false;">&lt;</a>
+        <a href="#" onclick="db_show_next(); return false;">&gt;</a>
+      </div>
+      <div id="info-button"></div>
+    </div>
+    <div id="back">
+      <div id="done-button"></div>
+    </div>
+  </body>
+</html>

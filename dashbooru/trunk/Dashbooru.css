@@ -1,0 +1,85 @@
+div, h1, h2, p {
+	margin: 0;
+	padding: 0;
+}
+
+h1, h2 {
+	text-align: center;
+	color: white;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	font-family: "Lucida Grande";
+	background: black;
+}
+
+a, a:link, a:visited, a:hover {
+	color: gray;
+	text-decoration: none;
+}
+
+a:hover {
+	color: white;
+}
+
+div#nav a {
+	font-size: 2em;
+	font-weight: bold;
+	margin: 0.25em;
+}
+
+div#header {
+	padding-top: 1em;
+	height: 30px;
+}
+
+div#image-cont {
+	height: 180px;
+	display: block;
+	vertical-align: middle;
+}
+
+div#image-cont img {
+	display: block;
+	margin: 1em auto;
+}
+
+div#nav {
+	font-weight: bold;
+	text-align: center;
+}
+
+div#front {
+	display: block;
+	width: 250px;
+	height: 300px;
+}
+
+div#back {
+	display: none;
+	width: 250px;
+	height: 300px;
+}
+
+div#notice {
+	margin: 0 1em;
+}
+
+div#info-button {
+	position: absolute;
+	left: 228px;
+	top: 278px;
+}
+
+div#done-button {
+	position: absolute;
+	left: 180px;
+	top: 265px;
+}
+
+div#notice {
+	color: white;
+	text-align: center;
+}
