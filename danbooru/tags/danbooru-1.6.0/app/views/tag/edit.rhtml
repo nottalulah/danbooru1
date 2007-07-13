@@ -1,0 +1,8 @@
+<% form_tag(:action => "update") do %>
+	<label>Tag to Update</label> <%= text_field_tag "name", "" %>
+	<%= select "tag", "tag_type", [["General", 0], ["Artist", 1], ["Copyright", 3], ["Character", 4]] %><br/>
+	<label>Ambiguous</label> <%= check_box "tag", "is_ambiguous" %>
+	<%= submit_tag "Save" %>
+<% end %>
+
+<%= render :partial => "footer" %>
