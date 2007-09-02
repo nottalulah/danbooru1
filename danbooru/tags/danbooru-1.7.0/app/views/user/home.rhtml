@@ -1,0 +1,25 @@
+<div id="user-index">
+	<% if @current_user %>
+		<h2>Namasté <%= @current_user.name %>!</h2>
+		<p>From here you can access account-specific options and features.</p>
+
+    <ul class="link-page">
+      <li><%= link_to "&raquo; Logout", :action => "logout" %></li>
+      <li><%= link_to "&raquo; My Favorites", :controller => "favorite", :action => "show", :id => @current_user.id %></li>
+  		<% if CONFIG["enable_invites"] %>
+  			<li><%= link_to "&raquo; Invites", :action => "invites" %></li>
+  		<% end %>
+		  <li><%= link_to "&raquo; Settings", :action => "edit" %></li>
+	<% else %>
+		<h2>You are not logged in.</h2>
+
+    <ul class="link-page">
+      <li><%= link_to "&raquo; Login", :action => "login" %></li>
+  		<% if CONFIG["enable_signups"] %>
+  			<li><%= link_to "&raquo; Sign Up", :action => "signup" %></li>
+  		<% else %>
+  			<li>&raquo; Sign Up</li>
+  		<% end %>
+  	</ul>
+	<% end %>
+</div>

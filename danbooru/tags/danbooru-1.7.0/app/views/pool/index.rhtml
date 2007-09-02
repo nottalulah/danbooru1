@@ -1,0 +1,34 @@
+<div id="pool-index">
+  <div style="margin-bottom: 2em;">
+    <% form_tag({:action => "index"}, :method => :get) do %>
+      <%= text_field_tag "query", params[:query], :size => 40 %>
+      <%= submit_tag "Search" %>
+    <% end %>
+  </div>
+  
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Creator</th>
+        <th>Posts</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @pools.each do |p| %>
+        <tr>
+          <td><%= link_to p.pretty_name, :action => "show", :id => p.id %></td>
+          <td><%= p.user.name %></td>
+          <td><%= p.post_count %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<% content_for("footer") do %>
+  <%= link_to "Order by Name", :action => "index", :query => params[:query], :order => "name" %> |
+  <%= link_to "Order by Date", :action => "index", :query => params[:query], :order => "date" %> | 
+<% end %>
+
+<%= render :partial => "footer" %>

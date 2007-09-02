@@ -1,0 +1,48 @@
+<% form_tag(:action => "create") do %>
+	<p>You can suggest a new alias, but they must be approved by an administrator before they are activated.</p>	
+	<table>
+		<tr>
+			<th><label for="tag_alias_name">Name</label></th>
+			<td><%= text_field "tag_alias", "name", :size => 40 %></td>
+		</tr>
+		<tr>
+			<th><label for="tag_alias_alias">Alias to</label></th>
+			<td><%= text_field "tag_alias", "alias", :size => 40 %></td>
+		</tr>
+		<tr>
+			<td colspan="2"><%= submit_tag "Submit" %></td>
+		</tr>
+	</table>
+<% end %>
+
+<% form_tag(:action => "update") do %>
+	<table>
+		<tr>
+			<th></th>
+			<th>Alias</th>
+			<th>To</th>
+		</tr>
+		<% @aliases.each do |a| %>
+			<tr class="<%= cycle 'even', 'odd' %> <%= a.is_pending? ? 'pending-tag' : nil %>">
+				<td><input type="checkbox" name="aliases[<%= a.id %>]" value="1" <%= a.is_pending? ? 'class="pending"' : nil %>/></td>
+				<td><%= a.name %></td>
+				<td><%= Tag.find(a.alias_id).name %></td>
+			</tr>
+		<% end %>
+		<tr>
+			<td colspan="3">
+				<%= button_to_function "Select pending", "document.getElementsByClassName('pending').each(function(x) {x.checked = true})" %> 
+				<% if @current_user && @current_user.role?(:admin) %>
+					<%= submit_tag "Approve" %> 
+					<%= submit_tag "Delete" %>
+				<% end %>
+			</td>
+		</tr>
+	</table>
+<% end %>
+
+<div id="paginator">
+	<%= custom_pagination_links(@pages, :params => {:controller => "tag_alias", :action => "index"}) %>
+</div>
+
+<%= render :partial => "/tag/footer" %>
