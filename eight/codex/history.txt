@@ -137,9 +137,9 @@ famines were frequent, and even the poorest among them were taxed
 heavily.  Literacy was restricted to the noble-born.
 
 From the outset, Adamas was convinced that the five kings would not
-listen to reason, and would never enact progressive reforms.  Instead,
-Adamas decided he had to display an immense display of force to cow
-the king into surrendering unconditionally.
+listen to reason and would never enact progressive reforms.  Adamas
+decided he had to display an immense display of force to cow the king
+into surrendering unconditionally.
 
 While Hericus and Ricus acted as generals and contributed to the war,
 the bulk of the planning was led by Adamas.  None of the three
@@ -149,31 +149,31 @@ able to last so long.
 
 The war lasted a total of six years and caused over a million deaths.
 But in the end, the three brothers were able to defeat the five kings.
-Adamas named their new empire Ursa Terra, after their father, and
-crowned himself the new emperor.
+Adamas named their new empire Ursus and crowned himself the new
+Imperator.
 
 
-THE FIRST EMPIRE
+IMPERATOR ADAMAS
 
-Adamas worked tirelessly to improve the empire.  He used sorcery to
-ward off droughts and floods.  He cured diseases, and helped farmers
-increase their yield.  But Adamas had his limits.  For all his power,
-he was still only one man, and the empire was too large for him to
-administer.
+In his mind Adamas conceived of a perfect empire.  A world without
+drought or famine, without disease, with bountiful harvests and mild
+weather.  He had never given any thought to how he would build this
+utopia and had simply presumed his sorcery would be enough.
 
-Adamas began to delegate work to others.  He designed a multi-tiered
-government and sought the most intelligent men of the empire to govern
-his people.
+While his sorcery could help one or two cities, helping the entire
+empire was beyond his power.  And there were things that sorcery could
+not help with, things like land disputes and trade agreements.
 
-But Adamas was a poor judge of character.  By his third year,
-corruption had become rampant.  Adamas's advisors (led chiefly by
-Craeus) provided distorted reports that failed to capture the
-deteriorating state of the empire.  Adamas remained blissfully
-ignorant of the famine that had struck the southern reaches of the
-empire during his third year, and during his fourth year his slow
-response to a cholera epidemic resulted in thousands of needless
-deaths.  The people, who had never approved of Adamas in the first
-place, grew increasingly restless.
+Adamas hastily enlisted the aid of governors to help administer the
+empire.  But he was a poor judge of character, and before long most of
+the empire succumbed to corruption.  The people, who had never
+approved of Adamas in the first place, grew increasingly restless.
+
+While Adamas struggled with the empire, Hericus and Ricus lived mostly
+carefree lives.  Neither of the two brothers had interest in their
+civic duties.  Hericus in particular was more interested in hunting
+than ruling, and he spent most of his days roaming the countryside on
+his many hunts.
 
 On one of his hunting trips, Hericus spent a night in a far away
 village.  While staying there, Hericus fell in love with a young girl
@@ -203,10 +203,7 @@ Diegas traveled to the city of Aruntas, where rumors of corrupt
 governors were widespread.  Without so much as issuing a challenge,
 Diegas barged into the castle and murdered everyone inside.  He seized
 the governor's rod, a symbol of absolute authority, and declared
-himself the ruler of a new empire.
-
-
-THE CIVIL WAR 
+himself the new emperor.
 
 The people, who were tired of Adamas's governors, rallied behind
 Diegas.  Diegas was a brilliant strategist, and despite his inferior
@@ -231,26 +228,11 @@ Despite all his years of ruling, Adamas was still an incompetent
 general.  Once again he had to rely on sorcery to stay even in the
 war.  Diegas, despite having the favor of the people and the advantage
 of superior tactics and leadership, struggled to get past the
-immensely destructive sorcery the three brothers wielded.
-
-The sexti Thoma, who up until now had been watching Diegas's rise to
-power with amusement, decided to intervene.  In order to offset
-Adamas's sorcery, he gave Diegas the legendary spear Ferox.  Not only
-was Ferox strong enough to destroy mountains, but it also granted its
-wielder limited immortality.
-
-With spear in hand, Diegas led the charge against one of the major
-Ursan strongholes, Natrus.  Ferox easily destroyed the fortress walls
-and Diegas's army slaughtered the Ursan soldiers.  With Natrus in
-their possession, Diegas was now within striking distance of the Ursan
-capital.
+immensely destructive sorcery Adamas wielded.
 
 
 
-
-THE SECOND EMPIRE
-
-
+IMPERATOR DIEGAS
 
 Upon hearing of Diegas's coronation, the sexti prince Norman sends an
 army to attack Primus.  Using Animus, Diegas defeats the army
@@ -328,7 +310,7 @@ kingdoms, one for each of the former heroes.  The Age of Tyrants
 begins.
 
 
-THE TYRANTS
+THE EIGHT TYRANTS
 
 Atax, Buchial, Hadrus, Sariel, Ishur, Grundel, Imalon, and Ona
 establish the kingdoms of Radia, Stonemorrow, Corion, Aes, Namida,
@@ -434,3 +416,21 @@ The age of tyrants comes to an end.
 
 THE GUILD
 
+
+Princeps
+Principate
+Consul
+Consulate
+Imperator
+Imperate
+Senator
+Senate
+Dominus
+Dominate
+Arcadius
+Nicomedius
+Severus
+Craeus
+Trafagus
+Netherus
+Atrius
