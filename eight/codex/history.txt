@@ -62,38 +62,50 @@ worlds.  Passage through the wall was strictly forbidden.
 
 To ensure that the wall would never be breached, the Primi created the
 Contract.  The Contract promised the outer worlds that the gods would
-never interfere in their affairs, provided that two simple conditions
-were met: never cross the wall and never ascend to godhood.  The three
-laws were engraved on four tablets and the tablets were given to the
-four wisest men in the outer worlds.
+never interfere in their affairs, provided that three simple
+conditions were met: never cross the wall, never ascend to godhood,
+and never cross between the worlds.  The three laws were engraved on
+four tablets and the tablets were given to the four wisest men in the
+outer worlds.
 
 
                                SEPTIMUS
                                --------
 
+In the years following the Contract, peace reigned over Septimus.
+Five kings, all of them claiming to be descendants of a Primi god,
+divided the world into five major kingdoms.  Each king enjoyed
+absolute power over his domain.
+
+Life for the common man was harsh.  The poorest among them suffered
+from heavy taxes, and the farmers could barely grow enough food to
+feed themselves, let alone their lords.
+
+
 THE ENDOWMENT
+
+Twenty years before the Contract:
 
 Ursus was the eldest son of a minor noble family that had fallen on
 hard times.  From his destitute family he inherited a small tract of
 land in the country.  Ursus decided to make the best of his situation
-and moves out to live his life as a farmer.
+and moved out to live his life as a farmer.
 
 He married a local girl and together they had three sons: Hericus,
-Ricus, and Adamas.  Their first three years on the farm were extremely
-difficult, and Ursus's wife would not live to see the fruits of their
-labor--she died of dysentery.  Ursus struggled to keep the farm alive
-and to feed and shelter his children.
+Ricus, and Adamas.  Life on the farm was a struggle, and their first
+three years were the worst.  Ursus's wife died soon after giving birth
+to Adamas.
 
-Finally, in their fifth year, their harvest was bountiful enough to
-keep them fed throughout the long winter season.  When Ursus's sons
-were old enough, they began helping their father with the farm work,
-and eventually the four began to live comfortably.
+All of Ursus's toiling finally paid off in the fifth year, when the
+harvest was plentiful enough to keep his family fed throughout the
+long winter season.  When Ursus's sons were old enough, they began
+helping their father with the farm work, and eventually the four began
+to live comfortably.
 
-Ursus, who strongly believed in the value of education, began to teach
-his sons how to read and write.  Hericus and Ricus only learned enough
-to satisfy their father, but Adamas was different.  He voraciously
-read everything his father gave him, and soon he longed to visit the
-great libraries his father fondly spoke of.
+Ursus began to teach his sons how to read and write.  Hericus and
+Ricus only learned enough to satisfy their father, but Adamas was
+different.  He voraciously read everything his father gave him and
+soon was as skilled as his father was.
 
 When Adamas was twenty, the Primi descended upon Septimus and granted
 Ursus possession of one of the tablets.  From the tablet Ursus learned
@@ -127,30 +139,23 @@ one empire.
 
 THE THREE BROTHERS' WAR
 
-In the years following the Contract, peace reigned over Septimus.  The
-world was divided between five major kingdoms.  Each king enjoyed
-absolute power over his domain.  While border disputes and skirmishes
-were common, they never escalated into full scale war.
-
-But even without war, the people lived hard lives.  Droughts and
-famines were frequent, and even the poorest among them suffered from
-heavy taxes.
-
-From the outset, Adamas was convinced that the five kings would not
-listen to reason and would never enact progressive reforms.  Adamas
-decided he had to display an immense display of force to cow the king
-into surrendering unconditionally.  Adamas believed that only he had
-the strength to bring the world out of darkness.
+From the outset, Adamas was convinced that the five kings would never
+enact progressive reforms.  Adamas decided he had to display an
+immense display of force to cow the king into surrendering
+unconditionally.  He believed that only he had the strength to bring
+the world out of darkness.
 
 While Hericus and Ricus acted as generals and contributed to the war,
 the bulk of the planning was led by Adamas.  None of the three
 brothers were particularly good strategists, and they were
-consistently outwitted by seasoned enemy generals.  It was only
-through sorcery that they were able to last so long.
+consistently outwitted by seasoned enemy generals.  But the advantage
+their sorcery gave them was overwhelming.  With it alone they were
+able to stay even in the war.
 
 The war lasted a total of six years and caused over a million deaths.
 But in the end, the three brothers were able to defeat the five kings.
-Adamas crowned himself the new emperor of Ursus.
+Adamas declared the birth of the Empire of Ursa Terra and crowned
+himself the new Imperator.
 
 
 IMPERATOR ADAMAS
@@ -161,11 +166,11 @@ weather.  He had never given any thought to how he would build this
 utopia and had simply presumed his sorcery would be enough.
 
 But the sheer scale of running an empire overwhelmed Adamas.  His
-sorcery could help one or two cities, but not three continents.
-Adamas hastily enlisted the aid of governors to help administer the
-empire.  Adamas chose the people he liked most, not necessarily the
-people who were most able.  Before long most of the governors began to
-abuse their powers for personal gain.  The people, who had never
+sorcery could help one or two cities, but not an entire empire.
+Adamas hastily enlisted the aid of governors to help him with
+administrative work.  He chose the people he liked most, not
+necessarily the people who were most able.  Before long most of the
+governors began to abuse their powers.  The people, who had never
 approved of Adamas in the first place, grew increasingly restless.
 
 While Adamas struggled with the empire, Hericus and Ricus lived
@@ -204,14 +209,11 @@ Diegas barged into the castle and murdered everyone inside.  He seized
 the governor's rod, a symbol of absolute authority, and declared
 himself the new emperor.
 
-
-CIVIL WAR
-
 The people, who were tired of Adamas's governors, rallied behind
-Diegas.  Diegas had an unnatural knack for strategy, and despite his
-inferior numbers he was able to take several major cities and forts.
-By the time Adamas learned of the uprising it was already too late;
-Diegas had gained too much momentum to be quelled without a major war.
+Diegas.  Diegas had a knack for strategy, and despite his inferior
+numbers he was able to take several major cities and forts.  By the
+time Adamas learned of the uprising it was already too late; Diegas
+had gained too much momentum to be quelled without a major war.
 
 Adamas mobilized the Ursan army.  After losing badly in several key
 battles, Adamas decided to take Diegas head on.  He wielded immensely
@@ -219,10 +221,30 @@ destructive sorcery to annihilate Diegas's armies, forcing him to
 retreat.  Eventually the two sides reached a stalemate.  Both sides
 lacked the men to launch a major attack.
 
+The desperate Adamas decided his sorcery was insufficient; he needed
+an artifact to strengthen his powers.  Adamas contacted one of the
+sexti and in so doing he breached the Contract.  But he scarcely
+cared, in his mind his greatest priority was eliminating the threat of
+Diegas.
+
+The sexti Norman responded to Adamas's call. Upon hearing his plea,
+Norman granted Adamas possession of Aegulus, the Spear of Songs.
+Aegulus granted its wielder limited immortality.  Adamas triumphantly
+returned to his home with the spear, convinced he now had the power to
+slay Diegas single-handedly.
+
+On that same night, Diegas snuck into Adamas's castle with the intent
+of killing the emperor in his sleep.  While stumbling through the
+castle's maze-like corridors, Diegas stumbled upon the poorly guarded
+Aegulus.  Diegas wielded Aegulus and immediately realized its power.
+
+
+
+
 The sexti Norman, who had been watching Diegas's rise to power with
-interest, decided to intervene.  To Diegas he granted possession of
-Animus, the legendary spear of courage.  Animus gave its wielder the
-powers of sorcery.  With Animus, Diegas was now even with Adamas.
+interest, decided to intervene.  To Diegas he gave Aegulus, the
+legendary spear of courage.  Aeugulus granted its wielder the powers
+of sorcery.  With Aegulus, Diegas was now even with Adamas.
 
 During the winter season Diegas led a small team across the frontline
 and deep into Ursan territory.  In one surgical strike he seized
