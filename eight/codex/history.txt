@@ -154,36 +154,57 @@ win the war.
 
 The war lasted a total of six years and caused over a million deaths.
 But in the end, the three brothers were able to defeat the five kings.
-Adamas named their new empire Terra Ursa, after their father, and
-crowned himself the new Imperator.
+Adamas named their new empire Ursus, after their father, and crowned
+himself the new Imperator.
 
 
 THE DOMINATE
 
-The Dominate refers to the first three centuries of the Ursan Empire,
-beginning with Adamas and ending with Opimus.  It was a time of
-immense chaos and destruction.  By unleashing sorcery upon the world,
-Adamas unwittingly armed entire generations of rogue sorcerers who
-were determined to wage war against the empire and against each
-other.
+The Dominate period refers to the first three centuries of the Ursan
+Empire.  The name refers to the Dominus moniker given to the four
+Imperators, and also to the general despotic nature of the rulers.
 
-IMPERATOR ADAMAS
 
-IMPERATOR SIDEREUS
+IMPERATOR DOMINUS ADAMAS
 
-IMPERATOR ATREUS
+Adamas is often credited as being the founder of the Ursan Empire,
+sometime during the early third century.  His rule was uncontested for
+nearly a century, during which Adamas aggressively expanded the
+empire's reach.  But he put little effort into integrating the various
+conquered nations, and in time his army was overwhelmed by widespread
+rebellion.  Adamas was succeeded by one of his numerous children, an
+ambitious young man named Sidereus.
 
-IMPERATOR ARCUS
 
-IMPERATOR PETULCUS
+IMPERATOR DOMINUS SIDEREUS
 
-IMPERATOR OPIMUS
+Sidereus was the first to implement the soon to become popular policy
+of severely restricting access to sorcery.  He created a secret police
+to hunt down and kill suspected sorcerers.  Sidereus used sorcery to
+cement and consolidate his power base.  But it was mundane treachery
+that ultimately ended his reign; his childhood friend Laerus betrayed
+him so that his son Atreus would inherit the empire.  Sidereus ruled
+for a little under a decade.
+
+
+IMPERATOR DOMINUS ATREUS
+
+Atreus (acting as a proxy for his father Laerus for most of his early
+life) continued Sidereus's policy of hunting down sorcerers.  Atreus
+also continued Adamas's military campaigns, expanding the Ursan empire
+greatly.  Atereus's rule was the second longest after Adamas.  
+
+
+IMPERATOR DOMINUS ARCUS
+
+Arcus was an incompetent Imperator who squandered the trust and
+goodwill his father had generated among the people.  
 
 
 THE PRINCIPATE
 
-The Principate refers to the four centuries following the the Dominate
-period.  It was a period of relative peace and prosperity.
+The four centuries following the Dominate period are referred to as
+the Principate.  It was a time of relative peace and prosperity.
 
 When Diegas abolished the Imperial Mandate, the Imperator role was
 dismantled along with it.  In its place the concept of the Princeps
@@ -484,3 +505,9 @@ Craeus
 Trafagus
 Netherus
 Atrius
+
+
+
+THE PRINCIPATE
+THE DOMINATE
+THE REPUBLIC
