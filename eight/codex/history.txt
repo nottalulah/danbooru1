@@ -74,7 +74,7 @@ outer worlds.
 
 In the years following the Pactum, peace reigned over Septimus.  Five
 kings, all of them claiming to be descendants of a Primi god, divided
-the world into five major kingdoms.  Each king enjoyed absolute power
+the world into nine major kingdoms.  Each king enjoyed absolute power
 over his domain.
 
 Life for the common man was harsh.  The poorest among them suffered
@@ -141,45 +141,68 @@ THE DOMINATE
 
 The first three centuries of the Ursan Empire are referred to as the
 Dominate period, named for the Dominus moniker that the Imperators
-adopted.  It was a time of great hardship, as the empire was in almost
-constant war against neighboring countries.  Anyone who could lift a
-sword was drafted into the army and sent to the frontlines.
+adopted.
 
 
 IMPERATOR DOMINUS ADAMAS
 
-From the outset, Adamas was convinced that the twelve kings would
-never enact progressive reforms.  Adamas decided he had to display an
+In his mind Adamas conceived of a perfect empire.  A world without
+drought or famine, without disease, with bountiful harvests and mild
+weather.  The world as it existed then was far from Adamas's utopian
+ideal. 
+
+From the outset, Adamas was convinced that the nine kings would never
+enact progressive reforms.  Adamas decided he had to display an
 immense display of force to cow the king into surrendering
 unconditionally.  He believed that only he had the strength to bring
 the world out of darkness.
 
-Adamas was careful to keep the tablet well guarded.  The last thing he
-wanted was the knowledge of sorcery to escape his family.  But in
-order to use his powers most effectively he had to be at all the major
-battles, and so he left daily administration of the empire to his two
-brothers. 
+In order to use his sorcery most effectively, Adamas had to be present
+at the major battles.  He left daily administration of the empire to
+his brothers.
+
+Hericus had no interest in his civic duties as the Arbiter of the
+Ursan Empire.  He was more interesting in hunting, and he let his wife
+Ana handle the task of being Arbiter.
+
+To her credit Ana was a shrewd and fair woman.  The Arbiter was tasked
+with handling trials and foreign affairs, and while Ana considered
+herself qualified for the task, the other men of the court belittled
+her for being a woman.
 
 Ricus, the youngest brother, was eager to please Adamas, and he took
 his role as Consul seriously.  But despite his enthusiasm, he was
 still a naive young boy at heart, and almost all of his decisions were
-influenced by elder advisors like Craeus and Telemus.  As Ricus grew
+influenced by elder advisors Craeus and Telemus.  As Ricus grew
 increasingly bored of statecraft, he began to delegate more and more
-responsibility to the two advisors.
+responsibility.
 
 Craeus and Telemus loathed each other.  The more power they gained,
 the more they bickered with each other.  The struggle culminated in
 Telemus's assassination.  While Craeus denied any wrongdoing,
-Telemus's followers weren't convinced and vowed vengeance.
+Telemus's son Nadus was not convinced and vowed vengeance.
 
-Hericus had no interest in his civic duties as the Arbiter of the
-Ursan Empire.  He was more interesting in hunting, and he let his wife
-Anila handle the task of being Arbiter.
+By coincidence, Telemus's brother Corvus was a high ranking lieutenant
+in Adamas's army and had ambitions of his own.  Corvus conspired with
+Nadus and the two of them plotted a public outing of Craeus based on
+fabricated evidence of treason.  When Nadus came to Ricus with the
+evidence, Ricus (still feeling guilty for Telemus's death) and agreed
+to have Craeus arrested.  After a fabricated trial (ignored by
+Hericus), Craeus was sentenced to death, and those who were suspected
+of being supporters were jailed.
 
-To her credit Anila was a shrewd and fair woman.  The Arbiter was
-mainly tasked with handling court trials and managing foreign affairs,
-and Anila considered herself qualified for the task.  But the other
-men of the court were not nearly so 
+Not by coincidence, most of Craeus's followers were also supporters
+for Adamas.  With Adamas's supporters in jail and Adamas himself away
+in the field, Nadus and Corvus in a position to seed a revolt against
+Adamas.
+
+However, their plan ultimately failed, mostly owing to poor planning
+on the part of Corvus.  Ricus confided in Hericus what was beginning
+to unravel, and Hericus in turn warned Adamas.  Adamas had both Corvus
+and Nadus executed.
+
+While Adamas hoped the execution would cement his authority, it only
+served to further weaken it.
 
 
 
@@ -225,10 +248,6 @@ THE TYRANNATE
 THE REPUBLICA
 
 
-In his mind Adamas conceived of a perfect empire.  A world without
-drought or famine, without disease, with bountiful harvests and mild
-weather.  He had never given any thought to how he would build this
-utopia.  He simply presumed his sorcery would be enough.
 
 But the sheer scale of running an empire overwhelmed Adamas.  His
 sorcery could help one or two cities, but not an entire empire.
