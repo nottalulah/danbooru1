@@ -132,9 +132,19 @@ Adamas, believed him.  On his father's grave, Adamas vowed that his
 death would not be in vain.
 
 Adamas taught himself sorcery, and upon mastering all that the tablet
-could teach him, he taught Ricus and Hericus.  Together, the three
-brothers set out to unite the disparate kingdoms of the world under
-one empire.
+could teach him, he taught Ricus and Hericus. 
+
+In his mind Adamas conceived of a perfect empire.  A world without
+hunger, without disease, without crime, without suffering.  The world
+as it existed then was far from Adamas's utopian ideal, and he was
+convinced that the nine kings would never enact progressive reforms.
+Adamas believed he had to display an immense display of force to cow
+the king into surrendering unconditionally, and that only he had the
+strength to bring the world out of darkness.
+
+The three brothers used their sorcery to defeat the armies of King
+Osric of their native kingdom Lensrad.  Adamas declared himself the
+new Imperator of the Ursan Empire and vowed to unite the entire world.
 
 
 THE DOMINATE
@@ -147,17 +157,11 @@ Sidereus).
 
 IMPERATOR ADAMAS
 
-In his mind Adamas conceived of a perfect empire.  A world without
-hunger, without disease, without crime, without suffering.  The world
-as it existed then was far from Adamas's utopian ideal, and he was
-convinced that the nine kings would never enact progressive reforms.
-Adamas believed he had to display an immense display of force to cow
-the king into surrendering unconditionally, and that only he had the
-strength to bring the world out of darkness.
-
-Adamas's sorcery was most effective at the frontlines, so he was often
-absent from the capital.  He left the daily administration of the
-empire to his brothers.
+Adamas immediately set his sights on the neighboring kingdom of Aryx,
+which was much larger than Lensrad.  Adamas mobilized the Ursan army
+and declared war.  His sorcery was most effective at the frontlines,
+so Adamas was often absent from the capital.  He left the daily
+administration of the empire to his brothers.
 
 Adamas conceived of a strong central government with nearly all power
 split between three figures: the Imperator, the Arbiter, and the
@@ -195,20 +199,22 @@ the capital.  This, combined with the failing war against the Lorians,
 caused Adamas to consider teaching his generals destructive sorcery,
 so that he could spend more time at the capital.
 
-Corvus became something of a brotherly figure to Ricus, who hadn't
-seen either Adamas or Hericus in years.  Corvus convinced Ricus that
-the war was bankrupting the empire and that something had to be done
-soon.  Ricus agreed to give the Consul title to Corvus and he would
-lead the empire until Ricus had gained sufficient experience.  All of
-this transpired with neither the Arbiter nor the Imperator being
-informed.
+As Ricus continued to ignore his duties, Corvus increasingly adopted
+more responsibility, becoming the Consul in all but name only.  Corvus
+replaced the nobles who backed Adamas, further weakning Adamas's
+position.  At the conclusion of the Ursan war against Aryx, Adamas
+returned to the capital and was shocked to see so many unfamiliar
+faces in the court.
 
-As Consul, Corvus worked to replace most of the nobles who backed
-Adamas, further weakening Adamas's position.  When Adamas returned to
-the capital during his sixth year of rule, he was shocked to find a
-court filled with unfamiliar faces.
+Upon confronting Corvus, Corvus defended his actions, citing the
+corruption of the nobles Adamas had chosen.  Adamas grudgingly
+accepted Corvus's new assignments.
 
-Corvus has Adamas arrested.  
+Adamas declared war on the kingdom of Etrus.  This was an immensely
+unpopular decision amongst the nobles, who were being forced to fund
+the war.  Corvus took this seed of dissent and fanned it into a full
+blown rebellion.  
+
 
 
 IMPERATOR CORVUS
@@ -217,9 +223,13 @@ IMPERATOR ATREUS
 
 IMPERATOR DOMINUS SIDEREUS
 
+IMPERATOR DOMINUS NICOMEDIUS
+
 IMPERATOR DOMINUS ARCUS
 
-IMPERATOR DOMINUS VALOR
+IMPERATOR DOMINUS ARCADIUS
+
+IMPERATOR DOMINUS VALORIUS
 
 IMPERATOR DOMINUS ETHEUS
 
@@ -244,7 +254,7 @@ GRUNDEL
 
 CARUS
 
-IDIL
+VICTUS
 
 
 THE PRINCIPATE

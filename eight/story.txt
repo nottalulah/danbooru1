@@ -77,7 +77,7 @@ Ah.
 
 I'm bored.
 
-I close my eyes.  Whenever I do this something special happens.
+I close my eyes.
 
 I start to hear music.
 
@@ -122,9 +122,9 @@ paragraph."
 It's lunch time!
 
 Today I got up extra early to pack a nice big boxed lunch.  Rice
-sprinkled with furikake, some leftover beef curry, roasted potatoes
-with butter and garlic, grilled asparagus, and a small hunk of glazed
-salmon.  A meal fit for a king (or a growing teenaged boy).
+sprinkled with furikake, some leftover beef curry, roasted potatoes,
+and a small hunk of glazed salmon.  A meal fit for a king (or a
+growing teenaged boy).
 
 Most the kids in my class eat lunch at the cafeteria, but a few stay
 behind.  Most of them brought boxed lunches, or bought something at a
@@ -143,7 +143,7 @@ I let her try a bit of the salmon.
 into a surrogate daughter and taught me how to cook, how to clean, how
 to do the laundary..."
 
-"That sounds like it was hard on you..."
+"That sounds like it was hard on you."
 
 "Well, I gained some valuable life skills thanks to her.  And at least
 she didn't force me to wear dresses.  That would have been crossing
@@ -283,8 +283,8 @@ I arrive home without incident.
                           DAY TWO - SATURDAY
                           ------------------
 
-Today's a Saturday so classes end a few hours earlier than usual.  Aka
-and I agree to meet at the gates once classes are over.
+Today's Saturday.  Aka and I agree to meet at the gates once classes
+are over.
 
 When I arrive I see Aka and wave to her.  Jyoji is with her. He's a
 handsome fellow, with tousled hair, a broad chest and a sculpted chin.
@@ -495,7 +495,7 @@ team.  Even some of the coaches and the teachers show up.
 
 By all measures the party is a wild success.  Jyoji dug up an old
 karaoke machine and all the teachers sang 80's synthpop like they were
-teenagers again.  And teh grownups turned a blind eye to Rena sneaking
+teenagers again.  And the grownups turned a blind eye to Rena sneaking
 in a few bottles of vodka and sake.  No one drank enough to get
 plastered, but we were all nice and tipsy by the end of the evening.
 Even Aka took a sip (and immediately squinted her eyes and gagged).
@@ -507,7 +507,7 @@ things were back to normal.
 While I'm helping Aka wash the dishes, Rena slips into the kitchen,
 holding up a half-empty bottle of whisky.
 
-"Who wants to help me finish his bottle?
+"Who wants to help me finish this bottle?
 
 "I really shouldn't," Aka says.  "It's already this late.  I'm way
 past my curfew."
@@ -951,7 +951,7 @@ This girl really sounds and acts like an Ishikura.
 
 "Do you know if anything happened to the park with the well?"
 
-"What?  What are you talking about?"
+"What?"
 
 "Remember the well that was boarded up a few years ago?  Because of
 the accident."
@@ -1128,9 +1128,7 @@ I nod.
 
 "..."
 
-"This is bad," I can hear her mutter.
-
-"What's going on?"
+"What's going on?" I ask.
 
 "Nothing."
 
@@ -1209,14 +1207,14 @@ I remember.  And I think it's open to the public on a limited basis."
 
                                 -----
 
-I have no clue how many live in the Ishikura mansion, but I know Saku
-lives there.  And if she catches me snooping around the park's
-history, I just know I'm gonna catch flak.
+I have no clue how many people live in the Ishikura mansion, but I
+know Saku lives there.  And if she catches me snooping around the
+park's history, I just know I'm gonna catch flak.
 
 But I decide to take the chance.
 
-At around seven o'clock that evening I call the Ishikura mansion.
-After a few rings someone picks up.
+At around seven o'clock that evening I call the mansion.  After a few
+rings someone picks up.
 
 "Hello?"
 
@@ -1380,7 +1378,7 @@ He looks up and stares at me, but says nothing.
 I turn around and see a middle-aged woman bearing a tray of tea and
 biscuits.  She sets the tray down on the table beside the man.
 
-"Please, have a seat and enjoy some tea.  Is darjeeling fine with
+"Please, have a seat and enjoy some tea.  Is Darjeeling fine with
 you?"
 
 I nod.
@@ -1574,10 +1572,12 @@ out, they've always owned the land surrounding the wells.
 find wells in all of them.  Most of them are boarded up. Isn't that
 strange?"
 
-"What's strange?"
+I shrug.
 
-"If these wells are so dangerous, why not fill them up with cement, or
-even dirt?  Just boarding them up is asking for trouble."
+"It's a little odd, but not that strange."
+
+"But if these wells are so dangerous, why not fill them up with
+cement, or even dirt?  Just boarding them up is asking for trouble."
 
 It's a fair question.
 
@@ -2154,9 +2154,9 @@ it's not as if I'm taking a detour.  I keep telling myself not to get
 involved with Ishikura's affairs, but my curiosity gets the better of
 me.  Maybe there's something I missed the last time I came here.
 
-Of the five parks in Uoki built by the Ishikura family, Fuyuno Park is
-probably the smallest.  Not to say that it's tiny; if the entire area
-were wooded, you could probably get lost in here.  The park is
+Of the eight parks in Uoki built by the Ishikura family, Fuyuno Park
+is probably the smallest.  Not to say that it's tiny; if the entire
+area were wooded, you could probably get lost in here.  The park is
 completely open. There are no gates, no real indication that you're
 entering a park at all aside from two wooden signs posted on opposite
 sides of the park.
@@ -2199,7 +2199,7 @@ look silly, but the style suits her round face well.
 
 She looks away.
 
-"What are you doing here?" I ask.  "Aren't you a little far away from
+"What are you doing here?" I ask. "Aren't you a little far away from
 home?"
 
 "No reason."
@@ -2296,6 +2296,8 @@ well.  Whatever my sis--Saku thinks is completely wrong."
 "..."
 
 "Your silence is only confirming my theory."
+
+She turns to me with an exasperated face.
 
 "Look, don't say anything to Saku.  Just play dumb, okay?"
 
@@ -2578,10 +2580,9 @@ weeping tears of manly sorrow.
 
 "Pretty much," I answer her.
 
-"Jyoji and I were thinking of visiting the beach.
-
-"I wanted to buy a new swimsuit to wear.  I'm already going shopping
-with some friends but I wanted to hear a boy's opinion."
+"Jyoji and I were thinking of visiting the beach.  I wanted to buy a
+new swimsuit to wear.  I'm already going shopping with some friends
+but I wanted to hear a boy's opinion."
 
 "It would be an honor to help you, my lady."
 
@@ -2660,11 +2661,11 @@ explosion of colors and synthetic fabrics.  Pink, lime green,
 florescent yellow, polka dots and horizontal stripes and every pattern
 permutation that can be theoretically designed and printed.
 
-The girls split up and dig through the racks like ravenous housewives
-during a time sale at a supermarket.  My role likely won't come into
-play until Aka picks something, so I spent some time digging through
-the BBBB, the Bargin Bikini Bottom Bin.  In theory, I could wear one
-and everyone would think I was just wearing Speedos...
+The girls split up and dig through the racks like wolves at an animal
+carcass.  My role likely won't come into play until Aka picks
+something, so I spent some time digging through the BBBB, the Bargain
+Bikini Bottom Bin.  In theory, I could wear one and everyone would
+think I was just wearing Speedos...
 
 "Hey."
 
@@ -2686,13 +2687,15 @@ She closes the curtain.  She turns to face me.
 
 "What is she to you?"
 
+I sigh.
+
 "She's a friend."
 
 "Yeah, but what else is she?"
 
 "What are you getting at?"
 
-"I swear, she spends more time with you than with her boyfriend."
+"I swear, she spends more time with you than with Jyoji."
 
 I shrug.  "There's nothing between us."
 
@@ -2767,7 +2770,7 @@ half-assed dye job either, her hair is a beautiful aquamarine color.
 Studs ornament both her ears. Her hair, while not boyishly short, is
 cut as close as possible while retaining some look of femininity.
 Below her muscular (exposed) waist she's wearing a pair of denim
-shorts and some beaten-up sandals.
+cutoffs and some beaten-up sandals.
 
 She catches me staring at her.
 
