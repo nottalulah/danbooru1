@@ -1,0 +1,78 @@
+<div id="static-more">
+  <h2><%= link_to CONFIG['app_name'], '/' %></h2>
+  <div>
+    <ul>
+      <li><h4>Posts</h4></li>
+      <li><a href="/help/posts">Help</a></li>
+      <li><a href="/post/index">List</a></li>
+      <li><a href="/post/upload">Upload</a></li>
+      <li><a href="/post/popular_by_day">Popular (by day)</a></li>
+      <li><a href="/post/popular_by_week">Popular (by week)</a></li>
+      <li><a href="/post/popular_by_month">Popular (by month)</a></li>
+      <li><a href="/post/atom">Atom Feed</a></li>
+      <li><a href="/post/tag_history">Tag History</a></li>
+      <li><a href="/flagged_post/index">Flagged Posts</a></li>
+    </ul>
+    <ul>
+      <li><h4>Tools</h4></li>
+      <li><a href="javascript:location.href='http://<%= CONFIG['server_host'] %>/post/upload?url='+encodeURIComponent(location.href)">Bookmarklet</a></li>
+      <li><a href="http://unbuffered.info/danbooruup">Firefox Extension</a></li>
+      <li><a href="/help/api">API Documentation</a></li>
+    </ul>
+    <ul>
+      <li><h4>Statistics</h4></li>
+      <li><a href="/stats/awstats.danbooru.html">Site</a></li>
+    </ul>
+  </div>
+  <div>
+    <ul>
+      <li><h4>Tags</h4></li>
+      <li><a href="/help/tags">Help</a></li>
+      <li><a href="/tag/cloud">List (cloud view)</a></li>
+      <li><a href="/tag/index">List (all)</a></li>
+      <li><a href="/tag_alias/index">Aliases</a></li>
+      <li><a href="/tag_implication/index">Implications</a></li>
+      <li><a href="/tag/mass_edit">Mass Edit</a></li>
+      <li><a href="/tag/edit">Edit</a></li>
+    </ul>
+    <ul>
+      <li><h4>Wiki</h4></li>
+      <li><a href="/help/wiki">Help</a></li>
+      <li><a href="/wiki/index">List</a></li>
+      <li><a href="/wiki/history">History</a></li>
+    </ul>
+  </div>
+  <div>
+    <ul>
+      <li><h4>Community</h4></li>
+      <li><a href="/comment/index">Comments</a></li>
+      <li><a href="/comment/moderate">Moderate Comments</a></li>
+      <li><a href="/forum/index">Forum</a></li>
+      <li><a href="/user/index">Users</a></li>
+      <li><a href="/user_record/index">User Records</a></li>
+      <li><a href="http://cart.donmai.us">Trac</a></li>
+    </ul>
+    <ul>
+      <li><h4>Notes</h4></li>
+      <li><a href="/help/notes">Help</a></li>
+      <li><a href="/note/index">Notes</a></li>
+      <li><a href="/note/history">History</a></li>
+      <li><a href="/wiki/show?title=Help%3ANotes">Help</a></li>
+    </ul>
+    <ul>
+      <li><h4>Artists</h4></li>
+      <li><a href="/help/artists">Help</a></li>
+      <li><a href="/artist/index">List</a></li>
+    </ul>
+  </div>
+  <div>
+    <ul>
+      <li><h4>My User</h4></li>
+      <li><a href="/user/home">Home</a></li>
+      <li><a href="/user/signup">Signup</a></li>
+      <li><a href="/user/login">Login</a></li>
+      <li><a href="/user/edit">Settings</a></li>
+      <li><a href="/user/change_password">Change Password</a></li>
+    </ul>
+  </div>
+</div>

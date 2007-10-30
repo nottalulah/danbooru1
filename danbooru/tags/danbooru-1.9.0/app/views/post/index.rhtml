@@ -1,0 +1,72 @@
+<div id="post-list">
+  <%= javascript_include_tag "post" %>
+  <%= javascript_include_tag "favorite" %>
+  <%= javascript_include_tag "post_mode_menu" %>
+  
+  <% if @ambiguous.any? %>
+    <div class="status-notice">
+      <%= link_to_amb_tags(@ambiguous) %>
+    </div>
+  <% end %>
+  
+  <% if @suggestions.any? %>
+    <div class="status-notice">
+      <p>Maybe you meant: <%= @suggestions.map {|x| link_to h(x), :controller => "post", :action => "index", :tags => x}.join(", ") %></p>
+    </div>
+  <% end %>
+  
+  <div class="sidebar">
+    <% unless @current_user && @current_user.privileged? %>
+      <%= CONFIG["ad_code_index_side"] %>
+    <% end %>
+    <%= render :partial => "search" %>
+    <div class="space">
+      <h5>Mode</h5>
+      <form onsubmit="return false;" action="">
+        <select name="mode" id="mode" onchange="PostModeMenu.change()" style="width: 13em;">
+          <option value="view">View Posts</option>
+          <option value="edit">Edit Posts</option>
+          <option value="fav">Add to Favorites</option>
+          <option value="vote-up">Vote Up</option>
+          <option value="vote-down">Vote Down</option>
+          <option value="rating-s">Rate Safe</option>
+          <option value="rating-q">Rate Questionable</option>
+          <option value="rating-e">Rate Explicit</option>
+          <option value="lock-rating">Lock Rating</option>
+          <option value="lock-note">Lock Notes</option>
+          <option value="flag">Flag Post</option>
+          <option value="edit-tag-script">Edit Tag Script</option>
+          <option value="apply-tag-script">Apply Tag Script</option>
+        </select>
+      </form>
+
+      <%= javascript_tag "PostModeMenu.init()" %>
+    </div>
+
+    <%= render :partial => 'tags' %>
+  </div>
+  <div class="content">
+    <% unless @current_user && @current_user.privileged? %>
+      <%= CONFIG["ad_code_index_top"] %>
+    <% end %>
+
+    <%= render :partial => "posts", :locals => {:posts => @posts} %>
+
+    <div id="paginator">
+      <%= custom_pagination_links(@pages, :params => {:controller => "post", :action => "index", :tags => params[:tags]}) %>
+    </div>
+
+    <div id="footer">
+      <%= link_to "Add", :controller => "post", :action => "upload" %> |
+      <% if @current_user %>
+        <%= link_to "My Favorites", :controller => "favorite", :action => "show", :id => @current_user.id %> |
+      <% end %>
+      <%= link_to "Atom", :controller => "post", :action => "atom", :tags => params[:tags] %> |
+      <%= link_to "Popular", :controller => "post", :action => "popular_by_day" %> |
+      <%= link_to "Tag History", :controller => "post", :action => "tag_history" %> |
+      <%= link_to "Moderate", :controller => "post", :action => "moderate" %> |
+      <%= link_to "Help", :controller => "help", :action => "posts" %>
+    </div>
+  </div>
+</div>
+
