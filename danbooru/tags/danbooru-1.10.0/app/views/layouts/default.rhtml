@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title><%= @page_title %></title>
+  <meta http-equiv="content-type" content="application/xhtml_xml; charset=utf-8"/>
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
+  <link rel="top" title="<%= CONFIG["app_name"] %>" href="/"/>
+  <%= navigation_links { |type, title, href| '<link rel="%s" title="%s" href="%s"/>' % [type, title, url_for(href)] } %>
+  <%= stylesheet_link_tag "default" %>
+  <%= auto_discovery_link_tag :atom, :controller => "post", :action => "atom", :tags => params["tags"] %>
+  <%= javascript_include_tag "application" %>
+</head>
+<body>
+  <div id="header">
+    <h2 id="site-title"><%= link_to(CONFIG["app_name"], "/") %><%= tag_header(h(params['tags'])) %></h2>
+    <ul class="flat-list" id="navbar">
+      <li><%= link_to "My Account", :controller => "user", :action => "home" %></li>
+      <li><%= link_to "Posts", :controller => "post", :action => "index", :tags => nil %></li>
+      <li><%= link_to "Comments", :controller => "comment", :action => "index" %></li>
+      <li><%= link_to "Notes", :controller => "note", :action => "index" %></li>
+      <li><%= link_to "Pools", :controller => "pool", :action => "index" %></li>
+      <li><%= link_to "Artists", :controller => "artist", :action => "index", :order => "date" %></li>
+      <li><%= link_to "Tags", :controller => "tag", :action => "cloud" %></li>
+      <li><%= link_to "Wiki", :controller => "wiki", :action => "show", :title => "Help:Home" %></li>
+      <% if @current_user && ForumPost.updated?(@current_user) %>
+        <li><%= link_to "Forum", {:controller => "forum", :action => "index"}, :class => "forum-update" %></li>
+      <% else %>
+        <li><%= link_to "Forum", :controller => "forum", :action => "index" %></li>
+      <% end %>
+      <li><%= link_to "Help", :controller => "help", :action => "index" %></li>
+      <li><a href="/static/more">More &raquo;</a></li>
+    </ul>
+  </div>
+  <% if flash[:notice] %>
+    <div id="notice"><%= flash[:notice] %></div>
+  <% else %>
+    <div id="notice" style="display: none;"></div>
+  <% end %>
+  <div id="content">
+    <%= @content_for_layout %>
+  </div>
+</body>
+</html>

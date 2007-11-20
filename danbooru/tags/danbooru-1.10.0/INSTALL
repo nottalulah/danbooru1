@@ -1,0 +1,44 @@
+Installing Danbooru from scratch is not for the faint of heart. You should be comfortable with the Linux command line. Installing on Windows is possible but is not officially supported. If you want something similar to Danbooru that is easier to install, try Shimmie (http://trac.shishnet.org/shimmie2). Shimmie uses PHP and MySQL and should be straightforward to install on most hosts.
+
+For best performance, you will need at least 256MB of RAM for PostgreSQL and Rails. The memory requirement will grow as your database gets bigger; the main Danbooru database takes up around 400MB of memory by itself.
+
+Danbooru has the following general dependencies:
+- ruby-1.8.6
+- libgd
+- PostgreSQL 8.3
+
+Danbooru also has the following Ruby dependencies:
+- rubygems
+- rails 1.2 (gem install rails)
+- postgres (gem install postgres)
+- diff-lcs (gem install diff-lcs)
+- redcloth (gem install redcloth)
+- acts_as_versioned (gem install acts_as_versioned)
+
+The following dependencies are optional:
+- mongrel (web server, http://mongrel.rubyforge.org)
+- aws/s3 (required for Amazon S3 support, http://amazon.rubyforge.org)
+- ragel (required for superredcloth, http://www.cs.queensu.ca/~thurston/ragel)
+- superredcloth (more updated version of redcloth, http://redhanded.hobix.com/inspect/superredclothAsAChild.html)
+- memcached (required for caching, http://www.danga.com/memcached)
+- memcache-client (required for caching, http://dev.robotcoop.com/Libraries)
+
+Installing the postgres gem might be tricky because the gem looks for PostgreSQL development files in the wrong location. If the gem install fails, try running "gem install postgres -- --with-pgsql-lib-dir=/usr/local/pgsql/lib --with-pgsql-include-dir=/usr/local/pgsql/include". Substitute "/usr/local/pgsql" with wherever your PostgreSQL files are.
+
+Once you've downloaded and installed everything, get the latest copy of Danbooru through Subversion:
+
+>> svn checkout svn://donmai.us/danbooru/trunk danbooru
+
+Now it's time to configure your copy. Change into the config directory and edit the following files: database.yml, local_config.rb. Example files are provided.
+
+You should manually build the resizer extension. This obviously requires gcc and the make tools. The resizer depends on the GD library. The source code is located in lib/danbooru_image_resizer. Run "ruby extconf.rb" then run "make". You should NOT have to install the resulting extension.
+
+If you are compiling the resizer on OS X PPC, see http://cart.donmai.us/ticket/282 if you are having trouble.
+
+Create the database. A schema file is provided at db/postgres.sql. You should also run the migration scripts by entering "rake db:migrate". This requires the resizer extension to have been built, so be sure you have completed that step.
+
+Caching is only necessary if you expect to get more than 200,000 visitors a month. You will find the necesssary settings in the default_config.rb file that you can copy over into your local_config.rb. Make sure the memcached daemon is running before you start up Danbooru.
+
+Configure your web server to connect to Danbooru. The best way is to set up Mongrel to run Danbooru, and have your web server proxy requests to Mongrel.
+
+The first account you create will automatically become the administrator, so you should do this first.
