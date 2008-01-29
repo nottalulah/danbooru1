@@ -1,0 +1,57 @@
+<div>
+  <% form_tag({:action => "index"}, :method => :get) do %>
+    <table class="form">
+      <tbody>
+        <tr>
+          <th width="15%">
+            <label for="name">Name</label>
+            <p>Use * as a wildcard.</p>
+          </th>
+          <td width="85%"><%= text_field_tag "name", params[:name], :size => 40 %></td>
+        </tr>
+        <tr>
+          <th><label for="type">Type</label></th>
+          <td><%= select_tag "type", options_for_select([["Any", ""], ["Artist", Tag.types[:artist]], ["Character", Tag.types[:character]], ["Copyright", Tag.types[:copyright]], ["General", Tag.types[:general]]]) %></td>
+        </tr>
+        <tr>
+          <th><label for="order">Order</label></th>
+          <td><%= select_tag "order", options_for_select([["Name", "name"], ["Count", "count"], ["Date", "date"]]) %></td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td><%= submit_tag "Search" %></td>
+          <td></td>
+        </tr>
+      </tfoot>
+    </table>
+  <% end %>
+</div>
+
+<table width="100%" class="highlightable"> 
+  <thead>
+    <tr>
+      <th width="5%">Posts</th>
+      <th width="25%">Name</th>
+      <th width="70%">Type</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @tags.each do |tag| %>
+      <tr class="<%= cycle 'even', 'odd' %>">
+        <td align="right"><%= tag['post_count'] %></td>
+        <td class="tag-type-<%= tag.type_name %>"><a href="/post/index?tags=<%= u tag["name"] %>"><%= h tag["name"] %></a></td>
+        <td>
+        <%= tag.type_name + (tag['is_ambiguous'] ? ", ambiguous" : "") %>
+        (<%= link_to "edit", :action => "edit", :name => tag['name'] %>)
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<div id="paginator">
+  <%= custom_pagination_links(@pages, :params => {:controller => "tag", :action => "index", :order => params[:order], :type => params[:type], :name => params[:name]}) %>
+</div>
+
+<%= render :partial => "footer" %>
