@@ -1,0 +1,9 @@
+<div id="note-list">
+  <%= render :partial => "post/posts", :locals => {:posts => @posts} %>
+
+  <div id="paginator">
+    <%= custom_pagination_links(@pages) %>
+  </div>
+
+  <%= render :partial => "footer" %>
+</div>
