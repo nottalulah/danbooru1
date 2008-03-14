@@ -1,0 +1,100 @@
+<div id="post-list">  
+  <% if @ambiguous.any? %>
+    <div class="status-notice">
+      <%= link_to_amb_tags(@ambiguous) %>
+    </div>
+  <% end %>
+
+  <div class="sidebar">
+    <%= render :partial => "search" %>
+    <% if CONFIG["can_see_ads"].call(@current_user) %>
+      <%= CONFIG["ad_code_index_side"] %>
+    <% end %>
+    <div style="margin-bottom: 1em;">
+      <h5>Mode</h5>
+      <form onsubmit="return false;" action="">
+        <div>
+          <select name="mode" id="mode" onchange="PostModeMenu.change()" style="width: 13em;">
+            <option value="view">View Posts</option>
+            <option value="edit">Edit Posts</option>
+            <option value="fav">Add to Favorites</option>
+            <option value="vote-up">Vote Up</option>
+            <option value="vote-down">Vote Down</option>
+            <option value="rating-s">Rate Safe</option>
+            <option value="rating-q">Rate Questionable</option>
+            <option value="rating-e">Rate Explicit</option>
+            <% if @current_user.is_privileged_or_higher? %>
+              <option value="lock-rating">Lock Rating</option>
+              <option value="lock-note">Lock Notes</option>
+            <% end %>
+            <option value="flag">Flag Post</option>
+            <option value="edit-tag-script">Edit Tag Script</option>
+            <option value="apply-tag-script">Apply Tag Script</option>
+          </select>          
+        </div>
+      </form>
+    </div>
+
+    <%= render :partial => 'tags' %>
+  </div>
+  <div class="content">
+    <% if CONFIG["can_see_ads"].call(@current_user) %>
+      <%= CONFIG["ad_code_index_top"] %>
+    <% end %>
+        
+    <div id="quick-edit" style="display: none; margin-bottom: 1em;">
+      <h4>Edit Tags</h4>
+      <% form_tag(:action => "update") do %>
+        <%= hidden_field_tag "id", "" %>
+        <%= text_area_tag "post[tags]", "", :size => "60x2", :id => "post_tags" %> 
+        <%= submit_tag "Update" %>
+        <%= button_to_function "Cancel", "$('quick-edit').hide()" %>
+      <% end %>
+    </div>
+
+    <%= render :partial => "posts", :locals => {:posts => @posts} %>
+
+    <div id="paginator">
+      <%= will_paginate(@posts) %>
+    </div>
+
+    <div id="footer">
+      <%= link_to "Upload", :controller => "post", :action => "upload" %> |
+      <span id="my-favorites-container"><%= link_to "My Favorites", "/", :id => "my-favorites" %> |</span>
+      <%= link_to "Atom", :controller => "post", :action => "atom", :tags => params[:tags] %> |
+      <%= link_to "Popular", :controller => "post", :action => "popular_by_day" %> |
+      <%= link_to "Tag History", :controller => "post_tag_history", :action => "index" %> |
+      <%= link_to "Moderate", :controller => "post", :action => "moderate" %> |
+      <%= link_to "Help", :controller => "help", :action => "posts" %>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $("quick-edit").down("form").observe("submit", function(e) {
+    new Ajax.Request("/post/update.json", {
+      parameters: $("quick-edit").down("form").serialize(),
+      onSuccess: function() {
+        notice("Post updated")
+        $("quick-edit").hide()
+      },
+      onError: function(resp) {
+        var resp = resp.responseJSON
+        notice("Error: " + resp.reason)
+      }
+    })
+    e.stop()
+  })
+  Post.observe_text_area("post_tags")
+  PostModeMenu.init()
+  if (Cookie.get("login") != "") {
+    $("my-favorites").href = "/post/index?tags=fav%3A" + Cookie.get("login") + "%20order%3Afav"
+  } else {
+    $("my-favorites-container").hide()
+  }
+</script>
+
+<% content_for("html_header") do %>
+  <%= auto_discovery_link_tag_with_id :rss, {:controller => "post", :action => "piclens", :tags => params[:tags], :page => params[:page]}, {:id => 'pl'} %>
+  <%= navigation_links(@posts) %>
+<% end %>

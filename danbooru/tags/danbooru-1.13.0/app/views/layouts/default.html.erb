@@ -1,0 +1,67 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <title><%= @page_title %></title>
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="top" title="<%= CONFIG["app_name"] %>" href="/">
+  <%= @content_for_html_header %>
+  <%= auto_discovery_link_tag :atom, :controller => "post", :action => "atom", :tags => params[:tags] %>
+  <%= stylesheet_link_tag "default" %>
+  <script type="text/javascript" src="/javascripts/application.js"></script>
+  <%= CONFIG["custom_html_headers"] %>
+  <!--[if lt IE 7]>
+    <style type="text/css">
+      body div#post-view > div#right-col > div > div#note-container > div.note-body {
+        overflow: visible;
+      }
+    </style>
+    <script src="http://ie7-js.googlecode.com/svn/trunk/lib/IE7.js" type="text/javascript"></script>
+  <![endif]-->
+
+</head>
+<body>
+  <div id="header">
+    <h2 id="site-title"><%= link_to(CONFIG["app_name"], "/") %><%= tag_header(h(params[:tags])) %></h2>
+    <ul class="flat-list" id="navbar">
+      <li><a href="/user/home">My Account</a></li>
+      <li><a href="/post/index">Posts</a></li>
+      <li><a href="/comment/index">Comments</a></li>
+      <li><a href="/note/index">Notes</a></li>
+      <li><a href="/pool/index">Pools</a></li>
+      <% if CONFIG["enable_artists"] %>
+        <li><a href="/artist/index?order=date">Artists</a></li>
+      <% end %>
+      <li><a href="/tag/index?order=date">Tags</a></li>
+      <li><a href="/wiki/show?title=Help%3AHome">Wiki</a></li>
+      <li><a href="/forum/index" id="forum-link">Forum</a></li>
+      <% if CONFIG["enable_trac"] %>
+        <li><a href="http://trac.donmai.us">Trac</a></li>
+      <% end %>
+      <li><a href="/help/index">Help</a></li>
+      <li><a href="/static/more">More &raquo;</a></li>
+    </ul>
+  </div>
+  <% if flash[:notice] %>
+    <div id="notice"><%= h flash[:notice] %></div>
+  <% else %>
+    <div id="notice" style="display: none;"></div>
+  <% end %>
+  
+  <div class="has-mail" id="has-mail-notice" style="display: none;">
+    <%= link_to "You have mail", :controller => "dmail", :action => "inbox" %>
+  </div>
+  
+  <div class="blocked" id="block-reason" style="display: none;">
+  </div>
+
+  <div id="content">
+    <%= @content_for_layout %>
+  </div>
+
+  <script type="text/javascript">
+    Cookie.setup()
+  </script>
+  <%= @content_for_post_cookie_javascripts %>
+</body>
+</html>

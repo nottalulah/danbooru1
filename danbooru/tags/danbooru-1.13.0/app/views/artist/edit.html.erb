@@ -1,0 +1,34 @@
+<div id="artist-edit">
+  <p>Separate multiple aliases and group members with commas.</p>
+  <% form_tag(:action => (@artist.new_record? ? "create" : "update")) do %>
+    <%= hidden_field_tag "id", @artist.id %>
+    <table class="form">
+      <tr>
+        <th><label for="artist_name">Name</label></th>
+        <td><%= text_field "artist", "name", :size => 80 %></td>
+      </tr>
+      <tr>
+        <th><label for="artist_aliases">Aliases</label></th>
+        <td><%= text_field "artist", "aliases", :size => 80, :value => @artist.aliases.join(", ") %></td>
+      </tr>
+      <tr>
+        <th><label for="artist_aliases">Members</label></th>
+        <td><%= text_field "artist", "members", :size => 80, :value => @artist.members.join(", ") %></td>
+      </tr>
+      <tr>
+        <th><label for="artist_urls">URLs</label></th>
+        <td><%= text_area "artist", "urls", :size => "80x6" %></td>
+      </tr>
+      <tr>
+        <th><label for="artist_notes">Notes</label></th>
+        <td><%= text_area "artist", "notes", :size => "80x6" %></td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <%= submit_tag "Save" %>
+          <%= button_to_function "Cancel", "history.back()" %>
+        </td>
+      </tr>
+    </table>
+  <% end %>
+</div>
