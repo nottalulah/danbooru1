@@ -1,0 +1,34 @@
+<h4>Invites</h4>
+<p>You can vouch for existing members and invite them to privileged status.</p>
+
+<div style="margin-bottom: 2em">
+  <h6>Invite User</h6>
+  <p>You currently have <%= @current_user.invite_count %> invites available. You can invite any member who has a basic account.</p>
+  <% form_tag({:action => "invites"}, :onsubmit => "return confirm('Are you sure you want to invite ' + $F('user_name') + '?')") do %>
+    <label for="member_name">Name</label> <%= text_field_with_auto_complete "member", "name", {}, :min_chars => 3, :skip_style => true, :url => {:controller => "user", :action => "auto_complete_for_member_name"} %> <%= submit_tag "Invite" %>
+  <% end %>
+</div>
+
+<div>
+  <h6>Current Invites</h6>
+  <p>These are the users you have invited so far.</p>
+  
+  <table>
+    <thead>
+      <tr>
+        <th>User</th>
+        <th>Posts</th>
+        <th>Favorites</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @invited_users.each do |user| %>
+        <tr>
+          <td><%= link_to h(user.pretty_name), :controller => "user", :action => "show", :id => user.id %></td>
+          <td><%= link_to Post.count(:conditions => "user_id = #{user.id}"), :controller => "post", :action => "index", :tags => "user:#{user.name}" %></td>
+          <td><%= link_to Favorite.count(:conditions => "user_id = #{user.id}"), :controller => "post", :action => "index", :tags => "fav:#{user.name} order:fav" %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

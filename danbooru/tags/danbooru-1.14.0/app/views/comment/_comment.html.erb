@@ -1,0 +1,24 @@
+<div class="post">
+  <div class="author">
+    <% if comment.user_id %>
+      <h6><a href="/user/show/<%= comment.user_id %>"><%= h comment.pretty_author %></a></h6>
+    <% else %>
+      <h6><%= h comment.pretty_author %></h6>
+    <% end %>
+    <span class="date" title="Posted at <%= comment.created_at.strftime('%c') %>">Posted <%= time_ago_in_words(comment.created_at) %> ago</span>
+  </div>
+  <div class="content">
+    <div class="body">
+      <%= format_text(comment.body, :mode => :comment) %>
+    </div>
+    <div class="footer">
+      <%= link_to_function "Quote", "Comment.quote(#{comment.id})" %>
+      <% if @current_user.has_permission?(comment) %>
+        | <%= link_to_function "Delete", "Comment.destroy(#{comment.id})" %>
+      <% else %>
+        | <%= link_to_function "Flag for deletion", "Comment.flag(#{comment.id})" %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
