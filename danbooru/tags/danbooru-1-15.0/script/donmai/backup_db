@@ -1,3 +1,0 @@
-#!/bin/bash
-
-pg_dump -Fc -f /var/www/danbooru/backup/db-`date +"%Y-%m-%d-%H-%M"`.dump danbooru
