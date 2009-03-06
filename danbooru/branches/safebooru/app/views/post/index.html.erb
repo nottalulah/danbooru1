@@ -7,7 +7,18 @@
 
   <div class="sidebar">
     <%= render :partial => "search" %>
-    <%= print_advertisement("vertical") %>
+    <div>
+      <script type="text/javascript">
+        <!--
+        google_ad_client = "pub-7096746521734979";
+        /* 200x200, created 3/5/09 */
+        google_ad_slot = "7456489524";
+        google_ad_width = 200;
+        google_ad_height = 200;
+        //-->
+      </script>
+      <script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
+    </div>
     <div style="margin-bottom: 1em;">
       <h5>Mode</h5>
       <form onsubmit="return false;" action="">
@@ -49,7 +60,7 @@
     <%= print_tag_sidebar(params[:tags]) %>
   </div>
   <div class="content">
-    <%= print_advertisement("horizontal") %>      
+    <%#= print_advertisement("horizontal") %>      
     <% if @ambiguous_tags.any? %>
       <div class="status-notice">
         The following tags are ambiguous: <%= @ambiguous_tags.map {|x| link_to(h(x), :controller => "wiki", :action => "show", :title => x)} %>
