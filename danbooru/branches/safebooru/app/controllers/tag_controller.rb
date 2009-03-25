@@ -128,7 +128,7 @@ class TagController < ApplicationController
       @tags = Tag.scan_tags(params[:tags])
       @tags = TagAlias.to_aliased(@tags)
       @tags = @tags.inject({}) do |all, x|
-        all[x] = Tag.calculate_related_by_type(x, CONFIG["tag_types"][params[:type]]).map {|y| [y["name"], y["post_count"]]}
+        all[x] = Tag.calculate_related_by_type(x, CONFIG["tag_types"][params[:type]])
         all
       end
     else
@@ -136,7 +136,7 @@ class TagController < ApplicationController
       @patterns, @tags = @tags.partition {|x| x.include?("*")}
       @tags = TagAlias.to_aliased(@tags)
       @tags = @tags.inject({}) do |all, x|
-        all[x] = Tag.find_related(x).map {|y| [y[0], y[1]]}
+        all[x] = Tag.find_related(x)
         all
       end
       @patterns.each do |x|
