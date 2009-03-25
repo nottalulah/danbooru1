@@ -280,6 +280,10 @@ table tr.dupe {
   background: rgb(255, 255, 100);
 }
 
+table tr.bad {
+  background: rgb(255, 230, 230);
+}
+
 table tr.good {
   background: rgb(230, 255, 230);
 }
@@ -802,7 +806,7 @@ div.sidebar li {
 }
 
 div.sidebar ul {
-  margin: 0;
+  margin: 0 0 1em 0;
 }
 
 div#site-notice {

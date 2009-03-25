@@ -76,7 +76,7 @@ module PostHelper
         end
       end
       
-      html = ['<div>', '<h5>Tags</h5>', '<ul id="tag-sidebar">']
+      html = ['<div style="margin-bottom: 1em;">', '<h5>Tags</h5>', '<ul id="tag-sidebar">']
 
       if tags[:exclude]
         tags[:exclude].each do |tag|
@@ -100,7 +100,7 @@ module PostHelper
       
       if !query.is_a?(Post) && @current_user.is_privileged_or_higher?
         if tags[:subscriptions].is_a?(String)
-          html += ['<div>', '<h5>Subscribed Tags</h5>', '<ul id="tag-subs-sidebar">']
+          html += ['<div style="margin-bottom: 1em;">', '<h5>Subscribed Tags</h5>', '<ul id="tag-subs-sidebar">']
           subs = TagSubscription.find_tags(tags[:subscriptions])
           subs.each do |sub|
             html << print_tag_sidebar_helper(sub)
@@ -110,7 +110,7 @@ module PostHelper
         
        deleted_count = Post.fast_deleted_count(query)
        if deleted_count > 0
-         html += ['<div>', '<h5>Tag Statistics</h5>', '<ul id="tag-stats-sidebar">']
+         html += ['<div style="margin-bottom: 1em;">', '<h5>Tag Statistics</h5>', '<ul id="tag-stats-sidebar">']
          html << %{<li><a href="/post/index?tags=#{u(query)}+status%3Adeleted">deleted:#{deleted_count}</a></li>}
          html += ['</ul>', '</div>']        
        end
