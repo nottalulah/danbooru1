@@ -398,6 +398,56 @@ class User < ActiveRecord::Base
     end
   end
   
+  module UserUploadLimitMethods
+    def can_upload?
+      if is_contributor_or_higher?
+        true
+      elsif created_at > 1.week.ago
+        false
+      elsif upload_limit <= 0
+        false
+      else
+        true
+      end
+    end
+    
+    def can_comment?
+      if created_at > 1.week.ago
+        false
+      elsif is_privileged_or_higher?
+        true
+      elsif Comment.count(:conditions => ["user_id = ? AND created_at > ?", id, 1.hour.ago]) >= CONFIG["member_comment_limit"]
+        false
+      else
+        true
+      end      
+    end
+    
+    def upload_limit
+      deleted_count = Post.count(:conditions => ["status = ? AND user_id = ?", "deleted", id])
+      unapproved_count = Post.count(:conditions => ["status = ? AND user_id = ?", "pending", id])
+      approved_count = Post.count(:conditions => ["status = ? AND user_id = ?", "active", id])
+      
+      limit = 5 + (approved_count / 10) - (deleted_count / 3) - unapproved_count
+      
+      if limit > 20
+        limit = 20
+      end
+      
+      if limit < 0
+        limit = 0
+      end
+      
+      limit
+    end
+  end
+  
+  module UserForumMethods
+    def has_forum_been_updated?
+      is_privileged_or_higher? && ForumPost.updated?(self)
+    end
+  end
+  
   validates_presence_of :email, :on => :create if CONFIG["enable_account_email_activation"]
   validates_uniqueness_of :email, :case_sensitive => false, :on => :create, :if => lambda {|rec| not rec.email.empty?}
   before_create :set_show_samples if CONFIG["show_samples"]
@@ -415,6 +465,7 @@ class User < ActiveRecord::Base
   include UserLevelMethods
   include UserInviteMethods
   include UserTagSubscriptionMethods
+  include UserUploadLimitMethods
 
   @salt = CONFIG["user_password_salt"]
   
@@ -429,6 +480,31 @@ class User < ActiveRecord::Base
   
   def invited_by_name
     self.class.find_name(invited_by)
+  end
+  
+  def favorite_tags(tag_type)
+    sql = <<-EOS
+      SELECT 
+        t.name
+      FROM
+        favorites f,
+        users u,
+        posts p,
+        posts_tags pt,
+        tags t
+      WHERE
+        u.id = f.user_id
+        AND f.post_id = p.id
+        AND p.id = pt.post_id
+        AND u.id = ?
+        AND pt.tag_id = t.id
+        AND t.tag_type = ?
+      GROUP BY t.name
+      ORDER BY COUNT(*) DESC
+      LIMIT 15
+    EOS
+    
+    return select_values_sql(sql, id, tag_type)
   end
   
   def similar_users

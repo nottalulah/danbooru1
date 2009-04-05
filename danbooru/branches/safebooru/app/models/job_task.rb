@@ -75,34 +75,45 @@ class JobTask < ActiveRecord::Base
     end
   end
   
+  def execute_calculate_post_count
+    Tag.recalculate_post_count(data["tag_name"])
+  end
+  
   def pretty_data
-    case task_type
-    when "mass_tag_edit"
-      start = data["start_tags"]
-      result = data["result_tags"]
-      user = User.find_name(data["updater_id"])
+    begin
+      case task_type
+      when "mass_tag_edit"
+        start = data["start_tags"]
+        result = data["result_tags"]
+        user = User.find_name(data["updater_id"])
       
-      "start:#{start} result:#{result} user:#{user}"
+        "start:#{start} result:#{result} user:#{user}"
       
-    when "approve_tag_alias"
-      ta = TagAlias.find(data["id"])
-      "start:#{ta.name} result:#{ta.alias_name}"
+      when "approve_tag_alias"
+        ta = TagAlias.find(data["id"])
+        "start:#{ta.name} result:#{ta.alias_name}"
       
-    when "approve_tag_implication"
-      ti = TagImplication.find(data["id"])
-      "start:#{ti.predicate.name} result:#{ti.consequent.name}"
+      when "approve_tag_implication"
+        ti = TagImplication.find(data["id"])
+        "start:#{ti.predicate.name} result:#{ti.consequent.name}"
       
-    when "calculate_tag_subscriptions"
-      last_run = data["last_run"]
-      "last run:#{last_run}"
+      when "calculate_tag_subscriptions"
+        last_run = data["last_run"]
+        "last run:#{last_run}"
 
-    when "calculate_related_tags"
-      tag = Tag.find_by_id(data["id"])
-      if tag
-        "tag:#{tag.name}"
-      else
-        "tag:UNKNOWN"
+      when "calculate_related_tags"
+        tag = Tag.find_by_id(data["id"])
+        if tag
+          "tag:#{tag.name}"
+        else
+          "tag:UNKNOWN"
+        end
+      
+      when "calculate_post_count"
+        "tag:" + data["tag_name"]
       end
+    rescue
+      "ERROR"
     end
   end
   
