@@ -26,7 +26,7 @@ Post = {
 		$("post_source").name = "url"
 		$("post_file").name = "file"
 		$("edit-form").target = "_blank"
-		$("edit-form").action = "http://danbooru.iqdb.hanyuu.net/"
+		$("edit-form").action = "http://safebooru.iqdb.hanyuu.net/"
 
 		$("edit-form").submit()		
 		

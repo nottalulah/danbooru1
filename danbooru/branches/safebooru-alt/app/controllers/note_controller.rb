@@ -17,9 +17,9 @@ class NoteController < ApplicationController
     set_title "Notes"
     
     if params[:post_id]
-      @posts = Post.paginate :order => "last_noted_at DESC", :conditions => ["id = ?", params[:post_id]], :per_page => 100, :page => params[:page]
+      @posts = Post.paginate :order => "last_noted_at DESC", :conditions => ["id = ? AND rating = 's'", params[:post_id]], :per_page => 100, :page => params[:page]
     else
-      @posts = Post.paginate :order => "last_noted_at DESC", :conditions => "last_noted_at IS NOT NULL", :per_page => 16, :page => params[:page]
+      @posts = Post.paginate :order => "last_noted_at DESC", :conditions => "last_noted_at IS NOT NULL AND rating = 's'", :per_page => 16, :page => params[:page]
     end
 
     respond_to do |fmt|

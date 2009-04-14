@@ -1,5 +1,5 @@
 class JobTask < ActiveRecord::Base
-  TASK_TYPES = %w(mass_tag_edit approve_tag_alias approve_tag_implication calculate_tag_subscriptions calculate_related_tags calculate_post_count)
+  TASK_TYPES = %w(mass_tag_edit approve_tag_alias approve_tag_implication calculate_tag_subscriptions calculate_related_tags)
   STATUSES = %w(pending processing finished error)
   
   validates_inclusion_of :task_type, :in => TASK_TYPES

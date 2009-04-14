@@ -105,8 +105,8 @@ class PostController < ApplicationController
         @pending_posts = Post.find_by_sql(Post.generate_sql(params[:query] + " status:pending", :order => "id"))
         @flagged_posts = Post.find_by_sql(Post.generate_sql(params[:query] + " status:flagged", :order => "id"))
       else
-        @pending_posts = Post.find(:all, :conditions => "status = 'pending'", :order => "id")
-        @flagged_posts= Post.find(:all, :conditions => "status = 'flagged'", :order => "id")
+        @pending_posts = Post.find(:all, :conditions => "status = 'pending' AND rating = 's'", :order => "id")
+        @flagged_posts= Post.find(:all, :conditions => "status = 'flagged' AND rating = 's'", :order => "id")
       end
 
       @pending_posts = ModQueuePost.reject_hidden(@pending_posts, @current_user, params[:hidden])
@@ -159,9 +159,9 @@ class PostController < ApplicationController
   
   def deleted_index
     if params[:user_id]
-      @posts = Post.paginate(:per_page => 25, :order => "flagged_post_details.created_at DESC", :joins => "JOIN flagged_post_details ON flagged_post_details.post_id = posts.id", :select => "flagged_post_details.reason, posts.cached_tags, posts.id, posts.user_id", :conditions => ["posts.status = 'deleted' AND posts.user_id = ? ", params[:user_id]], :page => params[:page])
+      @posts = Post.paginate(:per_page => 25, :order => "flagged_post_details.created_at DESC", :joins => "JOIN flagged_post_details ON flagged_post_details.post_id = posts.id", :select => "flagged_post_details.reason, posts.cached_tags, posts.id, posts.user_id", :conditions => ["posts.status = 'deleted' AND posts.user_id = ? AND posts.rating = 's'", params[:user_id]], :page => params[:page])
     else
-      @posts = Post.paginate(:per_page => 25, :order => "flagged_post_details.created_at DESC", :joins => "JOIN flagged_post_details ON flagged_post_details.post_id = posts.id", :select => "flagged_post_details.reason, posts.cached_tags, posts.id, posts.user_id", :conditions => ["posts.status = 'deleted'"], :page => params[:page])
+      @posts = Post.paginate(:per_page => 25, :order => "flagged_post_details.created_at DESC", :joins => "JOIN flagged_post_details ON flagged_post_details.post_id = posts.id", :select => "flagged_post_details.reason, posts.cached_tags, posts.id, posts.user_id", :conditions => ["posts.status = 'deleted' AND posts.rating = 's'"], :page => params[:page])
     end
   end
 
@@ -186,11 +186,6 @@ class PostController < ApplicationController
       @db_delta_time = Time.now - db_start_time
       @posts = WillPaginate::Collection.create(page, limit, post_count) do |pager|
         pager.replace(Post.find_by_sql(Post.generate_sql(tags, :order => "p.id DESC", :offset => pager.offset, :limit => pager.per_page)))
-      end
-
-      # If there are blank pages for this query, then fix the post count
-      if @posts.size == 0 && page > 1 && @split_tags.size == 1
-        JobTask.create(:task_type => "calculate_post_count", :data => {"tag_name" => @split_tags[0]}, :status => "pending")
       end
     
       respond_to do |fmt|
@@ -239,6 +234,10 @@ class PostController < ApplicationController
         @post = Post.find(params[:id])
       end
       
+      if @post.rating != 's'
+        raise ActiveRecord::RecordNotFound
+      end
+      
       @pools = Pool.find(:all, :joins => "JOIN pools_posts ON pools_posts.pool_id = pools.id", :conditions => "pools_posts.post_id = #{@post.id}", :order => "pools.name", :select => "pools.name, pools.id")
       @tags = {:include => @post.cached_tags.split(/ /)}
       set_title @post.cached_tags.tr("_", " ")
@@ -261,7 +260,7 @@ class PostController < ApplicationController
 		
     set_title "Exploring #{@day.year}/#{@day.month}/#{@day.day}"
 
-    @posts = Post.find(:all, :conditions => ["posts.created_at >= ? AND posts.created_at <= ? ", @day, @day.tomorrow], :order => "score DESC", :limit => 20)
+    @posts = Post.find(:all, :conditions => ["posts.created_at >= ? AND posts.created_at <= ? AND rating = 's'", @day, @day.tomorrow], :order => "score DESC", :limit => 20)
 
     respond_to_list("posts")
   end
@@ -282,7 +281,7 @@ class PostController < ApplicationController
 
     set_title "Exploring #{@start.year}/#{@start.month}/#{@start.day} - #{@end.year}/#{@end.month}/#{@end.day}"
 
-    @posts = Post.find(:all, :conditions => ["posts.created_at >= ? AND posts.created_at < ? ", @start, @end], :order => "score DESC", :limit => 20)
+    @posts = Post.find(:all, :conditions => ["posts.created_at >= ? AND posts.created_at < ? AND rating = 's'", @start, @end], :order => "score DESC", :limit => 20)
 
     respond_to_list("posts")
   end
@@ -303,7 +302,7 @@ class PostController < ApplicationController
 
     set_title "Exploring #{@start.year}/#{@start.month}"
 
-    @posts = Post.find(:all, :conditions => ["posts.created_at >= ? AND posts.created_at < ? ", @start, @end], :order => "score DESC", :limit => 20)
+    @posts = Post.find(:all, :conditions => ["posts.created_at >= ? AND posts.created_at < ? AND rating = 's'", @start, @end], :order => "score DESC", :limit => 20)
 
     respond_to_list("posts")
   end
@@ -345,7 +344,7 @@ class PostController < ApplicationController
     max_id = Post.maximum(:id)
     
     10.times do
-      post = Post.find(:first, :conditions => ["id = ? AND status <> 'deleted'", rand(max_id) + 1], :select => "id, cached_tags, status")
+      post = Post.find(:first, :conditions => ["id = ? AND status <> 'deleted' AND rating = 's'", rand(max_id) + 1], :select => "id, cached_tags, status")
 
       if post != nil && post.can_be_seen_by?(@current_user)
         redirect_to :action => "show", :id => post.id, :tag_title => post.tag_title

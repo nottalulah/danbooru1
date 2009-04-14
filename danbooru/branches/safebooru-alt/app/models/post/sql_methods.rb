@@ -2,7 +2,7 @@ module PostSqlMethods
   module ClassMethods
     def find_by_tag_join(tag, options = {})
       tag = tag.downcase.tr(" ", "_")
-      find(:all, :conditions => ["tags.name = ? AND posts.status <> 'deleted'", tag], :select => "posts.*", :joins => "JOIN posts_tags ON posts_tags.post_id = posts.id JOIN tags ON tags.id = posts_tags.tag_id", :limit => options[:limit], :offset => options[:offset], :order => (options[:order] || "posts.id DESC"))
+      find(:all, :conditions => ["tags.name = ? AND posts.status <> 'deleted' AND posts.rating = 's'", tag], :select => "posts.*", :joins => "JOIN posts_tags ON posts_tags.post_id = posts.id JOIN tags ON tags.id = posts_tags.tag_id", :limit => options[:limit], :offset => options[:offset], :order => (options[:order] || "posts.id DESC"))
     end
     
     def generate_sql_post_count_helper(tags)
@@ -163,31 +163,7 @@ module PostSqlMethods
         conds << "tags_index @@ to_tsquery('danbooru', E'" + tags_index_query.join(" & ") + "')"
       end
 
-      if q[:rating].is_a?(String)
-        case q[:rating][0, 1].downcase
-        when "s"
-          conds << "p.rating = 's'"
-
-        when "q"
-          conds << "p.rating = 'q'"
-
-        when "e"
-          conds << "p.rating = 'e'"
-        end
-      end
-
-      if q[:rating_negated].is_a?(String)
-        case q[:rating_negated][0, 1].downcase
-        when "s"
-          conds << "p.rating <> 's'"
-
-        when "q"
-          conds << "p.rating <> 'q'"
-
-        when "e"
-          conds << "p.rating <> 'e'"
-        end
-      end
+      conds << "p.rating = 's'"
 
       if q[:unlocked_rating] == true
         conds << "p.is_rating_locked = FALSE"

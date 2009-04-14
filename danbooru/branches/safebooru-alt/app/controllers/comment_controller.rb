@@ -61,7 +61,7 @@ class CommentController < ApplicationController
       @comments = Comment.paginate(Comment.generate_sql(params).merge(:per_page => 25, :page => params[:page], :order => "id DESC"))
       respond_to_list("comments")
     else
-      @posts = Post.paginate :order => "last_commented_at DESC", :conditions => "last_commented_at IS NOT NULL AND status <> 'deleted'", :per_page => 10, :page => params[:page]
+      @posts = Post.paginate :order => "last_commented_at DESC", :conditions => "last_commented_at IS NOT NULL AND status <> 'deleted' AND rating = 's'", :per_page => 10, :page => params[:page]
       @posts = @posts.select {|x| x.can_be_seen_by?(@current_user)}
     end
   end
