@@ -1,0 +1,4 @@
+<% form_tag(:action => "update") do %>
+  <%= hidden_field_tag "id", params[:id] %>
+  <%= render :partial => "form" %>
+<% end %>
