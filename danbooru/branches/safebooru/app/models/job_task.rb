@@ -85,18 +85,17 @@ class JobTask < ActiveRecord::Base
       when "mass_tag_edit"
         start = data["start_tags"]
         result = data["result_tags"]
-        user = User.find_name(data["updater_id"])
-      
+        user = User.find_name(data["updater_id"])      
         "start:#{start} result:#{result} user:#{user}"
-      
+    
       when "approve_tag_alias"
         ta = TagAlias.find(data["id"])
         "start:#{ta.name} result:#{ta.alias_name}"
-      
+    
       when "approve_tag_implication"
         ti = TagImplication.find(data["id"])
         "start:#{ti.predicate.name} result:#{ti.consequent.name}"
-      
+    
       when "calculate_tag_subscriptions"
         last_run = data["last_run"]
         "last run:#{last_run}"
@@ -108,11 +107,11 @@ class JobTask < ActiveRecord::Base
         else
           "tag:UNKNOWN"
         end
-      
+    
       when "calculate_post_count"
         "tag:" + data["tag_name"]
       end
-    rescue
+    rescue Exception
       "ERROR"
     end
   end
