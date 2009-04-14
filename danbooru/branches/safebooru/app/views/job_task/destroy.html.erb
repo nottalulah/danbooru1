@@ -1,6 +1,0 @@
-<h4>Delete Job #<%= @job_task.id %></h4>
-
-<% form_tag(:action => "destroy") do %>
-  <%= submit_tag "Yes" %>
-  <%= button_to_function "No", "location.back()" %>
-<% end %>
