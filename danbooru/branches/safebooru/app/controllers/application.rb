@@ -155,14 +155,6 @@ protected
   def set_title(title = CONFIG["app_name"])
     @page_title = CGI.escapeHTML(title)
   end
-  
-  def save_tags_to_cookie
-    if params[:tags] || (params[:post] && params[:post][:tags])
-      tags = Tag.scan_tags(params[:tags] || params[:post][:tags])
-      tags = TagAlias.to_aliased(tags) + Tag.scan_tags(cookies["recent_tags"])
-      cookies["recent_tags"] = tags.slice(0, 20).uniq.join(" ")
-    end
-  end
 
 =begin
   def check_load_average
@@ -208,7 +200,7 @@ protected
     if @current_user.is_anonymous?      
       cookies["blacklisted_tags"] = CONFIG["default_blacklists"]
     else
-      cookies["my_tags"] = @current_user.my_tags      
+      cookies["favorite_tags"] = @current_user.favorite_tags
       cookies["blacklisted_tags"] = @current_user.blacklisted_tags_array
     end
   end
