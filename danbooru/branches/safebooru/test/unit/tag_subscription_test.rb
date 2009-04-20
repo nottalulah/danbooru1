@@ -7,16 +7,6 @@ class TagSubscriptionTest < ActiveSupport::TestCase
     @test_number = 1
   end
   
-  def create_post(tags, params = {})
-    post = Post.create({:user_id => 1, :score => 0, :source => "", :rating => "s", :width => 100, :height => 100, :ip_addr => '127.0.0.1', :updater_ip_addr => "127.0.0.1", :updater_user_id => 1, :tags => tags, :status => "active", :file => upload_jpeg("#{RAILS_ROOT}/test/mocks/test/test#{@test_number}.jpg")}.merge(params))
-    @test_number += 1
-    post
-  end
-  
-  def create_tag_subscription(tags, params = {})
-    TagSubscription.create({:tag_query => tags, :name => "General", :user_id => 1}.merge(params))
-  end
-  
   def test_initial_posts
     p1 = create_post("tag1 tag2 tag3")
     p2 = create_post("tag2")

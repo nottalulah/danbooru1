@@ -8,12 +8,10 @@ class TagImplicationTest < ActiveSupport::TestCase
     
     @test_number = 1
     @impl = TagImplication.create(:predicate => "taga", :consequent => "tagb", :creator_id => 1, :is_pending => false)
-  end
-  
-  def create_post(tags, params = {})
-    post = Post.create({:user_id => 1, :score => 0, :source => "", :rating => "s", :width => 100, :height => 100, :ip_addr => '127.0.0.1', :updater_ip_addr => "127.0.0.1", :updater_user_id => 1, :tags => tags, :status => "active", :file => upload_jpeg("#{RAILS_ROOT}/test/mocks/test/test#{@test_number}.jpg")}.merge(params))
-    @test_number += 1
-    post
+    
+    ActionMailer::Base.delivery_method = :test
+    ActionMailer::Base.perform_deliveries = true
+    ActionMailer::Base.deliveries = []
   end
 
   def test_api

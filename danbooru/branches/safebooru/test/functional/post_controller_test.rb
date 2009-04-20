@@ -2,20 +2,16 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class PostControllerTest < ActionController::TestCase
   fixtures :users
-
-  def create_post(tags, post_number = 1, params = {})
-    Post.create({:user_id => 1, :score => 0, :source => "", :rating => "s", :width => 100, :height => 100, :ip_addr => '127.0.0.1', :updater_ip_addr => "127.0.0.1", :updater_user_id => 1, :tags => tags, :status => "active", :file => upload_jpeg("#{RAILS_ROOT}/test/mocks/test/test#{post_number}.jpg")}.merge(params))
-  end
   
-  def update_post(post, params = {})
-    post.update_attributes({:updater_user_id => 1, :updater_ip_addr => '127.0.0.1'}.merge(params))
+  def setup
+    @test_number = 1
   end
   
   def create_default_posts
-    p1 = create_post("tag1", 1)
-    p2 = create_post("tag2", 2)
-    p3 = create_post("tag3", 3)
-    p4 = create_post("tag4", 4)
+    p1 = create_post("tag1")
+    p2 = create_post("tag2")
+    p3 = create_post("tag3")
+    p4 = create_post("tag4")
     [p1, p2, p3, p4]
   end
   
@@ -40,9 +36,9 @@ class PostControllerTest < ActionController::TestCase
   def test_moderate
     ModQueuePost.destroy_all
     
-    p1 = create_post("hoge", 1, :status => "pending")
-    p2 = create_post("hoge", 2)
-    p3 = create_post("moge", 3)
+    p1 = create_post("hoge", :status => "pending")
+    p2 = create_post("hoge")
+    p3 = create_post("moge")
     
     p2.flag!("sage", 1)
     p2.reload
@@ -70,7 +66,7 @@ class PostControllerTest < ActionController::TestCase
   end
   
   def test_update
-    p1 = create_post("hoge", 1)
+    p1 = create_post("hoge")
     
     post :update, {:post => {:tags => "moge", :rating => "Explicit"}, :id => p1.id}, {:user_id => 3}
     p1.reload
@@ -79,7 +75,7 @@ class PostControllerTest < ActionController::TestCase
   end
   
   def test_destroy
-    p1 = create_post("hoge", 1, :user_id => 3)
+    p1 = create_post("hoge", :user_id => 3)
     
     get :delete, {:id => p1.id}, {:user_id => 3}
     assert_response :success
@@ -162,7 +158,7 @@ class PostControllerTest < ActionController::TestCase
   end
   
   def test_revert_tags
-    p1 = create_post("tag1", 1)
+    p1 = create_post("tag1")
     update_post(p1, :tags => "hoge")
     update_post(p1, :tags => "moge")
     
@@ -174,7 +170,7 @@ class PostControllerTest < ActionController::TestCase
   end
   
   def test_vote
-    p1 = create_post("tag1", 1)
+    p1 = create_post("tag1")
     
     post :vote, {:id => p1.id, :score => 1}, {:user_id => 3}
     p1.reload
@@ -184,7 +180,7 @@ class PostControllerTest < ActionController::TestCase
     p1.reload
     assert_equal(1, p1.score)
     
-    p2 = create_post("tag2", 2)
+    p2 = create_post("tag2")
 
     post :vote, {:id => p2.id, :score => 5}, {:user_id => 3}
     p2.reload
@@ -196,7 +192,7 @@ class PostControllerTest < ActionController::TestCase
   end
   
   def test_flag
-    p1 = create_post("tag1", 1)
+    p1 = create_post("tag1")
     
     post :flag, {:id => p1.id, :reason => "sage"}, {:user_id => 3}
     
@@ -212,7 +208,7 @@ class PostControllerTest < ActionController::TestCase
   end
   
   def test_undelete
-    p1 = create_post("tag1", 1, :status => "deleted")
+    p1 = create_post("tag1", :status => "deleted")
     
     post :undelete, {:id => p1.id}, {:user_id => 2}
     

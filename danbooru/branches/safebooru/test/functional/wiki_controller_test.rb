@@ -3,19 +3,15 @@ require File.dirname(__FILE__) + '/../test_helper'
 class WikiControllerTest < ActionController::TestCase
   fixtures :users
   
-  def create_page(title, params = {})
-    WikiPage.create({:title => title, :body => title, :user_id => 1, :ip_addr => "127.0.0.1", :is_locked => false}.merge(params))
-  end
-  
   def test_destroy
-    page = create_page("hoge")
+    page = create_wiki(:title => "hoge")
 
     post :destroy, {:title => "hoge"}, {:user_id => 2}    
     assert_nil(WikiPage.find_by_id(page.id))
   end
   
   def test_lock
-    page = create_page("hoge")
+    page = create_wiki(:title => "hoge")
     
     post :lock, {:title => "hoge"}, {:user_id => 2}
     page.reload
@@ -27,8 +23,8 @@ class WikiControllerTest < ActionController::TestCase
   end
   
   def test_index
-    page1 = create_page("hoge")
-    page2 = create_page("moge")
+    page1 = create_wiki(:title => "hoge")
+    page2 = create_wiki(:title => "moge")
     
     get :index
     assert_response :success
@@ -53,7 +49,7 @@ class WikiControllerTest < ActionController::TestCase
   end
   
   def test_update
-    page = create_page("hoge")
+    page = create_wiki(:title => "hoge")
     page.update_attributes(:body => "moge moge")
     
     get :edit, {:title => "hoge"}, {:user_id => 4}
@@ -68,7 +64,7 @@ class WikiControllerTest < ActionController::TestCase
   end
   
   def test_show
-    page = create_page("hoge")
+    page = create_wiki(:title => "hoge")
     page.update_attributes(:body => "moge moge")
     
     get :show, {:title => "hoge"}
@@ -76,7 +72,7 @@ class WikiControllerTest < ActionController::TestCase
   end
   
   def test_revert_unlocked
-    page = create_page("hoge")
+    page = create_wiki(:title => "hoge")
     page.update_attributes(:body => "hoge 2")
     page.update_attributes(:body => "hoge 3")
     
@@ -86,7 +82,7 @@ class WikiControllerTest < ActionController::TestCase
   end
 
   def test_revert_locked
-    page = create_page("hoge", :is_locked => true)
+    page = create_wiki(:title => "hoge", :is_locked => true)
     page.update_attributes(:body => "hoge hoge")
     page.update_attributes(:body => "hoge hoge hoge")
     
@@ -96,8 +92,8 @@ class WikiControllerTest < ActionController::TestCase
   end
   
   def test_recent_changes
-    page1 = create_page("hoge")
-    page2 = create_page("moge")
+    page1 = create_wiki(:title => "hoge")
+    page2 = create_wiki(:title => "moge")
     page2.update_attributes(:body => "moge moge")
     page2.update_attributes(:body => "moge moge moge")
     
@@ -106,7 +102,7 @@ class WikiControllerTest < ActionController::TestCase
   end
   
   def test_history
-    page = create_page("moge")
+    page = create_wiki(:title => "moge")
     page.update_attributes(:body => "moge moge")
     page.update_attributes(:body => "moge moge moge")
     
@@ -115,7 +111,7 @@ class WikiControllerTest < ActionController::TestCase
   end
   
   def test_diff
-    page = create_page("moge")
+    page = create_wiki(:title => "moge")
     page.update_attributes(:body => "moge moge")
     page.update_attributes(:body => "moge moge moge")
     
@@ -124,7 +120,7 @@ class WikiControllerTest < ActionController::TestCase
   end
   
   def test_rename
-    page = create_page("moge")
+    page = create_wiki(:title => "moge")
     
     get :rename, {:title => "moge"}, {:user_id => 2}
     assert_response :success
