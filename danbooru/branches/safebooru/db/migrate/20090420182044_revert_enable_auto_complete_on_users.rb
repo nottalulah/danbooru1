@@ -1,6 +1,6 @@
 class RevertEnableAutoCompleteOnUsers < ActiveRecord::Migration
   def self.up
-    remove_column "users", "enable_autocomplete`"
+    remove_column "users", "enable_autocomplete"
   end
 
   def self.down
