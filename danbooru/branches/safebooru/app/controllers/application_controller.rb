@@ -135,7 +135,7 @@ class ApplicationController < ActionController::Base
   
   before_filter :set_title
   before_filter :set_current_user
-  before_filter :init_cookies
+  # before_filter :init_cookies
   # around_filter :run_profile
   
   protected :build_cache_key
@@ -197,10 +197,10 @@ protected
   end
   
   def init_cookies
-    if @current_user.is_anonymous?      
-      cookies["blacklisted_tags"] = CONFIG["default_blacklists"]
+    if @current_user.is_anonymous?
+      cookies["blacklisted_tags"] = CONFIG["default_blacklists"].join(",")
     else
-      cookies["blacklisted_tags"] = @current_user.blacklisted_tags_array
+      cookies["blacklisted_tags"] = @current_user.blacklisted_tags_array.join(",")
     end
   end
 end
