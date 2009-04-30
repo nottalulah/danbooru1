@@ -1,6 +1,6 @@
 class PoolController < ApplicationController
   layout "default"
-  before_filter :member_only, :only => [:create, :destroy, :update]
+  before_filter :member_only, :except => [:index, :show]
   helper :post
   
   def index
@@ -70,7 +70,7 @@ class PoolController < ApplicationController
     @pool = Pool.find(params[:id])
 
     if request.post?
-      if @pool.can_be_updated_by?(@current_user)
+      if @current_user.has_permission?(@pool)
         @pool.destroy
         respond_to_success("Pool deleted", :action => "index")
       else
