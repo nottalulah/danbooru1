@@ -1,0 +1,48 @@
+<div id="post-view">
+  <% if @post.nil? %>
+    <h2>Nobody here but us chickens!</h2>
+  <% else %>
+    <%= render :partial => "post/show_partials/status_notices" %>
+
+    <div class="sidebar">
+      <%= render :partial => "search" %>
+      <%= print_advertisement("vertical") %>
+      <%= print_tag_sidebar(@post) %>
+      <%= render :partial => "post/show_partials/statistics_panel" %>
+      <%= render :partial => "post/show_partials/options_panel" %>
+      <%= render :partial => "post/show_partials/history_panel" %>
+      <%= render :partial => "post/show_partials/related_posts_panel" %>
+    </div>
+    <div class="content" id="right-col">
+      <%= print_advertisement("horizontal") %>
+      <%= render :partial => "post/show_partials/image" %>      
+      <%= render :partial => "post/show_partials/image_footer" %>
+      <%= render :partial => "post/show_partials/edit" %>
+      <%= render :partial => "post/show_partials/comments" %>
+    </div>
+
+    <% content_for("post_cookie_javascripts") do %>
+      <script type="text/javascript">
+        Post.observe_text_area("post_tags")
+      
+        <% if @post %>
+          var current_user = Cookie.get("login")
+          var favorited_by = <%= @post.favorited_by.map {|x| x.name}.to_json %>
+          if (favorited_by.include(current_user)) {
+            $("add-to-favs").hide()
+          } else {
+            $("remove-from-favs").hide()
+          }
+        <% end %>
+
+        RelatedTags.init(<%= @current_user.uploaded_tags.to_json %>, <%= @current_user.recent_tags.to_json %>)
+
+        <% if @current_user.always_resize_images? %>
+          Post.resize_image()
+        <% end %>
+      </script>
+    <% end %>
+  <% end %>
+</div>
+
+<%= render :partial => "footer" %>
