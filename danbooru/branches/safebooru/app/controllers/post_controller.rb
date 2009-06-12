@@ -2,9 +2,10 @@ class PostController < ApplicationController
   layout 'default'
 
   verify :method => :post, :only => [:update, :destroy, :create, :revert_tags, :vote, :flag], :redirect_to => {:action => :show, :id => lambda {|c| c.params[:id]}}
-  before_filter :check_load_average, :only => [:index, :atom, :piclens]
+  # before_filter :check_load_average, :only => [:index, :atom, :piclens]
   before_filter :member_only, :only => [:create, :upload, :destroy, :delete, :flag, :update, :revert_tags, :random]
   before_filter :janitor_only, :only => [:moderate, :undelete]
+  before_filter :privileged_only, :only => [:flag]
   after_filter :save_recent_tags, :only => [:update, :create]  
   # around_filter :cache_action, :only => [:index, :atom, :piclens]
 
@@ -19,7 +20,7 @@ class PostController < ApplicationController
       if load_avg > CONFIG["load_average_threshold"]
         render :file => "#{RAILS_ROOT}/public/503.html", :status => 503
         return false
-      end
+      end      
     end
   end
 
@@ -113,15 +114,21 @@ class PostController < ApplicationController
       respond_to_success("Post updated", {:action => "moderate"})
     else
       if params[:query]
-        @pending_posts = Post.find_by_sql(Post.generate_sql(params[:query] + " status:pending", :order => "id"))
-        @flagged_posts = Post.find_by_sql(Post.generate_sql(params[:query] + " status:flagged", :order => "id"))
+        @posts = Post.find_by_sql(Post.generate_sql(params[:query] + " status:pending"))
+        @posts += Post.find_by_sql(Post.generate_sql(params[:query] + " status:flagged"))
       else
-        @pending_posts = Post.find(:all, :conditions => "status = 'pending' AND rating = 's'", :order => "id")
-        @flagged_posts= Post.find(:all, :conditions => "status = 'flagged' AND rating = 's'", :order => "id")
+        @posts = Post.find(:all, :conditions => "status = 'pending' and rating = 's'")
+        @posts += Post.find(:all, :conditions => "status = 'flagged' and rating = 's'")
       end
 
-      @pending_posts = ModQueuePost.reject_hidden(@pending_posts, @current_user, params[:hidden])
-      @flagged_posts = ModQueuePost.reject_hidden(@flagged_posts, @current_user, params[:hidden])
+      @posts = ModQueuePost.reject_hidden(@posts, @current_user, params[:hidden])
+      @posts = @posts.sort_by do |post|
+        if post.flag_detail
+          post.flag_detail.created_at
+        else
+          post.created_at
+        end
+      end
     end
   end
 
@@ -347,7 +354,12 @@ class PostController < ApplicationController
   def flag
     post = Post.find(params[:id])
     if post.status != "active"
-      respond_to_error("Can only flag active posts", :action => "show", :id => params[:id])
+      respond_to_error("Can only unapprove active posts", :action => "show", :id => params[:id])
+      return
+    end
+    
+    if post.flag_detail
+      respond_to_error("This post has been previously unapproved and cannot be unapproved again", :action => "show", :id => params[:id])
       return
     end
 
