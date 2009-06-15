@@ -20,12 +20,15 @@
 		var pref = document.getElementById("pref.extensions.danbooruUp.autocomplete.enabled");
 		var elements = [	"enableSiteAC",
 		    "altSearch",
-		    "threadedSearch",
 		    "resultLimit",
 		    "updateURL",
-		    "clearTags",
+		    "clearTagHistory",
 		    "updateNow",
+		    "cleanup",
+		    "relatedUpdateURL",
+		    "relatedUpdateNow",
 		    "updateOnStartup",
+		    "fastUpdate",
 		    "updateBeforeDialog",
 		    "updateAfterDialog",
 		    "updateOnTimer",
@@ -34,8 +37,22 @@
 		    document.getElementById(elements[i]).disabled = !pref.value;
 		}
 		if (pref.value) {
+		    onReadUpdateOnStartup();
 		    onReadUpdateOnTimer();
 		}
+	    }
+
+	    function onReadUpdateOnStartup()
+	    {
+		onReadUpdateOnStartupChanged();
+		return undefined;
+	    }
+
+	    function onUpdateOnStartupChanged()
+	    {
+		var pref = document.getElementById("pref.extensions.danbooruUp.autocomplete.update.onstartup");
+		var box = document.getElementById("fastUpdate");
+		box.disabled = !pref.value;
 	    }
 
 	    function onReadUpdateOnTimer()
@@ -51,7 +68,7 @@
 		box.disabled = !pref.value;
 	    }
 
-	    function clearTags()
+	    function clearTagHistory()
 	    {
 		var promptService = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
 		.getService(Components.interfaces.nsIPromptService);
@@ -59,18 +76,7 @@
 		if (promptService.confirm(window,
 					  bundle.getString("danbooruUp.prompt.title"),
 					  bundle.getString("danbooruUp.msg.clearconfirm")))
-		    Components.classes['@unbuffered.info/danbooru/helper-service;1'].getService(Components.interfaces.danbooruIHelperService).tagService.clearTags();
-	    }
-
-	    function clearHistory()
-	    {
-		var promptService = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
-		.getService(Components.interfaces.nsIPromptService);
-		var bundle = document.getElementById("bundleDanbooruOptions");
-		if (promptService.confirm(window,
-					  bundle.getString("danbooruUp.prompt.title"),
-					  bundle.getString("danbooruUp.msg.clearhistoryconfirm")))
-		    Components.classes['@unbuffered.info/danbooru/helper-service;1'].getService(Components.interfaces.danbooruIHelperService).tagService.clearHistory();
+		    Components.classes['@unbuffered.info/danbooru/helper-service;1'].getService(Components.interfaces.danbooruIHelperService).tagService.removeAllEntries();
 	    }
 
 	    // opens download progress window
@@ -88,16 +94,17 @@
 			    name="extensions.danbooruUp.autocomplete.site.enabled"		type="bool" />
 		<preference id="pref.extensions.danbooruUp.autocomplete.altsearch"
 			    name="extensions.danbooruUp.autocomplete.altsearch"			type="bool" />
-		<preference id="pref.extensions.danbooruUp.autocomplete.threaded"
-			    name="extensions.danbooruUp.autocomplete.threaded"			type="bool" />
 		<preference id="pref.extensions.danbooruUp.autocomplete.limit"
 			    name="extensions.danbooruUp.autocomplete.limit"			type="int"/>
 		<preference id="pref.extensions.danbooruUp.updateuri"				instantApply="true"
 			    name="extensions.danbooruUp.updateuri"				type="string"/>
-		<preference id="pref.extensions.danbooruUp.autocomplete.keephistory"
-			    name="extensions.danbooruUp.autocomplete.keephistory"		type="bool"/>
+		<preference id="pref.extensions.danbooruUp.relatedupdateuri"			instantApply="true"
+			    name="extensions.danbooruUp.relatedupdateuri"			type="string"/>
 		<preference id="pref.extensions.danbooruUp.autocomplete.update.onstartup"
+			    onsyncfrompreference="return onUpdateOnStartupChanged();"
 			    name="extensions.danbooruUp.autocomplete.update.onstartup"		type="bool"/>
+		<preference id="pref.extensions.danbooruUp.autocomplete.update.faststartup"
+			    name="extensions.danbooruUp.autocomplete.update.faststartup"	type="bool"/>
 		<preference id="pref.extensions.danbooruUp.autocomplete.update.beforedialog"
 			    name="extensions.danbooruUp.autocomplete.update.beforedialog"	type="bool"/>
 		<preference id="pref.extensions.danbooruUp.autocomplete.update.afterdialog"
@@ -124,15 +131,7 @@
 			  class="indent"/>
 	</hbox>
 	<groupbox>
-		<checkbox id="altSearch"
-			  preference="pref.extensions.danbooruUp.autocomplete.altsearch"
-			  label="&danbooruUpOptions.altSearch.label;"
-			  accesskey="&danbooruUpOptions.altSearch.accesskey;"/>
-		<checkbox id="threadedSearch" 
-			  preference="pref.extensions.danbooruUp.autocomplete.threaded"
-			  label="&danbooruUpOptions.threadedSearch.label;"
-			  accesskey="&danbooruUpOptions.threadedSearch.accesskey;"
-			  tooltiptext="&danbooruUpOptions.threadedSearch.tooltip;"/>
+		<checkbox id="altSearch" label="&danbooruUpOptions.altSearch.label;" accesskey="&danbooruUpOptions.altSearch.accesskey;" preference="pref.extensions.danbooruUp.autocomplete.altsearch" />
 		<hbox align="center">
 			<label control="resultLimit"
 			       value="&danbooruUpOptions.resultLimit.label;"
@@ -144,7 +143,6 @@
 	</groupbox>
 	<groupbox>
 		<caption label="&danbooruUpOptions.urlgroup.label;"/>
-		<description id="updateURLdescription">&danbooruUpOptions.updateURL.description;</description>
 		<hbox align="center">
 			<label control="updateURL"
 			       value="&danbooruUpOptions.updateURL.label;"
@@ -153,25 +151,30 @@
 				 preference="pref.extensions.danbooruUp.updateuri" />
 		</hbox>
 		<hbox align="center" pack="end">
-			<button id="clearTags"
-				label="&danbooruUpOptions.clearTags.label;"
-				accesskey="&danbooruUpOptions.clearTags.accesskey;"
-				oncommand="clearTags();"/>
+			<button id="clearTagHistory"
+				label="&danbooruUpOptions.clearTagHistory.label;"
+				oncommand="clearTagHistory();"/>
 			<button id="updateNow"
 				label="&danbooruUpOptions.updateNow.label;"
 				accesskey="&danbooruUpOptions.updateNow.accesskey;"
 				oncommand="openDownloader('tagupdate')"/>
+			<button id="cleanup"
+				label="&danbooruUpOptions.cleanup.label;"
+				accesskey="&danbooruUpOptions.cleanup.accesskey;"
+				oncommand="openDownloader('tagcleanup')"/>
 		</hbox>
-		<checkbox id="keepHistory"
-			  preference="pref.extensions.danbooruUp.autocomplete.keephistory"
-			  label="&danbooruUpOptions.keepHistory.label;"
-			  accesskey="&danbooruUpOptions.keepHistory.accesskey;"
-			  tooltiptext="&danbooruUpOptions.keepHistory.tooltip;"/>
+		<hbox align="center">
+			<label control="relatedUpdateURL"
+			       value="&danbooruUpOptions.relatedUpdateURL.label;"
+			       accesskey="&danbooruUpOptions.relatedUpdateURL.accesskey;" align="bottom"/>
+			<textbox id="relatedUpdateURL" flex="1"
+				 preference="pref.extensions.danbooruUp.relatedupdateuri" />
+		</hbox>
 		<hbox align="center" pack="end">
-		<button id="clearHistory"
-			label="&danbooruUpOptions.clearHistory.label;"
-			accesskey="&danbooruUpOptions.clearHistory.accesskey;"
-			oncommand="clearHistory()"/>
+			<button id="relatedUpdateNow"
+				label="&danbooruUpOptions.relatedUpdateNow.label;"
+				accesskey="&danbooruUpOptions.relatedUpdateNow.accesskey;"
+				oncommand="openDownloader('relatedtagdownload')"/>
 		</hbox>
 	</groupbox>
 	<groupbox align="start">
@@ -179,7 +182,14 @@
 		<checkbox id="updateOnStartup"
 			  preference="pref.extensions.danbooruUp.autocomplete.update.onstartup"
 			  label="&danbooruUpOptions.updateOnStartup.label;"
-			  accesskey="&danbooruUpOptions.updateOnStartup.accesskey;"/>
+			  accesskey="&danbooruUpOptions.updateOnStartup.accesskey;"
+			  onsyncfrompreference="onReadUpdateOnStartup();"/>
+		<checkbox id="fastUpdate"
+			  preference="pref.extensions.danbooruUp.autocomplete.update.faststartup"
+			  label="&danbooruUpOptions.fastUpdate.label;"
+			  accesskey="&danbooruUpOptions.fastUpdate.accesskey;"
+			  tooltiptext="&danbooruUpOptions.fastUpdate.tooltip;"
+			  class="indent"/>
 		<groupbox>
 			<caption label="&danbooruUpOptions.updateOnUpload.label;" />
 			<checkbox id="updateBeforeDialog"

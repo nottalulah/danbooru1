@@ -16,7 +16,7 @@ const cMinTagUpdateInterval = 1 * 60 * 1000;
 
 function alert(msg)
 {
-	promptService.alert(null, 'debug', msg);
+	promptService.alert(null, danbooruUpMsg.GetStringFromName('danbooruUp.err.title'), msg);
 }
 
 function danbooruUpHitch(ctx, what)
@@ -70,6 +70,8 @@ var danbooruUpHelperObject = {
 		this._danbooruUpMsg = Cc['@mozilla.org/intl/stringbundle;1'].getService(Ci.nsIStringBundleService)
 					.createBundle('chrome://danbooruup/locale/danbooruUp.properties');
 
+		//obService.addObserver(this, "danbooru-options-changed", false);
+
 		this._branch = prefService.getBranch("extensions.danbooruUp.");
 		this._branch.QueryInterface(Components.interfaces.nsIPrefBranch2);
 		this._branch.addObserver("", this, false);
@@ -92,6 +94,8 @@ var danbooruUpHelperObject = {
 		}
 
 		this.startupUpdate();
+
+		this.loadScripts();
 	},
 	unregister: function()
 	{
@@ -102,7 +106,38 @@ var danbooruUpHelperObject = {
 	//
 	// danbooruTagUpdater
 	//
+	mMaxID:-1,
 	mTimer:null,
+
+	/*
+	browserWindows:[],
+	registerBrowser: function(browserWin) {
+		var existing;
+
+		for (var i = 0; existing = this.browserWindows[i]; i++) {
+			if (existing == browserWin) {
+				throw new Error("Browser window has already been registered.");
+			}
+		}
+this.log('registering a '+browserWin+'('+this.browserWindows.length+')');
+		this.browserWindows.push(browserWin);
+this.log('now have '+this.browserWindows.length);
+	},
+
+	unregisterBrowser: function(browserWin) {
+		var existing;
+
+		for (var i = 0; existing = this.browserWindows[i]; i++) {
+			if (existing == browserWin) {
+				this.browserWindows.splice(i, 1);
+				return;
+			}
+		}
+this.log(this.browserWindows.length+' after unregistering');
+
+		throw new Error("Browser window is not registered.");
+	},
+	/**/
 
 	getMaxID: function()
 	{
@@ -154,8 +189,13 @@ var danbooruUpHelperObject = {
 			return;
 		if (!this._branch.getBoolPref("autocomplete.update.onstartup"))
 			return;
+		if (this._branch.getBoolPref("autocomplete.update.faststartup") &&
+			this.tagService.rowCount > 0) {
+			full = false;
+			this.mMaxID = this.getMaxID();
+		}
 		this._branch.setIntPref("autocomplete.update.lastupdate", Date.now());
-		try { this.update(false); }
+		try { this.update(full, false); }
 		catch(e) {
 			__log("DanbooruUp startup update failed: "+e);
 		}
@@ -170,9 +210,9 @@ var danbooruUpHelperObject = {
 			this.mTimer = null;
 			return;
 		}
-		this.update(false);
+		this.update(false, false);
 	},
-	update: function(aInteractive, aListener)
+	update: function(aFull, aInteractive, aListener)
 	{
 		if (!this.tagService) return Components.results.NS_ERROR_NOT_AVAILABLE;
 		if (!this._branch.getIntPref("autocomplete.update.lastupdate") && (this._branch.getIntPref("autocomplete.update.lastupdate") < Date.now() + cMinTagUpdateInterval))
@@ -193,17 +233,16 @@ var danbooruUpHelperObject = {
 		}
 
 		locationURL.query = "limit=0";
-		var maxId = this.getMaxID();
-		if (maxId)
+		if(this.mMaxID>0 && !aFull)
 		{
-			locationURL.query += "&after_id="+(maxId);
+			locationURL.query += "&after_id="+(this.mMaxID+1);
 		}
-		// dump("using " + locationURL.spec + "\n");
+		dump("using " + locationURL.spec + "\n");
 
 		this._updating = true;
 		this._interactive = aInteractive;
 		try {
-			this.tagService.updateTagListFromURI(locationURL.spec, aListener);
+			this.tagService.updateTagListFromURI(locationURL.spec, true, aListener);
 		} catch (e) {
 			if(e.result==Components.results.NS_ERROR_NOT_AVAILABLE)
 			{
@@ -219,6 +258,7 @@ var danbooruUpHelperObject = {
 			}
 		}
 		this._updating = false;
+		this.mMaxID = this.getMaxID();
 		this._branch.setIntPref("autocomplete.update.lastupdate", Date.now());
 
 		if (this._branch.getBoolPref("autocomplete.update.ontimer") && !this.mTimer)
@@ -232,11 +272,11 @@ var danbooruUpHelperObject = {
 		var locationURL	= ioService.newURI(this._branch.getComplexValue("updateuri", Ci.nsISupportsString).data, '', null)
 				.QueryInterface(Ci.nsIURL);
 		locationURL.query = "limit=0";
-		// dump("using " + locationURL.spec + "\n");
+		dump("using " + locationURL.spec + "\n");
 		this._updating = true;
 		this._interactive = aInteractive;
 		try {
-			this.tagService.updateTagListFromURI(locationURL.spec, aListener);
+			this.tagService.updateTagListFromURI(locationURL.spec, false, aListener);
 		} catch (e) {
 			if(e.result==Components.results.NS_ERROR_NOT_AVAILABLE)
 			{
@@ -251,6 +291,7 @@ var danbooruUpHelperObject = {
 			throw e;
 		}
 		this._updating = false;
+		this.mMaxID = this.getMaxID();
 	},
 
 	//
@@ -333,12 +374,13 @@ var danbooruUpHelperObject = {
 	//
 	// danbooruSiteAutocompleter
 	//
+	prototype_ver:'',
 	script_src:[],
 	script_ins:'',
-	files: ["chrome://danbooruup/content/extra/completer.js",
-		"chrome://danbooruup/content/extra/autoCompleterHTMLPopup.js",
-		"chrome://danbooruup/content/autoCompleter.js",
-		"chrome://danbooruup/content/extra/attacher.js",
+	files: ["chrome://danbooruup/content/extra/prototype.js", // needs to be first for below
+		"chrome://danbooruup/content/extra/effects.js",
+		"chrome://danbooruup/content/extra/controls.js",
+		"chrome://danbooruup/content/extra/du-autocompleter.js"
 		],
 	// load scripts as strings to hopefully save some minor amount of processing time
 	// at the cost of memory
@@ -350,14 +392,24 @@ var danbooruUpHelperObject = {
 				var script = ioService.newURI(this.files[i],null,null)
 				this.script_src.push(this.getContents(script));
 			}
-			this.script_ins = this.getContents(ioService.newURI("chrome://danbooruup/content/extra/ac-insert2.js",null,null));
+			this.script_ins = this.getContents(ioService.newURI("chrome://danbooruup/content/extra/ac-insert.js",null,null));
 		} catch(x) { Components.utils.reportError(x); }
 
+		var sandbox = new Components.utils.Sandbox('about:blank');
+		// fill sandbox with just enough fake values to get the version from the Prototype object
+		sandbox.window = {};
+		sandbox.document = {
+			evaluate:true,
+			HTMLElement:true,
+			createElement:function (x) new sandbox.Object
+		};
+		sandbox.navigator = {userAgent:'Gecko'};
+		// suppress inevitable error from not being an actual document scope
+		try { Components.utils.evalInSandbox(this.script_src[0], sandbox); } catch(ex) {}
+		this.prototype_ver = sandbox.Prototype.Version;
 	},
 
-	// Decides whether to inject autocomplete javascript into a loaded page, and does so.
-	// Called from danbooruUp.js
-	contentLoaded: function(win)
+	contentLoaded: function (win)
 	{
 		// only putting the check here is lazy, but works
 		if (!this._branch.getBoolPref("autocomplete.enabled"))
@@ -382,8 +434,7 @@ var danbooruUpHelperObject = {
 				var uri = ioService.newURI(sites[i], null, null);
 				if (winUri.prePath != uri.prePath) continue;
 				//this.log(winUri.spec+' matched ' + uri.spec);
-				// 
-				if (true || winUri.filePath.match(/\/post\/(list|view|show|add|upload)(\/|\.html(\?|$)|\?|$)/) ||
+				if (winUri.filePath.match(/\/post\/(list|view|show|add|upload)(\/|\.html(\?|$)|\?|$)/) ||
 					winUri.filePath.match(/\/post(\/index(\.html)?|\/|$)/) ||
 					winUri.filePath.match(/\/user(\/edit(\.html)?|\/|$)/) ||
 					winUri.filePath.match(/\/tag(\/mass_edit|\/rename|\/edit|_alias|_implication)(\/|$)/)) {
@@ -395,7 +446,7 @@ var danbooruUpHelperObject = {
 					this.inject(href, unsafeWin);
 					return;
 				}
-			} catch(x) {__log(x);}
+			} catch(x) {}
 		}
 		return;
 	},
@@ -408,59 +459,45 @@ var danbooruUpHelperObject = {
 		return wrap;
 	},
 
-	inject: function(url, unsafeContentWin)
+	inject: function (url, unsafeContentWin)
 	{
-		this.loadScripts();
+		// we want our prototype/effects/control.js scripts to run in a sandbox
 		var safeWin = new XPCNativeWrapper(unsafeContentWin);
 		var sandbox = new Components.utils.Sandbox(safeWin);
-		sandbox.unsafeWindow = unsafeContentWin;
 		sandbox.window = safeWin;
 		sandbox.document = sandbox.window.document;
-		sandbox.__proto__ = safeWin;
+		sandbox.unsafeWindow = unsafeContentWin;
 		sandbox.GM_log = danbooruUpHitch(this, "log");
+		sandbox.danbooruUpSearchTags = danbooruUpHitch(this, "searchTags");
+		sandbox.prototype_ver = new sandbox.String(this.prototype_ver);
+		sandbox.__proto__ = safeWin;
+		sandbox.altsearch = this._branch.getBoolPref('autocomplete.altsearch');
 
+		// put useful declarations into style array inside sandbox
 		const TAGTYPE_COUNT = 5;
+		var rx = new RegExp("\\s*(background(-\\w+)?|border(-\\w+)?|color|font(-\\w+)?|(-moz-)?padding(-\\w+)?|letter-spacing|margin(-\\w+)?|outline(-\\w+)?|text(-\\w+)?)\\s*:.*;","gm");
 		var prefs = prefService.getBranch("extensions.danbooruUp.tagtype.");
-		Components.utils.evalInSandbox("var style_arr = [];", sandbox);
-		for (let i=0, rule; i<TAGTYPE_COUNT; i++) {
-			// rule = prefs.getCharPref(i).replace(/[{}]/g, '').match(rx).join('').split(';').join(";\n");
-			// rule = rule.replace(/^\s*-moz[^:]+\s*:[^;]+;/mg, '').replace(/\s{2,}/mg,'');
-			rule = prefs.getCharPref(i);
-			Components.utils.evalInSandbox("style_arr['"+ i +"'] = atob('"+ btoa(rule) +"');", sandbox);
-			//rule = prefs.getCharPref(i+".selected").replace(/[{}]/g, '').match(rx).join('').split(';').join(";\n");
-			//rule = rule.replace(/^\s*-moz[^:]+\s*:[^;]+;/mg, '').replace(/\s{2,}/mg,'');
-			rule = prefs.getCharPref(i + '.selected');
-			Components.utils.evalInSandbox("style_arr['"+ i +".selected'] = atob('"+ btoa(rule) +"');", sandbox);
-		}
 
-		function doSearch(e)
-		{
-			var command = e.target.getAttribute('command');
-			var query = e.target.getAttribute('query');
-			if (command != 'search')
-				return;
-			danbooruUpHelperObject.tagService.autocompleteSearch(query, ['__ALL__'],
-				function(tag, result) {
-					Components.utils.evalInSandbox('unsafeWindow.danbooruUpCompleterResult = ' + [tag, result].toSource() + ';', sandbox);
-					var evt = sandbox.document.createEvent('Events');
-					evt.initEvent('DanbooruUpSearchResultEvent', true, false);
-					sandbox.window.dispatchEvent(evt);
-				}
-			);
+		Components.utils.evalInSandbox("var style_arr = [];", sandbox);
+		for(let i=0, rule; i<TAGTYPE_COUNT; i++) {
+			rule = prefs.getCharPref(i).replace(/[{}]/g, '').match(rx).join('').split(';').join(";\n");
+			rule = rule.replace(/^\s*-moz[^:]+\s*:[^;]+;/mg, '').replace(/\s{2,}/mg,'');
+			Components.utils.evalInSandbox("style_arr['"+ i +"'] = atob('"+ btoa(rule) +"');", sandbox);
+			rule = prefs.getCharPref(i+".selected").replace(/[{}]/g, '').match(rx).join('').split(';').join(";\n");
+			rule = rule.replace(/^\s*-moz[^:]+\s*:[^;]+;/mg, '').replace(/\s{2,}/mg,'');
+			Components.utils.evalInSandbox("style_arr['"+ i +".selected'] = atob('"+ btoa(rule) +"');", sandbox);
 		}
 
 		try {
 			// load in the source from the content package
 			Components.utils.evalInSandbox("var script_arr = [];", sandbox);
-			var lineFinder = new Error();
 			for (let i=0; i<this.script_src.length; i++) {
 				sandbox.script_arr.push(this.script_src[i]);
-				// Components.utils.evalInSandbox(this.script_src[i], sandbox);
 			}
 
 			// load in the inserter script
+			var lineFinder = new Error();
 			Components.utils.evalInSandbox(this.script_ins, sandbox);
-			sandbox.document.addEventListener('DanbooruUpSearchEvent', doSearch, false);
 		} catch (x) {
 			x.lineNumber -= lineFinder.lineNumber-1;
 			Components.utils.reportError(x);
@@ -534,6 +571,54 @@ var HelperModule = new Object();
 HelperModule.registerSelf = function(compMgr, fileSpec, location, type)
 {
 	var compMgr = compMgr.QueryInterface(Ci.nsIComponentRegistrar);
+
+	if (!this._deferred)
+	{
+		this._deferred = true;
+
+	// Check if this is built with a bizarro OS_TARGET
+	try {
+	if (Cc["@mozilla.org/xre/app-info;1"].getService(Ci.nsIXULRuntime).OS == 'linux-gnu')
+	{
+		//__log("linux-gnu detected");
+		// find the extension directory
+		var dirs = Cc["@mozilla.org/file/directory_service;1"].getService(Ci.nsIProperties)
+				.get("XREExtDL", Ci.nsISimpleEnumerator);
+		var dir;
+		while(dirs.hasMoreElements())
+		{
+			dir = dirs.getNext().QueryInterface(Ci.nsILocalFile);
+			//__log("checking "+dir.path);
+			if(dir.leafName == '{7209145A-6A2A-42C1-99EB-4DE7293990E1}')
+				break;
+			dir = null;
+		}
+		// rename the platform component directory
+		if (dir)
+		{
+			//__log("locked on");
+			var moveDir;
+			dir.append('platform');
+			moveDir = dir.clone();
+			moveDir.append('Linux_x86-gcc3');
+			//__log("using "+moveDir.path+(moveDir.exists?" (exists)":" (doesn't exist)"));
+			if(moveDir.exists())
+			{
+				moveDir.moveTo(dir, 'linux-gnu_x86-gcc3');
+				// moveDir will still point to the old path, so we need to use dir
+				dir.append('linux-gnu_x86-gcc3');
+				dir.append('components');
+				__log("danbooruUpHelper: registering "+dir.path);
+				compMgr.autoRegister(dir);
+			}
+		}
+	}
+	} catch(ex) {
+		__log("danbooruUphelper: exception caught during OS_TARGET fix:\n"+ex);
+	}
+
+		throw Components.results.NS_ERROR_FACTORY_REGISTER_AGAIN;
+	}
 
 	compMgr.registerFactoryLocation(DANBOORUUPHELPER_CID,
 			"Danbooru Helper Service",

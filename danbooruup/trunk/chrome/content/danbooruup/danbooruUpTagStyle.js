@@ -1,25 +1,56 @@
 // -*- Mode: javascript; tab-width: 8; indent-tabs-mode: t; javascript-indent-level: 8; -*-
 // applies custom CSS for tag types to XUL windows
 
-function danbooruAddTagTypeStyleSheet(getStyle, sidn) {
+function danbooruAddTagTypeStyleSheet() {
 	const TAGTYPE_COUNT = 5;
-	var selector = '.danbooru-autocomplete';
-	var column = ' description';
-	var sid = '';
+	var css = "";
+	var selector = ".danbooru-autocomplete-treebody";
+	var column = "treecolAutoCompleteValue";
+	var sid = "";
+	var optionsDialog = false;
 
-	// Version the classes, useful if you can't remove styles.
-	if (sidn)
-		sid = '-sid' + sidn;
+	if(document.location.href == "chrome://danbooruup/content/danbooruUpOptions.xul") {
+		optionsDialog = true;
+
+		sid = "-sid" + getSID();
+		selector = "#tagTreeBody" + selector;
+		column = "tagTree-type";
+	}
+//selector='treechildren';
+
+	var prefs = Components.classes["@mozilla.org/preferences-service;1"]
+			.getService(Components.interfaces.nsIPrefService).getBranch("extensions.danbooruUp.tagtype.");
+
+	function getStyle(st)
+	{
+		var s = '';
+		if(optionsDialog)
+			try { s = gStyles[st]; } catch (ex) { }
+		if(!s)
+			try { s = prefs.getCharPref(st); } catch (ex) { }
+//	Components.classes["@mozilla.org/consoleservice;1"].getService(Components.interfaces.nsIConsoleService).
+//		logStringMessage(st + " ---\n" + s);
+
+		return s;
+	}
 
 	// construct rules
-	var css = "";
 	for(var i=0, head, rule; i<TAGTYPE_COUNT; i++) {
-		css += selector + ' .danbooru-tagtype-' + i + sid + '' + column;
-		css += '\n{\n' + getStyle(i) + '\n}\n';
+		head = selector + "::-moz-tree-cell-text(danbooru-tag-type-" + i + sid + ", " + column;
+		css += head + "), description.danbooru-tag-type-" + i
 
-		css += selector + ' .danbooru-tagtype-' + i + sid + '[selected="true"]' + column;
-		css += '\n{\n' + getStyle(i+'.selected')  + '\n}\n';
+		rule = getStyle(i).replace(/[{}]/g, '');
+		css += "\n{\n" + rule + "\n}\n";
+
+		rule = getStyle(i+".selected").replace(/[{}]/g, '');
+		css += head + ", selected), description.danbooru-tag-type-" + i + "[selected=\"true\"]";
+		css += "\n{\n" + rule + "\n}\n";
 	}
+
+	//css += selector + "::-moz-tree-cell-text\n{\n-moz-padding-start: "+gDanbooruManager.getSID()+"px !important;\n}\n";
+	//css += selector + "::-moz-tree-cell-text(selected)\n{\nfont-weight: bold;\n}\n";
+//	Components.classes["@mozilla.org/consoleservice;1"].getService(Components.interfaces.nsIConsoleService).
+//		logStringMessage(css);
 
 	var data = "data:text/css;base64," + btoa(css);
 	var pi = document.createProcessingInstruction('xml-stylesheet', 'type="text/css" href="' + data + '"');
@@ -32,5 +63,21 @@ function danbooruAddTagTypeStyleSheet(getStyle, sidn) {
 	}
 
 	document.insertBefore(pi, document.firstChild);
+
+	if(optionsDialog) {
+		invalidateTagTree();
+	}
 }
+
+/*
+treechildren.danbooru-autocomplete-treebody::-moz-tree-row(selected) {
+  background-color: Highlight;
+}
+treechildren.danbooru-autocomplete-treebody::-moz-tree-cell-text(selected) {
+  color: HighlightText !important;
+}
+*/
+
+//if(document.location.href != "chrome://danbooruup/content/danbooruUpOptions.xul")
+//	setTimeout(danbooruAddTagTypeStyleSheet, 200);
 
