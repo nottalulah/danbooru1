@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://danbooruup/skin/danbooruup-autocomplete.css" type="text/css"?>
+<overlay id="danbooruUpToolbarOverlay" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <script type="application/x-javascript" src="chrome://danbooruup/content/danbooruUpTagStyle.js"/>
+  <toolbox id="navigator-toolbox">
+    <toolbar id="danbooru-toolbar">
+      <hbox id="danbooru-navbar">
+        <textbox id="danbooru_input" type="danbooruac" autocompletesearch="danboorutag"/>
+      </hbox>
+    </toolbar>
+  </toolbox>
+</overlay>

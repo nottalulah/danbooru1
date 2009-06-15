@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/global.css" type="text/css"?>
+<?xml-stylesheet href="chrome://mozapps/content/preferences/preferences.css" type="text/css"?>
+<?xml-stylesheet href="chrome://browser/skin/preferences/preferences.css" type="text/css"?>
+<?xml-stylesheet href="chrome://danbooruup/skin/danbooruup-autocomplete.css" type="text/css"?>
+<?xml-stylesheet href="chrome://danbooruup-css/skin/danbooruUpOptions.css" type="text/css"?>
+
+<!DOCTYPE prefwindow [
+<!ENTITY % danbooruUpOptionsDTD SYSTEM "chrome://danbooruup/locale/danbooruUpOptions.dtd">
+%danbooruUpOptionsDTD;
+]>
+
+<prefwindow id="danbooruUpOptions" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	windowtype="danbooruUp:Options"
+	title="&danbooruUpOptions.title;"
+	onkeypress="return gDanbooruManager.onWindowKeyPress(event);"
+	onload="var nl=&quot;\n&quot;; try{gDanbooruManager.onLoad();}catch(e){dump(e+nl);} /*window.setTimeout(function(){dump('panel '+ document.getElementById('tagTreeBox') + ' : ' + gTagView + nl)}, 0)*/"
+	onunload="gDanbooruManager.onUnload();"
+	onbeforeaccept="gDanbooruManager.onOK();"
+	ondialogcancel="return gDanbooruManager.onDialogCancel();"
+	persist="screenX screenY">
+
+	<script type="application/javascript" src="chrome://danbooruup/content/danbooruUpTagStyle.js"/>
+	<script type="application/javascript;version=1.7" src="chrome://danbooruup/content/danbooruUpOptions.js"/>
+
+	<prefpane id="danbooruUpGeneralPane" label="&danbooruUpOptions.generalTab.label;"
+		  src="chrome://danbooruup/content/danbooruUpOptions-general.xul"
+		  />
+
+	<prefpane id="danbooruUpStylePane" label="&danbooruUpOptions.styleTab.label;"
+		  src="chrome://danbooruup/content/danbooruUpOptions-style.xul"
+		  />
+
+	<prefpane id="danbooruUpDanbooruPane" label="&danbooruUpOptions.danbooruTab.label;"
+		  src="chrome://danbooruup/content/danbooruUpOptions-danbooru.xul"
+		  />
+
+	<prefpane id="danbooruUpAutocompletePane" label="&danbooruUpOptions.autocompleteTab.label;"
+		  src="chrome://danbooruup/content/danbooruUpOptions-autocomplete.xul"
+		  />
+</prefwindow>

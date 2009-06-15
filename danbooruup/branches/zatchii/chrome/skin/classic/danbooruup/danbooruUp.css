@@ -1,0 +1,52 @@
+@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+@namespace html url("http://www.w3.org/1999/xhtml");
+
+/* upload dialog */
+
+toolbarbutton#nextSrcBtn {
+	list-style-image: url("chrome://danbooruup/skin/arrow-rit-sharp.gif");
+}
+toolbarbutton#prevSrcBtn {
+	list-style-image: url("chrome://danbooruup/skin/arrow-lft-sharp.gif");
+}
+
+toolbarbutton#nextSrcBtn[disabled="true"],
+toolbarbutton#prevSrcBtn[disabled="true"] {
+	opacity: 0.5;
+}
+
+toolbarbutton#artistSearch {
+	/* unfortunately this causes the button to balloon to an unacceptable size
+	 * list-style-image: url("chrome://browser/skin/Search-glass.png");
+	 * -moz-image-region: rect(3px, 44px, 29px, 18px);
+	 */
+	padding: 0px !important;
+}
+toolbarbutton#artistSearch > .toolbarbutton-icon {
+	-moz-margin-start: 5px !important;
+}
+
+/* browser notifications */
+
+.danboorumsgprogress {
+	vertical-align: middle;
+}
+
+.danboorumsglink {
+	top: 10px;
+	text-decoration: underline;
+	color: blue;
+	cursor: pointer;
+	border: 1px solid transparent;
+	margin-top: -1px;
+	margin-bottom: 0px;
+}
+
+.danboorumsglink:hover:active {
+	color: red;
+}
+
+.danboorumsglink:focus {
+	border: 1px dotted black;
+}
+
