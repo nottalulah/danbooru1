@@ -46,9 +46,9 @@ module PostFileMethods
     "#{RAILS_ROOT}/public/data/#{$PROCESS_ID}-preview.jpg"
   end
 
-  def file_size
-    File.size(file_path) rescue 0
-  end
+  # def file_size
+  #   File.size(file_path) rescue 0
+  # end
 
   # Generate an MD5 hash for the file.
   def generate_hash
@@ -58,6 +58,7 @@ module PostFileMethods
     end
 
     self.md5 = File.open(tempfile_path, 'rb') {|fp| Digest::MD5.hexdigest(fp.read)}
+    self.file_size = File.size(tempfile_path)
 
     if Post.exists?(["md5 = ?", md5])
       delete_tempfile
