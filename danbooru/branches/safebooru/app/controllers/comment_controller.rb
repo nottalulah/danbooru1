@@ -104,16 +104,16 @@ class CommentController < ApplicationController
       if params[:query] =~ /^user:(.+)$/
         user = User.find_by_name($1)
         if user
-          @comments = Comment.paginate :order => "id desc", :per_page => 30, :conditions => ["user_id = ?", user.id], :page => params[:page]
+          @comments = Comment.paginate :order => "comments.id desc", :per_page => 30, :conditions => ["posts.rating = 's' and comments.user_id = ?", user.id], :page => params[:page], :select => "comments.*", :joins => "JOIN posts ON posts.id = comments.post_id"
         else
           @comments = Comment.paginate :per_page => 30, :page => params[:page], :conditions => "false"
         end
       else
         query = params[:query].scan(/\S+/).join(" & ")
-        @comments = Comment.paginate :order => "id desc", :per_page => 30, :conditions => ["text_search_index @@ plainto_tsquery(?)", query], :page => params[:page]
+        @comments = Comment.paginate :order => "comments.id desc", :per_page => 30, :conditions => ["posts.rating = 's' and comments.text_search_index @@ plainto_tsquery(?)", query], :page => params[:page], :select => "comments.*", :joins => "JOIN posts ON posts.id = comments.post_id"
       end
     else
-      @comments = Comment.paginate :per_page => 30, :conditions => "FALSE", :page => params[:page]
+      @comments = Comment.paginate :per_page => 30, :conditions => "FALSE", :page => params[:page], :conditions => "posts.rating = 's'", :joins => "JOIN posts ON posts.id = comments.post_id", :select => "comments.*"
     end
     
     respond_to_list("comments")
