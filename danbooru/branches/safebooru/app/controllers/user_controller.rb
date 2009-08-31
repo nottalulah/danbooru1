@@ -226,7 +226,7 @@ class UserController < ApplicationController
   
   def random
     @user = User.find(params[:id])
-    @posts = Post.find(:all, :conditions => ["user_id = ?", @user.id], :order => "random()", :limit => 50)
+    @posts = Post.find(:all, :conditions => ["user_id = ? AND rating = 's'", @user.id], :order => "random()", :limit => 50)
   end
   
   def calculate_uploaded_tags
