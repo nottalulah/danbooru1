@@ -14,7 +14,7 @@ class PostController < ApplicationController
   def check_load_average
     if CONFIG["load_average_threshold"] && @current_user.is_anonymous?
       bandwidth_used = Cache.get("db-bw")
-      if bandwidth_used && (bandwidth_used.to_i / (1000.0 * 1000.0) > 550)
+      if bandwidth_used && (bandwidth_used.to_i / (1000.0 * 1000.0) > 500)
         respond_to do |fmt|
           fmt.html {render :template => "static/overloaded", :status => 503}
           fmt.xml {render :nothing => true, :status => 503}
@@ -197,6 +197,7 @@ class PostController < ApplicationController
       respond_to_error("You can only search up to six tags at once", :action => "error")
       return
     elsif @split_tags.size == 1
+      @artist = Artist.find_by_name(@split_tags.first)
       @wiki_page = WikiPage.find_page(@split_tags.first)
     end
     
