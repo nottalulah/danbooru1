@@ -5,15 +5,13 @@ module PostTagHistoryHelper
     obsolete = options[:obsolete] || []
     
     html = ""
-    
-    tags = Tag.find(:all, :conditions => ["name in (?)", tags], :select => "name").inject([]) {|all, x| all << x.name; all}.to_a.sort {|a, b| a <=> b}
 
-    tags.each do |name|
+    tags.sort.each do |name|
       name ||= "UNKNOWN"
       
       tag_type = Tag.type_name(name)
       
-      obsolete_tag = ([name] & obsolete).empty? ?  "":" obsolete-tag-change"
+      obsolete_tag = ([name] & obsolete).empty? ?  "" : " obsolete-tag-change"
       html << %{<span class="tag-type-#{tag_type}#{obsolete_tag}">}
       
       html << %{#{prefix}<a href="/post/index?tags=#{u(name)}">#{h(name)}</a> }
