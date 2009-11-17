@@ -169,31 +169,7 @@ module PostMethods
           conds << "tags_index @@ to_tsquery('danbooru', E'" + tags_index_query.join(" & ") + "')"
         end
 
-        if q[:rating].is_a?(String)
-          case q[:rating][0, 1].downcase
-          when "s"
-            conds << "p.rating = 's'"
-
-          when "q"
-            conds << "p.rating = 'q'"
-
-          when "e"
-            conds << "p.rating = 'e'"
-          end
-        end
-
-        if q[:rating_negated].is_a?(String)
-          case q[:rating_negated][0, 1].downcase
-          when "s"
-            conds << "p.rating <> 's'"
-
-          when "q"
-            conds << "p.rating <> 'q'"
-
-          when "e"
-            conds << "p.rating <> 'e'"
-          end
-        end
+        conds << "p.rating = 's'"
 
         if q[:unlocked_rating] == true
           conds << "p.is_rating_locked = FALSE"
