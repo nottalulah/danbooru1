@@ -4,7 +4,7 @@ class PostController < ApplicationController
   verify :method => :post, :only => [:update, :destroy, :create, :revert_tags, :vote, :flag], :redirect_to => {:action => :show, :id => lambda {|c| c.params[:id]}}
   before_filter :check_load_average, :only => [:index, :piclens]
   before_filter :member_only, :only => [:create, :upload, :destroy, :delete, :flag, :update, :revert_tags, :random]
-  before_filter :janitor_only, :only => [:moderate, :undelete]
+  before_filter :contributor_only, :only => [:moderate, :undelete, :recent_approvals]
   before_filter :privileged_only, :only => [:flag]
   after_filter :save_recent_tags, :only => [:update, :create]  
   # around_filter :cache_action, :only => [:index, :atom, :piclens]
@@ -14,7 +14,7 @@ class PostController < ApplicationController
   def check_load_average
     if CONFIG["load_average_threshold"] && @current_user.is_anonymous?
       bandwidth_used = Cache.get("db-bw")
-      if bandwidth_used && (bandwidth_used.to_i / (1000.0 * 1000.0) > 500)
+      if bandwidth_used && (bandwidth_used.to_i / (1000.0 * 1000.0) > 700)
         respond_to do |fmt|
           fmt.html {render :template => "static/overloaded", :status => 503}
           fmt.xml {render :nothing => true, :status => 503}
@@ -100,6 +100,8 @@ class PostController < ApplicationController
   end
 
   def moderate
+    return respond_to_error("You can not moderate posts", :action => "error") unless @current_user.can_moderate?
+    
     if request.post?
       params[:id].split(/,/).each do |post_id|
         post = Post.find(post_id)
@@ -404,6 +406,10 @@ class PostController < ApplicationController
   end
   
   def error
+  end
+  
+  def recent_approvals
+    @posts = Post.paginate(:conditions => ["approver_id is not null and created_at > ?", 1.month.ago], :order => "id desc", :per_page => 20, :page => params[:page])
   end
   
   def exception
