@@ -118,6 +118,11 @@ class PostController < ApplicationController
 
       respond_to_success("Post updated", {:action => "moderate"})
     else
+      if @current_user.is_contributor?
+        access_denied()
+        return
+      end
+
       if params[:query]
         @posts = Post.find_by_sql(Post.generate_sql(params[:query] + " status:pending"))
         @posts += Post.find_by_sql(Post.generate_sql(params[:query] + " status:flagged"))
