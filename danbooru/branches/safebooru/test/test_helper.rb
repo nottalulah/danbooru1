@@ -41,7 +41,7 @@ def create_comment(post, params = {})
   comm.post_id = post.id
   comm.user_id = params[:user_id] || 1
   comm.ip_addr = params[:ip_addr] || "127.0.0.1"
-  comm.is_spam = params[:is_spam] || false
+  comm.score = params[:score] || 0
   comm.save
   post.comments(true)
   comm
@@ -126,6 +126,13 @@ def update_wiki(w1, params = {})
   w1.update_attributes(params)
 end
 
+def create_test_janitor(user_id)
+  TestJanitor.create(
+    :user_id => user_id,
+    :test_promotion_date => Time.now,
+    :original_level => User.find(user_id).level
+  )
+end
 
 class ActiveSupport::TestCase
   self.use_transactional_fixtures = true
