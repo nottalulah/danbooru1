@@ -357,34 +357,19 @@ class PostController < ApplicationController
     begin
       p.vote!(@current_user, score)
       respond_to_success("Vote saved", respond_to_params, :api => {:score => p.score, :post_id => p.id})
-    rescue PostMethods::VoteMethods::InvalidScoreError
-      respond_to_error("Invalid score", respond_to_params, :status => 424)
-    rescue PostMethods::VoteMethods::AlreadyVotedError
-      respond_to_error("Already voted", respond_to_params, :status => 423)
-    rescue PostMethods::VoteMethods::PrivilegeError
-      respond_to_error("Only privileged members can vote", respond_to_params, :status => 403)
+    rescue Post::VotingError => x
+      respond_to_error(x.message, respond_to_params, :status => 424)
     end
   end
 
   def flag
-    if @current_user.is_privileged_or_lower? && FlaggedPostDetail.count(:conditions => ["user_id = ? and created_at >= ?", @current_user.id, 1.day.ago]) >= 10
-      respond_to_error("Can only unapprove 10 posts a day", :action => "show", :id => params[:id])
-      return
+    begin
+      post = Post.find(params[:id])
+      post.flag!(params[:reason], @current_user)
+      respond_to_success("Post flagged", :action => "show", :id => params[:id])
+    rescue Post::FlaggingError => x
+      respond_to_error(x.message, :action => "show", :id => params[:id])
     end
-
-    post = Post.find(params[:id])
-    if post.status != "active"
-      respond_to_error("Can only unapprove active posts", :action => "show", :id => params[:id])
-      return
-    end
-    
-    if post.flag_detail
-      respond_to_error("This post has been previously unapproved and cannot be unapproved again", :action => "show", :id => params[:id])
-      return
-    end
-
-    post.flag!(params[:reason], @current_user.id)
-    respond_to_success("Post flagged", :action => "show", :id => params[:id])
   end
   
   def random
@@ -413,7 +398,8 @@ class PostController < ApplicationController
   end
   
   def recent_approvals
-    @posts = Post.paginate(:conditions => ["posts.approver_id is not null and posts.created_at > ? and users.level = 34", 1.month.ago], :order => "id desc", :per_page => 20, :page => params[:page], :select => "posts.*", :joins => "join users on users.id = posts.approver_id")
+    user_level = params[:level] || 34
+    @posts = Post.paginate(:conditions => ["posts.rating = 's' and posts.approver_id is not null and posts.created_at > ? and users.level = ? and status <> 'deleted'", 1.month.ago, user_level.to_i], :order => "id desc", :per_page => 20, :page => params[:page], :select => "posts.*", :joins => "join users on users.id = posts.approver_id")
   end
   
   def exception
