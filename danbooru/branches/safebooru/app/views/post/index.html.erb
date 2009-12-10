@@ -12,17 +12,16 @@
 
     <div style="margin-bottom: 1em;">
       <h5>
-        <%= link_to_function "Tags", "$('sidebar-tags').show(); $('sidebar-mode').hide(); $('sidebar-wiki').hide()" %> 
+        <%= link_to_function "Tags", "$('sidebar-tags').show(); $('sidebar-wiki').hide()" %> 
         <% if @artist || @wiki_page %>
-          | <%= link_to_function "Wiki", "$('sidebar-tags').hide(); $('sidebar-mode').hide(); $('sidebar-wiki').show()" %> 
+          | <%= link_to_function "Wiki", "$('sidebar-tags').hide(); $('sidebar-wiki').show()" %> 
         <% end %>
-        | <%= link_to_function "Mode", "$('sidebar-tags').hide(); $('sidebar-mode').show(); $('sidebar-wiki').hide()" %> 
       </h5>
 
       <div id="sidebar-tags" style="margin-top: 1em;">
         <%= print_tag_sidebar(params[:tags]) %>
         
-        <div id="blacklisted-sidebar" style="display: none;">
+        <div id="blacklisted-sidebar" style="display: none; margin-bottom: 1em;">
           <h5>
             <%= link_to_function "Hidden", "$('blacklisted-list').toggle()" %>
             <span id="blacklist-count" class="post-count"></span>
@@ -30,15 +29,10 @@
           <ul id="blacklisted-list" style="display: none;">
           </ul>
         </div>
-      </div>
-      
-      <div id="sidebar-wiki" style="margin-top: 1em; display: none;">
-        <%= wiki_excerpt(@artist, @wiki_page, @tags) %>
-      </div>
-      
-      <div id="sidebar-mode" style="margin-top: 1em; display: none;">
-        <form onsubmit="return false;" action="">
-          <div>
+
+        <div style="margin-bottom: 1em;">
+          <h5>Mode</h5>
+          <form onsubmit="return false;" action="">
             <select name="mode" id="mode" onchange="PostModeMenu.change()" style="width: 13em;">
               <option value="view">View posts</option>
               <option value="edit">Edit posts</option>
@@ -62,7 +56,11 @@
             </select>          
           </div>
         </form>
-      </div>      
+      </div>
+      
+      <div id="sidebar-wiki" style="margin-top: 1em; display: none;">
+        <%= wiki_excerpt(@artist, @wiki_page, @tags) %>
+      </div>
     </div>
   </div>
   <div class="content">

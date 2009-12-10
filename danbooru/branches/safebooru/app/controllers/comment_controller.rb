@@ -1,7 +1,8 @@
 class CommentController < ApplicationController
   layout "default"
 
-  verify :method => :post, :only => [:create, :destroy, :update, :mark_as_spam]
+  verify :method => :post, :only => [:create, :destroy, :update, :vote]
+  verify :xhr => true, :only => [:preview, :index_hidden, :index_all, :vote]
   before_filter :member_only, :only => [:create, :destroy, :update, :show, :vote]
   before_filter :contributor_only, :only => [:moderate]
 
@@ -32,7 +33,7 @@ class CommentController < ApplicationController
       access_denied()
     end
   end
-
+  
   def create
     comment = Comment.new(params[:comment])
     comment.post_id = params[:comment][:post_id]
@@ -84,19 +85,17 @@ class CommentController < ApplicationController
   
   def vote
     @comment = Comment.find(params[:id])
-    if @comment.can_be_voted_by?(@current_user)
-      @comment.last_voted_by = @current_user.id
-      
+
+    begin
       if params[:score] == "down"
-        @comment.score -= 1
+        @comment.vote!(@current_user, -1)
       else
-        @comment.score += 1
+        @comment.vote!(@current_user, 1)
       end
-      
-      @comment.save
+
       respond_to_success("Vote saved", {:action => "index"}, :api => {:score => @comment.score})
-    else
-      respond_to_error("Already voted", {:action => "index"}, :status => 423, :api => {:id => @comment.id})
+    rescue Comment::VotingError => x
+      respond_to_error(x.message, {:action => "index"}, :status => 423, :api => {:id => @comment.id})
     end
   end
 

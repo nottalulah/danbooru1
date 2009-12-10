@@ -2,7 +2,7 @@ require 'digest/sha2'
 
 class UserController < ApplicationController
   layout "default"
-  verify :method => :post, :only => [:authenticate, :update, :create, :add_favorite, :delete_favorite, :unban]
+  verify :method => :post, :only => [:authenticate, :update, :create]
   before_filter :blocked_only, :only => [:authenticate, :update, :edit]
   before_filter :janitor_only, :only => [:invites]
   before_filter :mod_only, :only => [:block, :unblock, :show_blocked_users]
@@ -46,11 +46,8 @@ class UserController < ApplicationController
         rescue ActiveRecord::RecordNotFound
           flash[:notice] = "Account not found"
           
-        rescue User::NoInvites
-          flash[:notice] = "You have no invites for use"
-          
-        rescue User::HasNegativeRecord
-          flash[:notice] = "This use has a negative record and must be invited by an admin"
+        rescue User::InvitationError => x
+          flash[:notice] = x.message
         end
       end
       
