@@ -12,12 +12,8 @@ class ArtistController < ApplicationController
     @artist = Artist.find(params[:id])
     
     if request.post?
-      if params[:commit] == "Yes"
-        @artist.update_attributes(:is_active => false, :updater_id => @current_user.id)
-        respond_to_success("Artist deleted", :action => "index", :page => params[:page])
-      else
-        redirect_to :action => "index", :page => params[:page]
-      end
+      @artist.update_attributes(:is_active => false, :updater_id => @current_user.id)
+      respond_to_success("Artist deleted", :action => "index", :page => params[:page])
     end
   end
 
@@ -77,20 +73,13 @@ class ArtistController < ApplicationController
   end
 
   def index
-    if params[:name]
-      @artists = Artist.paginate Artist.generate_sql(params[:name]).merge(:per_page => 50, :page => params[:page], :order => "name")
-    elsif params[:url]
-      @artists = Artist.paginate Artist.generate_sql(params[:url]).merge(:per_page => 50, :page => params[:page], :order => "name")
+    if params[:order] == "date"
+      order = "updated_at DESC"
     else
-      if params[:order] == "date"
-        order = "updated_at DESC"
-      else
-        order = "name"
-      end
-
-      @artists = Artist.paginate :order => order, :per_page => 25, :page => params[:page]
+      order = "name"
     end
 
+    @artists = Artist.paginate(Artist.generate_sql(params).merge(:per_page => 50, :page => params[:page], :order => order))
     respond_to_list("artists")
   end
 
