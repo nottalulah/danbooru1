@@ -19,14 +19,18 @@ class ArtistController < ApplicationController
 
   def update
     if request.post?
-      if params[:commit] == "Cancel"
-        redirect_to :action => "show", :id => params[:id]
-        return
+      artist = Artist.find(params[:id])
+      artist_by_name = Artist.find_by_name(params[:artist][:name])
+
+      if artist_by_name && artist_by_name.id != artist.id
+        params[:artist].delete(:name)
+        artist.update_attribute(:is_active, false)
+        artist = artist_by_name
+        artist.is_active = true
       end
 
-      artist = Artist.find(params[:id])
       artist.update_attributes(params[:artist].merge(:updater_ip_addr => request.remote_ip, :updater_id => @current_user.id))
-
+      
       if artist.errors.empty?
         respond_to_success("Artist updated", :action => "show", :id => artist.id)
       else
@@ -58,8 +62,8 @@ class ArtistController < ApplicationController
         end
       end
 
-      if params[:alias_names]
-        @artist.alias_names = params[:alias_names]
+      if params[:other_names]
+        @artist.other_names = params[:other_names]
       end
       
       if params[:urls]
@@ -78,8 +82,10 @@ class ArtistController < ApplicationController
     else
       order = "name"
     end
+    
+    limit = (params[:limit] || 50).to_i
 
-    @artists = Artist.paginate(Artist.generate_sql(params).merge(:per_page => 50, :page => params[:page], :order => order))
+    @artists = Artist.paginate(Artist.generate_sql(params).merge(:per_page => limit, :page => params[:page], :order => order))
     respond_to_list("artists")
   end
 
@@ -100,6 +106,20 @@ class ArtistController < ApplicationController
   def history
     @artist = Artist.find(params[:id])
     @versions = ArtistVersion.paginate :order => "version desc", :per_page => 25, :page => params[:page], :conditions => ["artist_id = ?", @artist.id]
+  end
+
+  def check_name
+    @artist = Artist.find_by_name(params[:name])
+    
+    render :update do |page|
+      page.show "name-check-results"
+
+      if @artist
+        page.select("#name-check-results td").first.update("This artist already exists: " + link_to(h(params[:name]), {:action => "show", :name => params[:name]}, :target => "_blank"))
+      else
+        page.select("#name-check-results td").first.update("This artist does not exist")
+      end
+    end
   end
   
   def recent_changes
